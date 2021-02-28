@@ -25,11 +25,11 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
 
         carRepository.save(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.6, 2014, 14650, 9500));
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
         carRepository.save(new Car("aaaaa", "nnnn", "3", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.6, 2014, 1233, 2342));
+                DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.9, 2014, 1233, 2342));
         carRepository.save(new Car("vvvvv", "ffffff", "3", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.6, 2014, 453454, 34234));
+                DriveUnit.FOUR_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.4, 2014, 453454, 34234));
         carRepository.save(new Car("ddddd", "eeeee", "3", "Хэтчбек 5 дв.",
                 DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.6, 2014, 5455454, 7566));
         carRepository.save(new Car("ggggg", "aaaaaa", "3", "Хэтчбек 5 дв.",
