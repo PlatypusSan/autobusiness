@@ -1,5 +1,6 @@
 package com.test.autobusiness.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.autobusiness.entities.columnEnums.DriveUnit;
 import com.test.autobusiness.entities.columnEnums.EngineType;
 import com.test.autobusiness.entities.columnEnums.Transmission;
@@ -9,10 +10,7 @@ import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 import java.util.Calendar;
 
 @Entity
@@ -44,6 +42,9 @@ import java.util.Calendar;
         @Filter(name = "filterByMileAge", condition=":maxMileAge >= mile_age")
 })
 public class Car extends AbstractEntity{
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "car")
+    private Declaration declaration;
 
     @Column
     private String brand;
@@ -81,4 +82,24 @@ public class Car extends AbstractEntity{
     @Column
     private int price;
 
+    @Column boolean deleted;
+
+    public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
+               Transmission transmission, EngineType engineType, double engineVolume, int age, int mileAge, int price) {
+        this.brand = brand;
+        this.model = model;
+        this.generation = generation;
+        this.body = body;
+        this.driveUnit = driveUnit;
+        this.transmission = transmission;
+        this.engineType = engineType;
+        this.engineVolume = engineVolume;
+        this.age = age;
+        this.mileAge = mileAge;
+        this.price = price;
+    }
+    @JsonIgnore
+    public Declaration getDeclaration() {
+        return declaration;
+    }
 }

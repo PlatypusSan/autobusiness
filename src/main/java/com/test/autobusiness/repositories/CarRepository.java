@@ -13,9 +13,7 @@ import java.util.List;
 @Repository
 public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
 
-    Car findById(long id);
     List<Car> findByBrandLike(String brand);
     List<Car> findByPrice(String brand);
-
 
 }

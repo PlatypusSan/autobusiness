@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
 public class CarService {
 
     private final int pageSize = 3;
@@ -34,7 +33,7 @@ public class CarService {
     }
 
     public Car getCar(long id) {
-        return carRepository.findById(id);
+        return carRepository.findById(id).get();
     }
 
     public List<Car> getCars(int page) {
@@ -58,10 +57,14 @@ public class CarService {
 
         Pageable pageConfig;
 
-        if (order.equals("descending")) {
-            pageConfig = PageRequest.of(page, pageSize, Sort.by(field).descending());
+        if (field != null) {
+            if (order.equals("descending")) {
+                pageConfig = PageRequest.of(page, pageSize, Sort.by(field).descending());
+            } else {
+                pageConfig = PageRequest.of(page, pageSize, Sort.by(field));
+            }
         } else {
-            pageConfig = PageRequest.of(page, pageSize, Sort.by(field));
+            pageConfig = PageRequest.of(page, pageSize);
         }
 
         List<Filter> filters = buildFilterList(carFilter);
