@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -33,6 +33,14 @@ public class Declaration extends AbstractEntity{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "declaration_details",
+            joinColumns = {@JoinColumn(name = "declaration_id")},
+            inverseJoinColumns = {@JoinColumn(name = "details_id")}
+    )
+    Set<Details> details = new HashSet<>();
 
     public Declaration(String phoneNumber, String description, String vendorName, String place, Date date) {
         this.phoneNumber = phoneNumber;

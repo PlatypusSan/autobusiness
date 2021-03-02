@@ -2,6 +2,7 @@ package com.test.autobusiness.initializer;
 
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Declaration;
+import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.columnEnums.DriveUnit;
 import com.test.autobusiness.entities.columnEnums.EngineType;
 import com.test.autobusiness.entities.columnEnums.Transmission;
@@ -32,6 +33,7 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
 
         System.out.println("__________INIT__________");
+
 
         Car car1 = new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
                 DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500);
