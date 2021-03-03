@@ -4,8 +4,10 @@ import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,9 +18,7 @@ public class CarController {
 
     @GetMapping(path = "/cars/{id}")
     public Car getCar(@PathVariable int id) {
-        Car car = carService.getCar(id);
-
-        return car;
+        return carService.getCar(id);
     }
 
 
@@ -31,7 +31,7 @@ public class CarController {
     }
 
     @PostMapping(path = "/")
-    public void addCar(@RequestBody Car car) {
+    public void addCar(@Valid @RequestBody Car car) {
         carService.addCar(car);
     }
 }

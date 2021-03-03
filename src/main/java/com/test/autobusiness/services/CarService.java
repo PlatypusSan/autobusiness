@@ -125,24 +125,4 @@ public class CarService {
             entityManager.unwrap(Session.class).disableFilter(filter.getName());
         }
     }
-
-    /*@Transactional
-    public List<Car> getFilteredCars(String brand, int page) {
-        Filter filter = entityManager.unwrap(Session.class).enableFilter("filterByMileAge");
-//        filter.setParameter("brand", brand);
-        filter.setParameter("minMileAge", 3000);
-        filter.setParameter("maxMileAge", 20000);
-        filter.setParameter("mile_age", 0);
-
-        Filter filter2 = entityManager.unwrap(Session.class).enableFilter("filterByBrand");
-        filter2.setParameter("brand", brand);
-
-        List<Car> result = carRepository.findAll(PageRequest.of(page, pageSize)).getContent();
-        entityManager.unwrap(Session.class).disableFilter("filterByMileAge");
-        entityManager.unwrap(Session.class).disableFilter("filterByBrand");
-
-
-
-        return result;
-    }*/
 }

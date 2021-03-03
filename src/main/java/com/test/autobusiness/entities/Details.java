@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"detail_name", "detail_type"}))
 public class Details extends AbstractEntity {
 
     @Column
@@ -29,4 +28,8 @@ public class Details extends AbstractEntity {
         return declarations;
     }
 
+    public Details(String detailType, String detailName) {
+        this.detailType = detailType;
+        this.detailName = detailName;
+    }
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class DeclarationController {
 
@@ -18,7 +20,7 @@ public class DeclarationController {
     }
 
     @PostMapping(path = "/declaration")
-    public void addDeclaration(@RequestBody Declaration declaration) {
+    public void addDeclaration(@Valid @RequestBody Declaration declaration) {
         declarationService.addDeclaration(declaration);
     }
 }

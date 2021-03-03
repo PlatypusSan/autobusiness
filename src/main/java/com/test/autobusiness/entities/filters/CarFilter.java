@@ -11,9 +11,9 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 
-@Entity
+
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-public class CarFilter extends AbstractEntity {
+public class CarFilter {
 
     private String brand;
     private String model;

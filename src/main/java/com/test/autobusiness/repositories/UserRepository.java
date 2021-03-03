@@ -1,9 +1,10 @@
 package com.test.autobusiness.repositories;
 
-import com.test.autobusiness.entities.Declaration;
+import com.test.autobusiness.entities.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface DeclarationRepository extends CrudRepository<Declaration, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
+    User findByUsername(String username);
 }

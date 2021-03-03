@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 @Entity
@@ -15,12 +17,14 @@ import java.util.*;
 public class Declaration extends AbstractEntity{
 
     @Column
+    @NotBlank
     private String phoneNumber;
 
     @Column
     private String description;
 
     @Column
+    @NotBlank
     private String vendorName;
 
     @Column
@@ -28,6 +32,7 @@ public class Declaration extends AbstractEntity{
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull
     private Date date;
 
     @OneToOne(cascade = CascadeType.ALL)
