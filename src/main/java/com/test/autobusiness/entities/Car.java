@@ -48,56 +48,43 @@ public class Car extends AbstractEntity{
     private Declaration declaration;
 
     @Column
-    @NotBlank(message = "brand is mandatory")
     private String brand;
 
     @Column
-    @NotBlank
     private String model;
 
     @Column
-    @NotBlank
     private String generation;
 
     @Column
-    @NotBlank
     private String body;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull
     private DriveUnit driveUnit;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Transmission transmission;
 
     @Column
     @Enumerated(EnumType.STRING)
-    @NotNull
     private EngineType engineType;
 
     @Column
-    @Min(0)
-    @Max(9)
     private double engineVolume;
 
     @Column
-    @Min(1900)
-    @Max(2021)
     private int age;
 
     @Column
-    @Min(0)
-    @Max(1000000)
     private int mileAge;
 
     @Column
-    @Min(0)
     private int price;
 
-    @Column boolean deleted;
+    @Column
+    boolean deleted;
 
     public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
                Transmission transmission, EngineType engineType, double engineVolume, int age, int mileAge, int price) {
@@ -113,8 +100,8 @@ public class Car extends AbstractEntity{
         this.mileAge = mileAge;
         this.price = price;
     }
-    @JsonIgnore
+    /*@JsonIgnore
     public Declaration getDeclaration() {
         return declaration;
-    }
+    }*/
 }

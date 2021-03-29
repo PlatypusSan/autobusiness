@@ -1,6 +1,8 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.DTOs.DeclarationDTO;
 import com.test.autobusiness.entities.Declaration;
+import com.test.autobusiness.services.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,13 @@ public class DeclarationController {
     DeclarationService declarationService;
 
     @GetMapping(path = "/declaration")
-    public Declaration getDeclaration(@RequestParam long id) {
-        return declarationService.getDeclaration(id);
+    public DeclarationDTO.DeclarationResponse getDeclaration(@RequestParam long id) {
+
+        return DeclarationMapper.INSTANCE.declarationToDeclarationResponse(declarationService.getDeclaration(id));
     }
 
     @PostMapping(path = "/declaration")
-    public void addDeclaration(@Valid @RequestBody Declaration declaration) {
-        declarationService.addDeclaration(declaration);
+    public void addDeclaration(@Valid @RequestBody DeclarationDTO.DeclarationRequest declarationRequest) {
+        declarationService.addDeclaration(DeclarationMapper.INSTANCE.declarationRequestToDeclaration(declarationRequest));
     }
 }

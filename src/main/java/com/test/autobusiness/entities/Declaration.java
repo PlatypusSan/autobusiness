@@ -17,14 +17,12 @@ import java.util.*;
 public class Declaration extends AbstractEntity{
 
     @Column
-    @NotBlank
     private String phoneNumber;
 
     @Column
     private String description;
 
     @Column
-    @NotBlank
     private String vendorName;
 
     @Column
@@ -32,7 +30,6 @@ public class Declaration extends AbstractEntity{
 
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @NotNull
     private Date date;
 
     @OneToOne(cascade = CascadeType.ALL)
