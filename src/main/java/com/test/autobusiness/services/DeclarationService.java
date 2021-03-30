@@ -14,11 +14,14 @@ import java.util.List;
 @Service
 public class DeclarationService {
 
-    @Autowired
-    DeclarationRepository declarationRepository;
+    private final DeclarationRepository declarationRepository;
 
-    @Autowired
-    DetailsRepository detailsRepository;
+    private final DetailsRepository detailsRepository;
+
+    public DeclarationService(DeclarationRepository declarationRepository, DetailsRepository detailsRepository) {
+        this.declarationRepository = declarationRepository;
+        this.detailsRepository = detailsRepository;
+    }
 
     public Declaration getDeclaration(long id) {
         return declarationRepository.findById(id).get();

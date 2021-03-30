@@ -21,8 +21,12 @@ import java.util.List;
 public class CarService {
 
     private final int pageSize = 3;
-    @Autowired
-    CarRepository carRepository;
+
+    private final CarRepository carRepository;
+
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     @PersistenceContext
     private EntityManager entityManager;

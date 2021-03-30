@@ -11,8 +11,11 @@ import java.util.Set;
 @RestController
 public class DetailsController {
 
-    @Autowired
-    DetailsService detailsService;
+    private final DetailsService detailsService;
+
+    public DetailsController(DetailsService detailsService) {
+        this.detailsService = detailsService;
+    }
 
     @GetMapping(path = "/details")
     public Set<Details> getDetails() {

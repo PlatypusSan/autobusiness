@@ -25,17 +25,21 @@ import java.util.Set;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
 
-    @Autowired
-    CarRepository carRepository;
+    private final CarRepository carRepository;
 
-    @Autowired
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    DeclarationService declarationService;
+    private final DeclarationService declarationService;
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public Initializer(CarRepository carRepository, RoleRepository roleRepository,
+                       DeclarationService declarationService, UserService userService) {
+        this.carRepository = carRepository;
+        this.roleRepository = roleRepository;
+        this.declarationService = declarationService;
+        this.userService = userService;
+    }
 
     @Override
     @Transactional

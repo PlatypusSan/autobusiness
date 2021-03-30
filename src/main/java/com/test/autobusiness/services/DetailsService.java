@@ -10,8 +10,11 @@ import java.util.Set;
 @Service
 public class DetailsService {
 
-    @Autowired
-    DetailsRepository detailsRepository;
+    private final DetailsRepository detailsRepository;
+
+    public DetailsService(DetailsRepository detailsRepository) {
+        this.detailsRepository = detailsRepository;
+    }
 
     public Set<Details> getAllDetails() {
         return detailsRepository.findAll();
