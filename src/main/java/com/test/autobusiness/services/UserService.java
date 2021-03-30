@@ -23,7 +23,7 @@ public class UserService {
     @Transactional
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        if(user.getRoles()==null){
+        if (user.getRoles() == null) {
             user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
         }
         userRepository.save(user);

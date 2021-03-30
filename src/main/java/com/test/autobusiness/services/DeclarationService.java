@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class DeclarationService {
@@ -33,11 +32,11 @@ public class DeclarationService {
     private void checkUniqueDetails(Declaration declaration) {
         List<Details> details = new ArrayList<>(declaration.getDetails());
         for (int i = 0; i < declaration.getDetails().size(); i++) {
-            if(details.get(i).getId() == 0) {
+            if (details.get(i).getId() == 0) {
                 Details tempDetail = detailsRepository.findDetailsByDetailNameAndDetailType(details.get(i).getDetailName(),
                         details.get(i).getDetailType());
 
-                if (tempDetail != null){
+                if (tempDetail != null) {
                     details.set(i, tempDetail);
                 }
             }

@@ -65,9 +65,9 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
 
         Car car1 = new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
                 DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500);
-        Details detail1 = new Details("Safety","ABS");
-        Details detail2 = new Details("Safety","ESP");
-        Details detail3 = new Details("Comfort","Acsel");
+        Details detail1 = new Details("Safety", "ABS");
+        Details detail2 = new Details("Safety", "ESP");
+        Details detail3 = new Details("Comfort", "Acsel");
         Set<Details> details = new HashSet<>();
         details.add(detail1);
         details.add(detail2);

@@ -1,6 +1,7 @@
-package com.test.autobusiness.services;
+package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.entities.DTOs.DeclarationDTO;
+import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationRequest;
+import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationResponse;
 import com.test.autobusiness.entities.Declaration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,8 +13,8 @@ public interface DeclarationMapper {
     DeclarationMapper INSTANCE = Mappers.getMapper(DeclarationMapper.class);
 
     @Mapping(source = "car", target = "carResponseForDeclaration")
-    DeclarationDTO.DeclarationResponse declarationToDeclarationResponse(Declaration declaration);
+    DeclarationResponse declarationToDeclarationResponse(Declaration declaration);
 
     @Mapping(source = "carRequest", target = "car")
-    Declaration declarationRequestToDeclaration(DeclarationDTO.DeclarationRequest declarationRequest);
+    Declaration declarationRequestToDeclaration(DeclarationRequest declarationRequest);
 }

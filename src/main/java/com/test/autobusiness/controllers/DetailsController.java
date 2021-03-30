@@ -15,7 +15,7 @@ public class DetailsController {
     DetailsService detailsService;
 
     @GetMapping(path = "/details")
-    public Set<Details> getDetails(){
+    public Set<Details> getDetails() {
         return detailsService.getAllDetails();
     }
 }

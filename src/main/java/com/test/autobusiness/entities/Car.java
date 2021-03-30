@@ -1,21 +1,24 @@
 package com.test.autobusiness.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.autobusiness.entities.columnEnums.DriveUnit;
 import com.test.autobusiness.entities.columnEnums.EngineType;
 import com.test.autobusiness.entities.columnEnums.Transmission;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.Calendar;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @FilterDef(name = "filterByBrand", parameters = {@ParamDef(name = "brand", type = "string")})
 @FilterDef(name = "filterByModel", parameters = {@ParamDef(name = "model", type = "string")})
 @FilterDef(name = "filterByGeneration", parameters = {@ParamDef(name = "generation", type = "string")})
@@ -39,10 +42,10 @@ import java.util.Calendar;
         @Filter(name = "filterByDriveUnit", condition = ":drive_unit = drive_unit"),
         @Filter(name = "filterByTransmission", condition = ":transmission = transmission"),
         @Filter(name = "filterByEngineType", condition = ":engine_type = engine_type"),
-        @Filter(name = "filterByEngineVolume", condition=":maxEngineVolume >= engine_volume and :minEngineVolume <= engine_volume"),
-        @Filter(name = "filterByMileAge", condition=":maxMileAge >= mile_age")
+        @Filter(name = "filterByEngineVolume", condition = ":maxEngineVolume >= engine_volume and :minEngineVolume <= engine_volume"),
+        @Filter(name = "filterByMileAge", condition = ":maxMileAge >= mile_age")
 })
-public class Car extends AbstractEntity{
+public class Car extends AbstractEntity {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "car")
     private Declaration declaration;

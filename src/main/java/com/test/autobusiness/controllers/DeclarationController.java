@@ -1,11 +1,10 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.DTOs.DeclarationDTO;
-import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.services.DeclarationMapper;
+import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationRequest;
+import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationResponse;
+import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,13 +16,13 @@ public class DeclarationController {
     DeclarationService declarationService;
 
     @GetMapping(path = "/declaration")
-    public DeclarationDTO.DeclarationResponse getDeclaration(@RequestParam long id) {
+    public DeclarationResponse getDeclaration(@RequestParam long id) {
 
         return DeclarationMapper.INSTANCE.declarationToDeclarationResponse(declarationService.getDeclaration(id));
     }
 
     @PostMapping(path = "/declaration")
-    public void addDeclaration(@Valid @RequestBody DeclarationDTO.DeclarationRequest declarationRequest) {
+    public void addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
         declarationService.addDeclaration(DeclarationMapper.INSTANCE.declarationRequestToDeclaration(declarationRequest));
     }
 }

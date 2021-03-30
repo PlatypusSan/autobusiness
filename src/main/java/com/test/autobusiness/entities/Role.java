@@ -10,7 +10,10 @@ import javax.persistence.ManyToMany;
 import java.util.Set;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role extends AbstractEntity {
 
     private String name;

@@ -104,7 +104,7 @@ public class CarService {
             } else {
                 tempFilter.setParameter("maxEngineVolume", 8.5);
             }
-                tempFilter.setParameter("engine_volume", 0.0);
+            tempFilter.setParameter("engine_volume", 0.0);
             ;
             filters.add(tempFilter);
         }

@@ -1,6 +1,5 @@
 package com.test.autobusiness.entities.filters;
 
-import com.test.autobusiness.entities.AbstractEntity;
 import com.test.autobusiness.entities.columnEnums.DriveUnit;
 import com.test.autobusiness.entities.columnEnums.EngineType;
 import com.test.autobusiness.entities.columnEnums.Transmission;
@@ -9,10 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
 
-
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarFilter {
 
     private String brand;
