@@ -7,6 +7,8 @@ import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponseForDeclaration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface CarMapper {
 
@@ -17,4 +19,7 @@ public interface CarMapper {
 
     @Mapping(source = "declarationRequest", target = "declaration")
     Car carRequestToCar(CarRequest carRequest);
+
+    @Mapping(source = "declaration", target = "declarationResponseForPage")
+    List<CarResponse> carToCarResponseAsList(List<Car> carList);
 }

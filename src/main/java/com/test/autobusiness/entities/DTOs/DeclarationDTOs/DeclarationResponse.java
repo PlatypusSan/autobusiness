@@ -2,7 +2,6 @@ package com.test.autobusiness.entities.DTOs.DeclarationDTOs;
 
 import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponseForDeclaration;
 import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsResponse;
-import com.test.autobusiness.entities.Details;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;

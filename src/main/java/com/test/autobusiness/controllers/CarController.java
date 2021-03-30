@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class CarController {
@@ -31,11 +30,11 @@ public class CarController {
 
     @PostMapping(path = "/cars")
     public List<CarResponse> getCars(@RequestParam int page,
-                                            @RequestParam(required = false) String field,
-                                            @RequestParam(required = false) String order,
-                                            @RequestBody CarFilter carFilter) {
-        return carService.getFilteredCars(carFilter, page, field, order)
-                .stream().map(carMapper::carToCarResponse).collect(Collectors.toList());
+                                     @RequestParam(required = false) String field,
+                                     @RequestParam(required = false) String order,
+                                     @RequestBody CarFilter carFilter) {
+
+        return carMapper.carToCarResponseAsList(carService.getFilteredCars(carFilter, page, field, order));
     }
 
     @PostMapping(path = "/")

@@ -3,7 +3,6 @@ package com.test.autobusiness.entities.DTOs.DeclarationDTOs;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.test.autobusiness.entities.DTOs.CarDTOs.CarRequest;
 import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsRequest;
-import com.test.autobusiness.entities.Details;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
