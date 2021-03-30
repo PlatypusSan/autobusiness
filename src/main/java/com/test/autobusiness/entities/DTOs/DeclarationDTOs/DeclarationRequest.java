@@ -2,6 +2,7 @@ package com.test.autobusiness.entities.DTOs.DeclarationDTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.test.autobusiness.entities.DTOs.CarDTOs.CarRequest;
+import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsRequest;
 import com.test.autobusiness.entities.Details;
 import lombok.Value;
 
@@ -27,5 +28,6 @@ public class DeclarationRequest {
     @NotNull
     Date date;
     CarRequest carRequest;
-    HashSet<Details> details;
+
+    HashSet<DetailsRequest> details;
 }

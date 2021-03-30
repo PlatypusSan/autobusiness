@@ -1,6 +1,7 @@
 package com.test.autobusiness.entities.DTOs.DeclarationDTOs;
 
 import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponseForDeclaration;
+import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsResponse;
 import com.test.autobusiness.entities.Details;
 import lombok.Value;
 
@@ -25,5 +26,5 @@ public class DeclarationResponse {
     @NotNull
     Date date;
     CarResponseForDeclaration carResponseForDeclaration;
-    HashSet<Details> details;
+    HashSet<DetailsResponse> details;
 }

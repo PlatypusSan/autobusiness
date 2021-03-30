@@ -6,12 +6,9 @@ import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponse;
 import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponseForDeclaration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface CarMapper {
-
-    CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
 
     @Mapping(source = "declaration", target = "declarationResponseForPage")
     CarResponse carToCarResponse(Car car);
