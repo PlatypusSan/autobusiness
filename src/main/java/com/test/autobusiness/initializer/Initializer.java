@@ -8,7 +8,6 @@ import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.RoleRepository;
 import com.test.autobusiness.services.DeclarationService;
 import com.test.autobusiness.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;

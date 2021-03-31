@@ -4,7 +4,6 @@ import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.repositories.DeclarationRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

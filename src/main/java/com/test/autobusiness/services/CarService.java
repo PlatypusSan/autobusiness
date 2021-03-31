@@ -1,11 +1,12 @@
 package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.DTOs.DirectoryDTOs.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
+import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import org.hibernate.Filter;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,12 +25,19 @@ public class CarService {
 
     private final CarRepository carRepository;
 
-    public CarService(CarRepository carRepository) {
+    private final DirectoryMapper directoryMapper;
+
+    public CarService(CarRepository carRepository, DirectoryMapper directoryMapper) {
         this.carRepository = carRepository;
+        this.directoryMapper = directoryMapper;
     }
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    public List<VendorDTO> getCarsByVendor() {
+        return directoryMapper.dirElementToVendorDTOList(carRepository.getAllDirectories());
+    }
 
     @Transactional
     public void addCar(Car car) {

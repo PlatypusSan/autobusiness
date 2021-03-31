@@ -3,7 +3,6 @@ package com.test.autobusiness.services;
 import com.test.autobusiness.entities.Role;
 import com.test.autobusiness.entities.User;
 import com.test.autobusiness.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

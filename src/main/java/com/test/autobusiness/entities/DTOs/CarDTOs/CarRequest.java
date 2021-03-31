@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Value
 public class CarRequest {
+
     DeclarationRequest declarationRequest;
 
     @NotBlank(message = "brand is mandatory")

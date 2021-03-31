@@ -3,7 +3,6 @@ package com.test.autobusiness.services;
 import com.test.autobusiness.entities.User;
 import com.test.autobusiness.repositories.RoleRepository;
 import com.test.autobusiness.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,7 @@ public class UserService {
 
     private final RoleRepository roleRepository;
 
-    private final  BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
