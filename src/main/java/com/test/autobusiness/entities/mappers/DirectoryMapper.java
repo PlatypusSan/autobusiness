@@ -4,7 +4,6 @@ import com.test.autobusiness.entities.AbstractEntity;
 import com.test.autobusiness.entities.DTOs.DirectoryDTOs.DriveUnitDTO;
 import com.test.autobusiness.entities.DTOs.DirectoryDTOs.VendorDTO;
 import com.test.autobusiness.entities.DirectoryElement;
-import com.test.autobusiness.entities.columnEnums.DriveUnit;
 import com.test.autobusiness.repositories.CarRepository;
 import org.springframework.stereotype.Component;
 
@@ -40,14 +39,13 @@ public class DirectoryMapper {
                     .forEach(p -> driveUnitDTOList.add(new DriveUnitDTO(p)));
             driveUnitDTOList.forEach(driveUnitDTO -> {
                 driveUnitDTO.setCarIdList(carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnitDTO.getName(), vendorDTO.getName())
-                .stream()
-                .map(AbstractEntity::getId)
-                .collect(Collectors.toList()));
+                        .stream()
+                        .map(AbstractEntity::getId)
+                        .collect(Collectors.toList()));
 
             });
             vendorDTO.setDriveUnitDTOList(driveUnitDTOList);
         });
-
 
 
         return vendorDTOList;
