@@ -1,8 +1,8 @@
 package com.test.autobusiness.entities.filters;
 
-import com.test.autobusiness.entities.columnEnums.DriveUnit;
-import com.test.autobusiness.entities.columnEnums.EngineType;
-import com.test.autobusiness.entities.columnEnums.Transmission;
+import com.test.autobusiness.entities.columnenums.DriveUnit;
+import com.test.autobusiness.entities.columnenums.EngineType;
+import com.test.autobusiness.entities.columnenums.Transmission;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

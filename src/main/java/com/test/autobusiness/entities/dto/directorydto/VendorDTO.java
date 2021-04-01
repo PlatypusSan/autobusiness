@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.DTOs.DirectoryDTOs;
+package com.test.autobusiness.entities.dto.directorydto;
 
 import lombok.Data;
 
@@ -8,6 +8,8 @@ import java.util.List;
 public class VendorDTO {
 
     private String name;
+
+    private long size;
 
     private List<DriveUnitDTO> driveUnitDTOList;
 

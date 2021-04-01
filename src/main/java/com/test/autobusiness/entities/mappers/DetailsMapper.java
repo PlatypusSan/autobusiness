@@ -1,7 +1,7 @@
 package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsRequest;
-import com.test.autobusiness.entities.DTOs.DetailsDTOs.DetailsResponse;
+import com.test.autobusiness.entities.dto.detailsdto.DetailsRequest;
+import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

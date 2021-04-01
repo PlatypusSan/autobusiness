@@ -1,11 +1,11 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.DTOs.CarDTOs.CarRequest;
-import com.test.autobusiness.entities.DTOs.CarDTOs.CarResponse;
-import com.test.autobusiness.entities.DTOs.DirectoryDTOs.VendorDTO;
+import com.test.autobusiness.entities.dto.cardto.CarRequest;
+import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.filters.CarFilter;
-import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
+import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
+import com.test.autobusiness.entities.mappers.CarMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

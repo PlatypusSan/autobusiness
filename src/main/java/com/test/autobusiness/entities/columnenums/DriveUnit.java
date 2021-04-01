@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.columnEnums;
+package com.test.autobusiness.entities.columnenums;
 
 public enum DriveUnit {
     FRONT_WHEEL,

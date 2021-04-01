@@ -1,6 +1,5 @@
-package com.test.autobusiness.entities.DTOs.CarDTOs;
+package com.test.autobusiness.entities.dto.cardto;
 
-import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationRequest;
 import lombok.Value;
 
 import javax.validation.constraints.Max;
@@ -9,9 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Value
-public class CarRequest {
-
-    DeclarationRequest declarationRequest;
+public class CarResponseForDeclaration {
 
     @NotBlank(message = "brand is mandatory")
     String brand;

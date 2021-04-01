@@ -1,15 +1,13 @@
 package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.entities.AbstractEntity;
-import com.test.autobusiness.entities.DTOs.DirectoryDTOs.DriveUnitDTO;
-import com.test.autobusiness.entities.DTOs.DirectoryDTOs.VendorDTO;
+import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.DirectoryElement;
 import com.test.autobusiness.repositories.CarRepository;
+import com.test.autobusiness.entities.dto.directorydto.DriveUnitDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class DirectoryMapper {
@@ -37,13 +35,13 @@ public class DirectoryMapper {
                     .filter(directoryElement -> directoryElement.getVendor_name().equals(vendorDTO.getName()))
                     .map(DirectoryElement::getDrive_unit)
                     .forEach(p -> driveUnitDTOList.add(new DriveUnitDTO(p)));
-            driveUnitDTOList.forEach(driveUnitDTO -> {
+            /*driveUnitDTOList.forEach(driveUnitDTO -> {
                 driveUnitDTO.setCarIdList(carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnitDTO.getName(), vendorDTO.getName())
                         .stream()
                         .map(AbstractEntity::getId)
                         .collect(Collectors.toList()));
 
-            });
+            });*/
             vendorDTO.setDriveUnitDTOList(driveUnitDTOList);
         });
 

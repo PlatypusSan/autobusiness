@@ -38,6 +38,9 @@ public class Declaration extends AbstractEntity {
     @JoinColumn(name = "car_id", referencedColumnName = "id")
     private Car car;
 
+    /*@OneToMany(mappedBy = "declaration")
+    private Set<Car> cars;*/
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "declaration_details",

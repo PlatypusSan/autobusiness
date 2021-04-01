@@ -1,12 +1,12 @@
 package com.test.autobusiness.initializer;
 
 import com.test.autobusiness.entities.*;
-import com.test.autobusiness.entities.columnEnums.DriveUnit;
-import com.test.autobusiness.entities.columnEnums.EngineType;
-import com.test.autobusiness.entities.columnEnums.Transmission;
+import com.test.autobusiness.entities.columnenums.DriveUnit;
+import com.test.autobusiness.entities.columnenums.EngineType;
+import com.test.autobusiness.entities.columnenums.Transmission;
+import com.test.autobusiness.services.DeclarationService;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.RoleRepository;
-import com.test.autobusiness.services.DeclarationService;
 import com.test.autobusiness.services.UserService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;

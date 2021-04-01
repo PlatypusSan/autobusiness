@@ -1,8 +1,8 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationRequest;
-import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationResponse;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.services.DeclarationService;
 import org.springframework.web.bind.annotation.*;
 

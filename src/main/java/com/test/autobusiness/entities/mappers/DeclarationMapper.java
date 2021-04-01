@@ -1,7 +1,7 @@
 package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationRequest;
-import com.test.autobusiness.entities.DTOs.DeclarationDTOs.DeclarationResponse;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.Declaration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
