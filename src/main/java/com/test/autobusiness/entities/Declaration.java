@@ -8,9 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -36,15 +34,15 @@ public class Declaration extends AbstractEntity {
     private Date date;
 
     @OneToMany(cascade = CascadeType.ALL/*mappedBy = "declaration", fetch = FetchType.LAZY*/)
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "dec_id")
     private List<Car> cars;
 
-    /*public Declaration(String phoneNumber, String description, String vendorName, String place, Date date) {
+    public Declaration(String phoneNumber, String description, String vendorName, String place, Date date) {
         this.phoneNumber = phoneNumber;
         this.description = description;
         this.vendorName = vendorName;
         this.place = place;
         this.date = date;
-    }*/
+    }
 
 }

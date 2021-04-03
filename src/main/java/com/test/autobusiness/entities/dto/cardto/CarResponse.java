@@ -1,6 +1,5 @@
 package com.test.autobusiness.entities.dto.cardto;
 
-import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponseForPage;
 import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
 import lombok.Value;

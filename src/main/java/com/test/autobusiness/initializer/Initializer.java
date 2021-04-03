@@ -1,12 +1,13 @@
 package com.test.autobusiness.initializer;
 
-import com.test.autobusiness.entities.*;
+import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.columnenums.DriveUnit;
 import com.test.autobusiness.entities.columnenums.EngineType;
 import com.test.autobusiness.entities.columnenums.Transmission;
-import com.test.autobusiness.services.DeclarationService;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.RoleRepository;
+import com.test.autobusiness.services.DeclarationService;
 import com.test.autobusiness.services.UserService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -44,73 +46,41 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
 
         System.out.println("__________INIT__________");
 
-/*
         List<Car> cars1 = new ArrayList<>();
         cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
                 DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FOUR_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+
+        List<Car> cars2 = new ArrayList<>();
+        cars2.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        cars2.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
         try {
-            Declaration dec1 = new Declaration("+375 (33) 333-55-66", "Nice car, btw",
+            Declaration dec1 = new Declaration("+375 (33) 333-55-66", "Nice cars, btw",
                     "Goose", "Minsk", new SimpleDateFormat("yyyy-MM-dd").parse("2005-5-5"));
             dec1.setCars(cars1);
             declarationService.addDeclaration(dec1);
 
+            Declaration dec2 = new Declaration("+375 (33) 333-55-66", "Nice cars, btw",
+                    "Nick", "Minsk", new SimpleDateFormat("yyyy-MM-dd").parse("2005-5-5"));
+            dec2.setCars(cars2);
+            declarationService.addDeclaration(dec2);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-       /* //roles
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        roleRepository.saveAndFlush(role);
-        role = new Role();
-        role.setName("ROLE_USER");
-        roleRepository.saveAndFlush(role);
-
-        //users
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("1234");
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_ADMIN")));
-        userService.save(user);
-        user = new User();
-        user.setUsername("user");
-        user.setPassword("1234");
-        userService.save(user);
-
-        Car car1 = new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500);
-        Details detail1 = new Details("Safety", "ABS");
-        Details detail2 = new Details("Safety", "ESP");
-        Details detail3 = new Details("Comfort", "Acsel");
-        Set<Details> details = new HashSet<>();
-        details.add(detail1);
-        details.add(detail2);
-        details.add(detail3);
-
-
-        try {
-            Declaration dec1 = new Declaration("+375 (33) 333-55-66", "Nice car, btw",
-                    "Goose", "Minsk", new SimpleDateFormat("yyyy-MM-dd").parse("2005-5-5"));
-            dec1.setCar(car1);
-            dec1.setDetails(details);
-            declarationService.addDeclaration(dec1);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        carRepository.save(new Car("Ford", "Focus", "3", "Хэтчбек 4 дв.",
-                DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.9, 2014, 1233, 2342));
-        carRepository.save(new Car("Chevrolet", "Captiva", "1", "Хэтчбек 5 дв.",
-                DriveUnit.FOUR_WHEEL, Transmission.AUTO, EngineType.DIESEL, 1.4, 2004, 45354, 34234));
-        carRepository.save(new Car("Ford", "Fusion", "2", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.6, 2011, 54554, 7566));
-        carRepository.save(new Car("Skoda", "Octavia", "1", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.AUTO, EngineType.DIESEL, 1.6, 2015, 435, 4534));
-        carRepository.save(new Car("Nissan", "Navara", "3", "Хэтчбек 5 дв.",
-                DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.GAS, 1.6, 2014, 45545, 3244));
-        carRepository.save(new Car("Volkswagen", "Touran", "1", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 2.0, 2020, 4534, 11111));*/
         System.out.println("________INIT_END________");
     }
 }

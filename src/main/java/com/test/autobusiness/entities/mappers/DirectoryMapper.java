@@ -1,24 +1,17 @@
 package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.DirectoryElement;
-import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.entities.dto.directorydto.DriveUnitDTO;
-import org.springframework.stereotype.Component;
+import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
+import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class DirectoryMapper {
+@Mapper(componentModel = "spring")
+public interface DirectoryMapper {
 
-    private final CarRepository carRepository;
-
-    public DirectoryMapper(CarRepository carRepository) {
-        this.carRepository = carRepository;
-    }
-
-    public List<VendorDTO> dirElementToVendorDTOList(List<DirectoryElement> directoryElementList) {
+    default List<VendorDTO> dirElementToVendorDTOList(List<DirectoryElement> directoryElementList) {
 
         List<VendorDTO> vendorDTOList = new ArrayList<>();
 
@@ -33,16 +26,14 @@ public class DirectoryMapper {
             directoryElementList
                     .stream()
                     .filter(directoryElement -> directoryElement.getVendor_name().equals(vendorDTO.getName()))
-                    .map(DirectoryElement::getDrive_unit)
-                    .forEach(p -> driveUnitDTOList.add(new DriveUnitDTO(p)));
-            /*driveUnitDTOList.forEach(driveUnitDTO -> {
-                driveUnitDTO.setCarIdList(carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnitDTO.getName(), vendorDTO.getName())
-                        .stream()
-                        .map(AbstractEntity::getId)
-                        .collect(Collectors.toList()));
+                    .forEach(p -> driveUnitDTOList.add(new DriveUnitDTO(p.getDrive_unit(), p.getSize())));
 
-            });*/
             vendorDTO.setDriveUnitDTOList(driveUnitDTOList);
+            long vendorCarListSize = 0;
+            for (int i = 0; i < vendorDTO.getDriveUnitDTOList().size(); i++) {
+                vendorCarListSize += vendorDTO.getDriveUnitDTOList().get(i).getSize();
+            }
+            vendorDTO.setSize(vendorCarListSize);
         });
 
 

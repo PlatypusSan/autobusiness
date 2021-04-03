@@ -22,6 +22,7 @@ public interface CarMapper {
     @Mapping(source = "detailsRequests", target = "details")
     Car carRequestToCar(CarRequest carRequest);
 
+    @Mapping(source = "details", target = "detailsResponses")
     @Mapping(source = "declaration", target = "declarationResponseForPage")
     List<CarResponse> carToCarResponseAsList(List<Car> carList);
 

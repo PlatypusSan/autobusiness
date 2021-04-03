@@ -1,10 +1,9 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
+import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
@@ -42,18 +41,22 @@ public class CarService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
+        return carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnit, vendor);
+    }
+
     public List<VendorDTO> getCarsByVendor() {
         return directoryMapper.dirElementToVendorDTOList(carRepository.getAllDirectories());
     }
 
     @Transactional
     public void addCar(Car car) {
-        //checkUniqueDetails(car);
+        checkUniqueDetails(car);
         carRepository.save(car);
     }
 
     private void checkUniqueDetails(Car car) {
-        if(car.getDetails() == null) return;
+        if (car.getDetails() == null) return;
         List<Details> details = new ArrayList<>(car.getDetails());
         for (int i = 0; i < car.getDetails().size(); i++) {
             if (details.get(i).getId() == 0) {

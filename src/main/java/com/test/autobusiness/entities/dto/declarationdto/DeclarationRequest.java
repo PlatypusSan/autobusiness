@@ -2,13 +2,11 @@ package com.test.autobusiness.entities.dto.declarationdto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
-import com.test.autobusiness.entities.dto.detailsdto.DetailsRequest;
 import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 @Value

@@ -7,11 +7,10 @@ public class DriveUnitDTO {
 
     private String name;
 
-    //private List<Long> carIdList;
-
     private long size;
 
-    public DriveUnitDTO(String name) {
+    public DriveUnitDTO(String name, long size) {
         this.name = name;
+        this.size = size;
     }
 }
