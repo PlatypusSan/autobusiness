@@ -13,6 +13,8 @@ import org.hibernate.annotations.Filters;
 import org.hibernate.annotations.ParamDef;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -47,13 +49,16 @@ import javax.persistence.*;
 })
 public class Car extends AbstractEntity {
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "car")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "car_id")
     private Declaration declaration;
 
-   /*@ManyToOne
-   @JoinColumn(name = "declaration_id")
-   private Declaration declaration;
-*/
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "car_details",
+        joinColumns = @JoinColumn(name = "car_id"),
+        inverseJoinColumns = @JoinColumn(name = "details_id"))
+    private Set<Details> details;
+
     @Column
     private String brand;
 
@@ -93,7 +98,7 @@ public class Car extends AbstractEntity {
     @Column
     boolean deleted;
 
-    public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
+    /*public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
                Transmission transmission, EngineType engineType, double engineVolume, int age, int mileAge, int price) {
         this.brand = brand;
         this.model = model;
@@ -106,9 +111,5 @@ public class Car extends AbstractEntity {
         this.age = age;
         this.mileAge = mileAge;
         this.price = price;
-    }
-    /*@JsonIgnore
-    public Declaration getDeclaration() {
-        return declaration;
     }*/
 }

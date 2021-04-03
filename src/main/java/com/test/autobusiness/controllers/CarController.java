@@ -1,5 +1,6 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.filters.CarFilter;
@@ -39,8 +40,10 @@ public class CarController {
     }
 
     @PostMapping(path = "/")
-    public void addCar(@Valid @RequestBody CarRequest carDTO) {
-        carService.addCar(carMapper.carRequestToCar(carDTO));
+    public CarResponse addCar(@Valid @RequestBody CarRequest carRequest) {
+        Car car = carMapper.carRequestToCar(carRequest);
+        carService.addCar(car);
+        return carMapper.carToCarResponse(car);
     }
 
     @GetMapping(path = "/vendors")

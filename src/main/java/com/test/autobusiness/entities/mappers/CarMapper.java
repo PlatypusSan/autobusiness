@@ -12,12 +12,14 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CarMapper {
 
+    @Mapping(source = "details", target = "detailsResponses")
     @Mapping(source = "declaration", target = "declarationResponseForPage")
     CarResponse carToCarResponse(Car car);
 
     CarResponseForDeclaration carToCarResponseToDeclaration(Car car);
 
     @Mapping(source = "declarationRequest", target = "declaration")
+    @Mapping(source = "detailsRequests", target = "details")
     Car carRequestToCar(CarRequest carRequest);
 
     @Mapping(source = "declaration", target = "declarationResponseForPage")

@@ -27,22 +27,6 @@ public class DeclarationService {
     }
 
     public void addDeclaration(Declaration declaration) {
-        checkUniqueDetails(declaration);
         declarationRepository.save(declaration);
-    }
-
-    private void checkUniqueDetails(Declaration declaration) {
-        List<Details> details = new ArrayList<>(declaration.getDetails());
-        for (int i = 0; i < declaration.getDetails().size(); i++) {
-            if (details.get(i).getId() == 0) {
-                Details tempDetail = detailsRepository.findDetailsByDetailNameAndDetailType(details.get(i).getDetailName(),
-                        details.get(i).getDetailType());
-
-                if (tempDetail != null) {
-                    details.set(i, tempDetail);
-                }
-            }
-        }
-        declaration.setDetails(new HashSet<Details>(details));
     }
 }

@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface DeclarationMapper {
 
-    @Mapping(source = "car", target = "carResponseForDeclaration")
+    @Mapping(source = "cars", target = "carResponseForDeclarationList")
     DeclarationResponse declarationToDeclarationResponse(Declaration declaration);
 
-    @Mapping(source = "carRequest", target = "car")
+    @Mapping(source = "carRequestList", target = "cars")
     Declaration declarationRequestToDeclaration(DeclarationRequest declarationRequest);
 }

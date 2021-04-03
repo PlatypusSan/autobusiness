@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 @Value
 public class DeclarationResponse {
@@ -24,6 +25,7 @@ public class DeclarationResponse {
 
     @NotNull
     Date date;
-    CarResponseForDeclaration carResponseForDeclaration;
-    HashSet<DetailsResponse> details;
+
+    List<CarResponseForDeclaration> carResponseForDeclarationList;
+
 }

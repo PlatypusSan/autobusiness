@@ -1,5 +1,6 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
@@ -27,7 +28,9 @@ public class DeclarationController {
     }
 
     @PostMapping(path = "/declaration")
-    public void addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
-        declarationService.addDeclaration(declarationMapper.declarationRequestToDeclaration(declarationRequest));
+    public DeclarationResponse addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
+        Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
+        declarationService.addDeclaration(declaration);
+        return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 }

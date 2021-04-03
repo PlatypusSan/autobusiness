@@ -16,9 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -46,8 +44,21 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
 
         System.out.println("__________INIT__________");
 
+/*
+        List<Car> cars1 = new ArrayList<>();
+        cars1.add(new Car("Renault", "Megane", "3", "Хэтчбек 5 дв.",
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.8, 2014, 14650, 9500));
+        try {
+            Declaration dec1 = new Declaration("+375 (33) 333-55-66", "Nice car, btw",
+                    "Goose", "Minsk", new SimpleDateFormat("yyyy-MM-dd").parse("2005-5-5"));
+            dec1.setCars(cars1);
+            declarationService.addDeclaration(dec1);
 
-        //roles
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
+       /* //roles
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         roleRepository.saveAndFlush(role);
@@ -88,7 +99,6 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
             e.printStackTrace();
         }
 
-        //carRepository.save(car1);
         carRepository.save(new Car("Ford", "Focus", "3", "Хэтчбек 4 дв.",
                 DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.PETROL, 1.9, 2014, 1233, 2342));
         carRepository.save(new Car("Chevrolet", "Captiva", "1", "Хэтчбек 5 дв.",
@@ -100,7 +110,7 @@ public class Initializer implements ApplicationListener<ApplicationReadyEvent> {
         carRepository.save(new Car("Nissan", "Navara", "3", "Хэтчбек 5 дв.",
                 DriveUnit.BACK_WHEEL, Transmission.MANUAL, EngineType.GAS, 1.6, 2014, 45545, 3244));
         carRepository.save(new Car("Volkswagen", "Touran", "1", "Хэтчбек 5 дв.",
-                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 2.0, 2020, 4534, 11111));
-        System.out.println("__________INIT__________");
+                DriveUnit.FRONT_WHEEL, Transmission.MANUAL, EngineType.PETROL, 2.0, 2020, 4534, 11111));*/
+        System.out.println("________INIT_END________");
     }
 }

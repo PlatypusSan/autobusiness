@@ -1,10 +1,13 @@
 package com.test.autobusiness.services;
 
+import com.test.autobusiness.entities.Declaration;
+import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
+import com.test.autobusiness.repositories.DetailsRepository;
 import org.hibernate.Filter;
 import org.hibernate.Session;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -27,9 +31,12 @@ public class CarService {
 
     private final DirectoryMapper directoryMapper;
 
-    public CarService(CarRepository carRepository, DirectoryMapper directoryMapper) {
+    private final DetailsRepository detailsRepository;
+
+    public CarService(CarRepository carRepository, DirectoryMapper directoryMapper, DetailsRepository detailsRepository) {
         this.carRepository = carRepository;
         this.directoryMapper = directoryMapper;
+        this.detailsRepository = detailsRepository;
     }
 
     @PersistenceContext
@@ -41,7 +48,24 @@ public class CarService {
 
     @Transactional
     public void addCar(Car car) {
+        //checkUniqueDetails(car);
         carRepository.save(car);
+    }
+
+    private void checkUniqueDetails(Car car) {
+        if(car.getDetails() == null) return;
+        List<Details> details = new ArrayList<>(car.getDetails());
+        for (int i = 0; i < car.getDetails().size(); i++) {
+            if (details.get(i).getId() == 0) {
+                Details tempDetail = detailsRepository.findDetailsByDetailNameAndDetailType(details.get(i).getDetailName(),
+                        details.get(i).getDetailType());
+
+                if (tempDetail != null) {
+                    details.set(i, tempDetail);
+                }
+            }
+        }
+        car.setDetails(new HashSet<Details>(details));
     }
 
     public Car getCar(long id) {

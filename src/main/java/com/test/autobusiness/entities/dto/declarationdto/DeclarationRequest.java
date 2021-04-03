@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 @Value
 public class DeclarationRequest {
@@ -26,7 +27,7 @@ public class DeclarationRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull
     Date date;
-    CarRequest carRequest;
 
-    HashSet<DetailsRequest> details;
+    List<CarRequest> carRequestList;
+
 }
