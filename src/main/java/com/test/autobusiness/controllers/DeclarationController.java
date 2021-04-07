@@ -23,6 +23,7 @@ public class DeclarationController {
 
     @GetMapping(path = "/declaration")
     public DeclarationResponse getDeclaration(@RequestParam long id) {
+        Declaration declaration = declarationService.getDeclaration(id);
 
         return declarationMapper.declarationToDeclarationResponse(declarationService.getDeclaration(id));
     }

@@ -55,7 +55,7 @@ public class CarService {
         carRepository.save(car);
     }
 
-    private void checkUniqueDetails(Car car) {
+    public void checkUniqueDetails(Car car) {
         if (car.getDetails() == null) return;
         List<Details> details = new ArrayList<>(car.getDetails());
         for (int i = 0; i < car.getDetails().size(); i++) {
@@ -73,22 +73,6 @@ public class CarService {
 
     public Car getCar(long id) {
         return carRepository.findById(id).get();
-    }
-
-    public List<Car> getCars(int page) {
-        return carRepository.findAll(PageRequest.of(page, pageSize)).getContent();
-    }
-
-    public List<Car> getCars(int page, String field, String order) {
-
-        Pageable sort;
-
-        if (order.equals("descending")) {
-            sort = PageRequest.of(page, pageSize, Sort.by(field).descending());
-        } else {
-            sort = PageRequest.of(page, pageSize, Sort.by(field));
-        }
-        return carRepository.findAll(sort).getContent();
     }
 
     @Transactional
