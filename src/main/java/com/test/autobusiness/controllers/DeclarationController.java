@@ -21,9 +21,8 @@ public class DeclarationController {
         this.declarationMapper = declarationMapper;
     }
 
-    @GetMapping(path = "/declaration")
-    public DeclarationResponse getDeclaration(@RequestParam long id) {
-        Declaration declaration = declarationService.getDeclaration(id);
+    @GetMapping(path = "/declaration/{id}")
+    public DeclarationResponse getDeclaration(@PathVariable long id) {
 
         return declarationMapper.declarationToDeclarationResponse(declarationService.getDeclaration(id));
     }

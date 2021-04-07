@@ -17,9 +17,6 @@ import java.util.List;
 @RestController
 public class CarController {
 
-    @Autowired
-    CarRepository carRepository;
-
     private final CarService carService;
 
     private final CarMapper carMapper;
@@ -29,7 +26,7 @@ public class CarController {
         this.carMapper = carMapper;
     }
 
-    @GetMapping(path = "/cars/{id}")
+    @GetMapping(path = "/car/{id}")
     public CarResponse getCar(@PathVariable int id) {
         return carMapper.carToCarResponse(carService.getCar(id));
     }

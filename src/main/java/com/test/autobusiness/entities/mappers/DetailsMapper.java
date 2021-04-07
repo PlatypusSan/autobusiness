@@ -10,9 +10,11 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface DetailsMapper {
 
-    DetailsResponse detailsRequestToResponse(Details details);
+    DetailsResponse detailsToDetailsResponse(Details details);
 
-    Details detailsResponseToRequest(DetailsRequest details);
+    Details detailsRequestToDetails(DetailsRequest details);
 
     Set<DetailsResponse> detailsToDetailsResponseSet(Set<Details> detailsSet);
+
+
 }
