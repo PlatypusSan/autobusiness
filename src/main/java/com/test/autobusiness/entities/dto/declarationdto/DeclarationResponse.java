@@ -11,17 +11,14 @@ import java.util.List;
 @Value
 public class DeclarationResponse {
 
-    @NotBlank
     String phoneNumber;
+
     String description;
 
-    @NotBlank
     String vendorName;
 
-    @NotBlank
     String place;
 
-    @NotNull
     Date date;
 
     List<CarResponseForDeclaration> carResponseForDeclarationList;

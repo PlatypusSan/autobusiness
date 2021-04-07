@@ -7,11 +7,7 @@ import javax.validation.constraints.NotBlank;
 @Value
 public class DetailsResponse {
 
-    @NotBlank
     String detailType;
 
-    @NotBlank
     String detailName;
-
-    //Set<Car> cars;
 }
