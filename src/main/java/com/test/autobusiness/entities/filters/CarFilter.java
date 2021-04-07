@@ -3,30 +3,23 @@ package com.test.autobusiness.entities.filters;
 import com.test.autobusiness.entities.columnenums.DriveUnit;
 import com.test.autobusiness.entities.columnenums.EngineType;
 import com.test.autobusiness.entities.columnenums.Transmission;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Value;
 
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+@Value
 public class CarFilter {
 
-    private String brand;
-    private String model;
-    private String generation;
-    private String body;
-    private DriveUnit driveUnit;
-    private Transmission transmission;
-    private EngineType engineType;
-    private double minEngineVolume;
-    private double maxEngineVolume;
-    private int minAge;
-    private int maxAge;
-    private int maxMileAge;
-    private int minPrice;
-    private int maxPrice;
+    String brand;
+    String model;
+    String generation;
+    String body;
+    DriveUnit driveUnit;
+    Transmission transmission;
+    EngineType engineType;
+    double minEngineVolume;
+    double maxEngineVolume;
+    int minAge;
+    int maxAge;
+    int maxMileAge;
+    int minPrice;
+    int maxPrice;
 }

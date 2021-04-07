@@ -5,6 +5,7 @@ import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
+import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.services.CarService;
@@ -33,12 +34,9 @@ public class CarController {
 
 
     @PostMapping(path = "/cars")
-    public List<CarResponse> getCars(@RequestParam int page,
-                                     @RequestParam(required = false) String field,
-                                     @RequestParam(required = false) String order,
-                                     @RequestBody CarFilter carFilter) {
+    public List<CarResponse> getCars(@RequestBody CarRepresentation carRepresentation) {
 
-        return carMapper.carToCarResponseAsList(carService.getFilteredCars(carFilter, page, field, order));
+        return carMapper.carToCarResponseAsList(carService.getFilteredCars(carRepresentation));
     }
 
     @PostMapping(path = "/")

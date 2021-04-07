@@ -22,7 +22,7 @@ values (5, 2016, 'Sedan', 'Skoda', false, 'FRONT_WHEEL', 'DIESEL', 2, 3, 198000,
 
 insert
 into car (id, age, body, brand, deleted, drive_unit, engine_type, engine_volume, generation, mile_age, model, price, transmission, dec_id)
-values (6, 2012, 'Van', 'Opel ', false, 'FRONT_WHEEL', 'PETROL', 1.4, 2, 93000, 'Meriva ', 7350, 'MANUAL', 1);
+values (6, 2012, 'Van', 'Opel', false, 'FRONT_WHEEL', 'PETROL', 1.4, 2, 93000, 'Meriva', 7350, 'MANUAL', 1);
 
 insert
 into car (id, age, body, brand, deleted, drive_unit, engine_type, engine_volume, generation, mile_age, model, price, transmission, dec_id)

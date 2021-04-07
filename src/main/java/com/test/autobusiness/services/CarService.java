@@ -4,6 +4,7 @@ import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
+import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
@@ -78,21 +79,21 @@ public class CarService {
     }
 
     @Transactional
-    public List<Car> getFilteredCars(CarFilter carFilter, int page, String field, String order) {
+    public List<Car> getFilteredCars(CarRepresentation carRep) {
 
         Pageable pageConfig;
 
-        if (field != null) {
-            if (order.equals("descending")) {
-                pageConfig = PageRequest.of(page, pageSize, Sort.by(field).descending());
+        if (carRep.getSortingField() != null) {
+            if (carRep.getSortingOrder().equals("descending")) {
+                pageConfig = PageRequest.of(carRep.getPage(), pageSize, Sort.by(carRep.getSortingField()).descending());
             } else {
-                pageConfig = PageRequest.of(page, pageSize, Sort.by(field));
+                pageConfig = PageRequest.of(carRep.getPage(), pageSize, Sort.by(carRep.getSortingField()));
             }
         } else {
-            pageConfig = PageRequest.of(page, pageSize);
+            pageConfig = PageRequest.of(carRep.getPage(), pageSize);
         }
 
-        List<Filter> filters = buildFilterList(carFilter);
+        List<Filter> filters = buildFilterList(carRep.getCarFilter());
         List<Car> result = carRepository.findAll(pageConfig).getContent();
         disableCarFilters(filters);
 
@@ -130,7 +131,7 @@ public class CarService {
                 tempFilter.setParameter("maxEngineVolume", 8.5);
             }
             tempFilter.setParameter("engine_volume", 0.0);
-            ;
+
             filters.add(tempFilter);
         }
 
@@ -138,7 +139,7 @@ public class CarService {
             tempFilter = entityManager.unwrap(Session.class).enableFilter("filterByMileAge");
             tempFilter.setParameter("maxMileAge", carFilter.getMaxMileAge());
             tempFilter.setParameter("mile_age", 0);
-            ;
+
             filters.add(tempFilter);
         }
 
