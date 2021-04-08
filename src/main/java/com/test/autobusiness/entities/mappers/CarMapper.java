@@ -32,9 +32,8 @@ public interface CarMapper {
     List<Car> carRequestToCarList(List<CarRequest> carRequestList);
 
     @Mapping(source = "details", target = "detailsResponses")
-    //@Mapping(source = "declaration", target = "declarationResponseForPage")
+        //@Mapping(source = "declaration", target = "declarationResponseForPage")
     List<CarResponseForDeclaration> carToCarResponseForDeclarationAsList(List<Car> carList);
-
 
 
 }

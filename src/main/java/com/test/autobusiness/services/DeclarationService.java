@@ -7,8 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @Service
 public class DeclarationService {
 
@@ -29,7 +27,7 @@ public class DeclarationService {
     public Declaration getDeclaration(long id) {
 
         return declarationRepository.findById(id).orElseThrow(
-                () ->  new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + id));
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + id));
     }
 
     public void addDeclaration(Declaration declaration) {

@@ -1,6 +1,5 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
 import com.test.autobusiness.entities.mappers.DetailsMapper;
 import com.test.autobusiness.repositories.DetailsRepository;

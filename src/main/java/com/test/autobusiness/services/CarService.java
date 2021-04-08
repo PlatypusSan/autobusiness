@@ -20,7 +20,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class CarService {
@@ -94,7 +96,7 @@ public class CarService {
         }
 
         List<Car> result;
-        if(carRep.getCarFilter() != null) {
+        if (carRep.getCarFilter() != null) {
             List<Filter> filters = buildFilterList(carRep.getCarFilter());
             result = carRepository.findAll(pageConfig).getContent();
             disableCarFilters(filters);

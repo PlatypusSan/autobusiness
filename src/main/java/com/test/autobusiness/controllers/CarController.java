@@ -4,12 +4,9 @@ import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
-import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
-import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.services.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,7 +48,7 @@ public class CarController {
         return carService.getCarsByVendor();
     }
 
-    @GetMapping(path = "/vendors/cars")
+    @GetMapping(path = "/vendor/cars")
     public List<CarResponse> getCarsByVendorAndDriveUnit(@RequestParam String vendor, @RequestParam String driveUnit) {
         return carMapper.carToCarResponseAsList(carService.getCarsByVendorAndDriveUnit(vendor, driveUnit));
     }

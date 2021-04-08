@@ -3,7 +3,7 @@
 
 create table declaration
 (
-    id bigserial primary key,
+    id           bigserial primary key,
     date         timestamp,
     description  varchar(255),
     phone_number varchar(255),
@@ -16,7 +16,7 @@ alter table declaration
 
 create table details
 (
-    id bigserial primary key,
+    id          bigserial primary key,
     detail_name varchar(255),
     detail_type varchar(255)
 );
@@ -26,7 +26,7 @@ alter table details
 
 create table car
 (
-    id bigserial primary key,
+    id            bigserial primary key,
     age           integer,
     body          varchar(255),
     brand         varchar(255),
@@ -40,7 +40,7 @@ create table car
     price         integer,
     transmission  varchar(255),
     dec_id        bigint
-    references declaration
+        references declaration
 );
 
 alter table car
@@ -49,9 +49,9 @@ alter table car
 create table car_details
 (
     details_id bigint not null
-    references details(id),
+        references details (id),
     car_id     bigint not null
-    references car(id)
+        references car (id)
 );
 
 alter table car_details
