@@ -93,9 +93,14 @@ public class CarService {
             pageConfig = PageRequest.of(carRep.getPage(), pageSize);
         }
 
-        List<Filter> filters = buildFilterList(carRep.getCarFilter());
-        List<Car> result = carRepository.findAll(pageConfig).getContent();
-        disableCarFilters(filters);
+        List<Car> result;
+        if(carRep.getCarFilter() != null) {
+            List<Filter> filters = buildFilterList(carRep.getCarFilter());
+            result = carRepository.findAll(pageConfig).getContent();
+            disableCarFilters(filters);
+        } else {
+            result = carRepository.findAll(pageConfig).getContent();
+        }
 
         return result;
     }
