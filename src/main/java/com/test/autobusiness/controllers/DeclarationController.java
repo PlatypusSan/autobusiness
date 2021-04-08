@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@RequestMapping("api/v1")
 public class DeclarationController {
 
     private final DeclarationService declarationService;
