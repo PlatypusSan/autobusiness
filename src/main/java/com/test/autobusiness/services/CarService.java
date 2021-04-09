@@ -2,9 +2,11 @@ package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
+import com.test.autobusiness.entities.dto.cardto.CarUpdate;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
+import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
@@ -35,10 +37,16 @@ public class CarService {
 
     private final DetailsRepository detailsRepository;
 
-    public CarService(CarRepository carRepository, DirectoryMapper directoryMapper, DetailsRepository detailsRepository) {
+    private final CarMapper carMapper;
+
+    public CarService(CarRepository carRepository,
+                      DirectoryMapper directoryMapper,
+                      DetailsRepository detailsRepository,
+                      CarMapper carMapper) {
         this.carRepository = carRepository;
         this.directoryMapper = directoryMapper;
         this.detailsRepository = detailsRepository;
+        this.carMapper = carMapper;
     }
 
     @PersistenceContext
@@ -78,6 +86,15 @@ public class CarService {
 
         return carRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id));
+    }
+
+    public void updateCar(CarUpdate carUpdate) {
+
+        Car car = carRepository.findById(carUpdate.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + carUpdate.getId())
+        );
+        carMapper.updateCarFromUpdate(carUpdate, car);
+        carRepository.save(car);
     }
 
     @Transactional
@@ -157,5 +174,10 @@ public class CarService {
         for (Filter filter : filters) {
             entityManager.unwrap(Session.class).disableFilter(filter.getName());
         }
+    }
+
+
+    public void deleteCar(long id) {
+        carRepository.deleteById(id);
     }
 }

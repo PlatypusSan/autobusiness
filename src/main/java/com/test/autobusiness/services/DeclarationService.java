@@ -1,6 +1,8 @@
 package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Declaration;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
+import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.repositories.DeclarationRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import org.springframework.http.HttpStatus;
@@ -16,12 +18,16 @@ public class DeclarationService {
 
     private final CarService carService;
 
+    private final DeclarationMapper declarationMapper;
+
     public DeclarationService(DeclarationRepository declarationRepository,
                               DetailsRepository detailsRepository,
-                              CarService carService) {
+                              CarService carService,
+                              DeclarationMapper declarationMapper) {
         this.declarationRepository = declarationRepository;
         this.detailsRepository = detailsRepository;
         this.carService = carService;
+        this.declarationMapper = declarationMapper;
     }
 
     public Declaration getDeclaration(long id) {
@@ -32,6 +38,15 @@ public class DeclarationService {
 
     public void addDeclaration(Declaration declaration) {
         declaration.getCars().forEach(carService::checkUniqueDetails);
+        declarationRepository.save(declaration);
+    }
+
+    public void updateDeclaration(DeclarationUpdate declarationUpdate) {
+
+        Declaration declaration = declarationRepository.findById(declarationUpdate.getId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + declarationUpdate.getId()));
+
+        declarationMapper.updateDeclarationFromUpdate(declarationUpdate, declaration);
         declarationRepository.save(declaration);
     }
 }

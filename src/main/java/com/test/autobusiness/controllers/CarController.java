@@ -3,6 +3,7 @@ package com.test.autobusiness.controllers;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
+import com.test.autobusiness.entities.dto.cardto.CarUpdate;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
@@ -53,4 +54,15 @@ public class CarController {
     public List<CarResponse> getCarsByVendorAndDriveUnit(@RequestParam String vendor, @RequestParam String driveUnit) {
         return carMapper.carToCarResponseAsList(carService.getCarsByVendorAndDriveUnit(vendor, driveUnit));
     }
+
+    @PutMapping("/car")
+    public void updateCar(@RequestBody CarUpdate carUpdate) {
+        carService.updateCar(carUpdate);
+    }
+
+    @DeleteMapping("/car/{id}")
+    public void deleteCar(@PathVariable long id) {
+        carService.deleteCar(id);
+    }
+
 }

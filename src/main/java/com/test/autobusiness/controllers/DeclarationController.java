@@ -3,6 +3,7 @@ package com.test.autobusiness.controllers;
 import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
+import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
 import org.springframework.web.bind.annotation.*;
@@ -33,5 +34,10 @@ public class DeclarationController {
         Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
         declarationService.addDeclaration(declaration);
         return declarationMapper.declarationToDeclarationResponse(declaration);
+    }
+
+    @PutMapping(path = "/declaration")
+    public void updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
+        declarationService.updateDeclaration(declarationUpdate);
     }
 }
