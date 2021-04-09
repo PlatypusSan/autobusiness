@@ -2,11 +2,14 @@ package com.test.autobusiness.entities.dto.cardto;
 
 import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
 import lombok.Value;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Set;
 
 @Value
-public class CarResponseForDeclaration {
+public class CarResponseForDeclaration extends RepresentationModel<CarResponseForDeclaration> {
+
+    long id;
 
     String brand;
 

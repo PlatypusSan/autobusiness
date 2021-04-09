@@ -1,11 +1,15 @@
 package com.test.autobusiness.entities.mappers;
 
+import com.test.autobusiness.controllers.CarController;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarResponseForDeclaration;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import java.util.List;
 
@@ -34,6 +38,14 @@ public interface CarMapper {
     @Mapping(source = "details", target = "detailsResponses")
         //@Mapping(source = "declaration", target = "declarationResponseForPage")
     List<CarResponseForDeclaration> carToCarResponseForDeclarationAsList(List<Car> carList);
+
+    @AfterMapping
+    default void addLinks(@MappingTarget CarResponse carResponse) {
+        carResponse.add(WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).getCars(null))
+                .slash(carResponse.getId())
+                .withSelfRel());
+    }
 
 
 }

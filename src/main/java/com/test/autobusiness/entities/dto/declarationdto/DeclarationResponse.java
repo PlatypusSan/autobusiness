@@ -9,6 +9,8 @@ import java.util.List;
 @Value
 public class DeclarationResponse {
 
+    long id;
+
     String phoneNumber;
 
     String description;
