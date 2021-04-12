@@ -86,8 +86,20 @@ public class CarService {
 
         return carRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id));
+}
+
+    @Transactional
+    public void deleteCar(long id) {
+
+        Car car = carRepository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id)
+        );
+        car.removeDetails();
+        carRepository.save(car);
+        carRepository.deleteById(id);
     }
 
+    @Transactional
     public void updateCar(CarUpdate carUpdate) {
 
         Car car = carRepository.findById(carUpdate.getId()).orElseThrow(
@@ -97,7 +109,7 @@ public class CarService {
         carRepository.save(car);
     }
 
-    @Transactional
+
     public List<Car> getFilteredCars(CarRepresentation carRep) {
 
         Pageable pageConfig;
@@ -177,7 +189,5 @@ public class CarService {
     }
 
 
-    public void deleteCar(long id) {
-        carRepository.deleteById(id);
-    }
+
 }

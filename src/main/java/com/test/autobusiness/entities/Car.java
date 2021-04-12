@@ -48,7 +48,7 @@ import java.util.Set;
 })
 public class Car extends AbstractEntity {
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.LAZY)
     @JoinColumn(name = "dec_id")
     private Declaration declaration;
 
@@ -97,6 +97,9 @@ public class Car extends AbstractEntity {
     @Column
     boolean deleted;
 
+    public void removeDetails() {
+        this.details.clear();
+    }
 
     public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
                Transmission transmission, EngineType engineType, double engineVolume, int age, int mileAge, int price) {

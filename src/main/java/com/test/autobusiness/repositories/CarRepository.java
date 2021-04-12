@@ -24,4 +24,7 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
             @Param("drive_unit") String driveUnit,
             @Param("vendor_name") String vendorName);
 
+    /*@Override
+    @Query(nativeQuery = true, value = "delete from car c where c.id = :id")
+    void deleteById(@Param("id") Long aLong);*/
 }

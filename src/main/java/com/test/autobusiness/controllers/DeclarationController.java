@@ -40,4 +40,9 @@ public class DeclarationController {
     public void updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
         declarationService.updateDeclaration(declarationUpdate);
     }
+
+    @DeleteMapping(path = "/declaration/{id}")
+    public void deleteDeclaration(@PathVariable long id) {
+        declarationService.deleteDeclaration(id);
+    }
 }

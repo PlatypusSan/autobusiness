@@ -33,8 +33,12 @@ public class Declaration extends AbstractEntity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @OneToMany(cascade = CascadeType.ALL/*mappedBy = "declaration", fetch = FetchType.LAZY*/)
-    @JoinColumn(name = "dec_id")
+   /* @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dec_id")*/
+    @OneToMany(mappedBy = "declaration",
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
     private List<Car> cars;
 
     public Declaration(String phoneNumber, String description, String vendorName, String place, Date date) {

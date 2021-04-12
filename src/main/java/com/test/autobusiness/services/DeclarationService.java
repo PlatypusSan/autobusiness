@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
+
 @Service
 public class DeclarationService {
 
@@ -36,11 +38,13 @@ public class DeclarationService {
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + id));
     }
 
+    @Transactional
     public void addDeclaration(Declaration declaration) {
         declaration.getCars().forEach(carService::checkUniqueDetails);
         declarationRepository.save(declaration);
     }
 
+    @Transactional
     public void updateDeclaration(DeclarationUpdate declarationUpdate) {
 
         Declaration declaration = declarationRepository.findById(declarationUpdate.getId()).orElseThrow(
@@ -48,5 +52,9 @@ public class DeclarationService {
 
         declarationMapper.updateDeclarationFromUpdate(declarationUpdate, declaration);
         declarationRepository.save(declaration);
+    }
+
+    public void deleteDeclaration(long id) {
+        declarationRepository.deleteById(id);
     }
 }
