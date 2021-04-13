@@ -6,6 +6,8 @@ import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -30,19 +32,23 @@ public class DeclarationController {
     }
 
     @PostMapping(path = "/declaration")
-    public DeclarationResponse addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
-        Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
-        declarationService.addDeclaration(declaration);
-        return declarationMapper.declarationToDeclarationResponse(declaration);
+    public ResponseEntity<String> addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
+
+        declarationService.addDeclaration(declarationMapper.declarationRequestToDeclaration(declarationRequest));
+        return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/declaration")
-    public void updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
+    public ResponseEntity<String> updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
+
         declarationService.updateDeclaration(declarationUpdate);
+        return ResponseEntity.ok("Updated successfully: " + declarationUpdate.getId());
     }
 
     @DeleteMapping(path = "/declaration/{id}")
-    public void deleteDeclaration(@PathVariable long id) {
+    public ResponseEntity<String> deleteDeclaration(@PathVariable long id) {
+
         declarationService.deleteDeclaration(id);
+        return ResponseEntity.ok("Deleted successfully: " + id);
     }
 }

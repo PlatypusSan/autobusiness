@@ -1,12 +1,14 @@
 package com.test.autobusiness.entities.mappers;
 
 import com.test.autobusiness.controllers.CarController;
+import com.test.autobusiness.entities.AbstractEntity;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarResponseForDeclaration;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;
 import org.mapstruct.*;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import java.util.List;
@@ -44,18 +46,27 @@ public interface CarMapper {
 
     @AfterMapping
     default void addLinks(@MappingTarget CarResponse carResponse) {
-        carResponse.add(WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).getCars(null))
-                .slash(carResponse.getId())
-                .withSelfRel());
+
+        addLinksToCar(carResponse, carResponse.getId());
     }
 
     @AfterMapping
     default void addLinks(@MappingTarget CarResponseForDeclaration carResponse) {
-        carResponse.add(WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).getCars(null))
-                .slash(carResponse.getId())
+
+        addLinksToCar(carResponse, carResponse.getId());
+    }
+
+    default <T extends RepresentationModel> void addLinksToCar(T carToLink, long id) {
+        carToLink.add(WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).getCar(id))
                 .withSelfRel());
+        carToLink.add(WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).deleteCar(id))
+                .withRel("delete"));
+        carToLink.add(WebMvcLinkBuilder
+                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).updateCar(null))
+                .slash(id)
+                .withRel("update"));
     }
 
 

@@ -8,6 +8,8 @@ import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +29,8 @@ public class CarController {
     }
 
     @GetMapping(path = "/car/{id}")
-    public CarResponse getCar(@PathVariable int id) {
+    public CarResponse getCar(@PathVariable long id) {
+
         return carMapper.carToCarResponse(carService.getCar(id));
     }
 
@@ -39,10 +42,10 @@ public class CarController {
     }
 
     @PostMapping(path = "/")
-    public CarResponse addCar(@Valid @RequestBody CarRequest carRequest) {
-        Car car = carMapper.carRequestToCar(carRequest);
-        carService.addCar(car);
-        return carMapper.carToCarResponse(car);
+    public ResponseEntity<String> addCar(@Valid @RequestBody CarRequest carRequest) {
+
+        carService.addCar(carMapper.carRequestToCar(carRequest));
+        return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/vendors")
@@ -56,13 +59,17 @@ public class CarController {
     }
 
     @PutMapping("/car")
-    public void updateCar(@RequestBody CarUpdate carUpdate) {
+    public ResponseEntity<String> updateCar(@RequestBody CarUpdate carUpdate) {
+
         carService.updateCar(carUpdate);
+        return ResponseEntity.ok("Updated successfully: " + carUpdate.getId());
     }
 
     @DeleteMapping("/car/{id}")
-    public void deleteCar(@PathVariable long id) {
+    public ResponseEntity<String> deleteCar(@PathVariable long id) {
+
         carService.deleteCar(id);
+        return ResponseEntity.ok("Deleted successfully: " + id);
     }
 
 }
