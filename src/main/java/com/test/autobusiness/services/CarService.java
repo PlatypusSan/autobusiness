@@ -89,7 +89,7 @@ public class CarService {
     }
 
     @Transactional
-    public void deleteCar(long id) {
+    public Car deleteCar(long id) {
 
         Car car = carRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id)
@@ -97,16 +97,18 @@ public class CarService {
         car.removeDetails();
         carRepository.save(car);
         carRepository.deleteById(id);
+        return car;
     }
 
     @Transactional
-    public void updateCar(CarUpdate carUpdate) {
+    public Car updateCar(CarUpdate carUpdate) {
 
         Car car = carRepository.findById(carUpdate.getId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + carUpdate.getId())
         );
         carMapper.updateCarFromUpdate(carUpdate, car);
         carRepository.save(car);
+        return car;
     }
 
 

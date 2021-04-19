@@ -45,13 +45,14 @@ public class DeclarationService {
     }
 
     @Transactional
-    public void updateDeclaration(DeclarationUpdate declarationUpdate) {
+    public Declaration updateDeclaration(DeclarationUpdate declarationUpdate) {
 
         Declaration declaration = declarationRepository.findById(declarationUpdate.getId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + declarationUpdate.getId()));
 
         declarationMapper.updateDeclarationFromUpdate(declarationUpdate, declaration);
         declarationRepository.save(declaration);
+        return declaration;
     }
 
     public void deleteDeclaration(long id) {

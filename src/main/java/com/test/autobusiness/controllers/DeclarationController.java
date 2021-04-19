@@ -1,5 +1,6 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
@@ -31,17 +32,18 @@ public class DeclarationController {
     }
 
     @PostMapping(path = "/declaration")
-    public ResponseEntity<String> addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
+    public DeclarationResponse addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
 
-        declarationService.addDeclaration(declarationMapper.declarationRequestToDeclaration(declarationRequest));
-        return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
+        Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
+        declarationService.addDeclaration(declaration);
+        return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 
     @PutMapping(path = "/declaration")
-    public ResponseEntity<String> updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
+    public DeclarationResponse updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
 
-        declarationService.updateDeclaration(declarationUpdate);
-        return ResponseEntity.ok("Updated successfully: " + declarationUpdate.getId());
+        Declaration declaration = declarationService.updateDeclaration(declarationUpdate);
+        return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 
     @DeleteMapping(path = "/admin/declaration/{id}")

@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public ResponseEntity login(AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<Map<String, String>> login(AuthenticationRequest authenticationRequest) {
 
         try {
             String username = authenticationRequest.getUsername();
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 
             String token = jwtTokenProvider.createToken(user);
 
-            Map<Object, Object> response = new HashMap<>();
+            Map<String, String> response = new HashMap<>();
             response.put("username", username);
             response.put("token", token);
             return ResponseEntity.ok(response);

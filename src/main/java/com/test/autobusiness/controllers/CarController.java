@@ -1,5 +1,6 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;
@@ -40,11 +41,12 @@ public class CarController {
         return carMapper.carToCarResponseAsList(carService.getFilteredCars(carRepresentation));
     }
 
-    @PostMapping(path = "/")
-    public ResponseEntity<String> addCar(@Valid @RequestBody CarRequest carRequest) {
+    @PostMapping(path = "/car")
+    public CarResponse addCar(@Valid @RequestBody CarRequest carRequest) {
 
-        carService.addCar(carMapper.carRequestToCar(carRequest));
-        return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
+        Car car = carMapper.carRequestToCar(carRequest);
+        carService.addCar(car);
+        return carMapper.carToCarResponse(car);
     }
 
     @GetMapping(path = "admin/vendors")
@@ -58,10 +60,10 @@ public class CarController {
     }
 
     @PutMapping("/car")
-    public ResponseEntity<String> updateCar(@RequestBody CarUpdate carUpdate) {
+    public CarResponse updateCar(@RequestBody CarUpdate carUpdate) {
 
-        carService.updateCar(carUpdate);
-        return ResponseEntity.ok("Updated successfully: " + carUpdate.getId());
+        Car car = carService.updateCar(carUpdate);
+        return carMapper.carToCarResponse(car);
     }
 
     @DeleteMapping("/admin/car/{id}")
