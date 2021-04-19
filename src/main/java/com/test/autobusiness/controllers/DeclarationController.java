@@ -1,6 +1,5 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;

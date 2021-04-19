@@ -1,12 +1,7 @@
 package com.test.autobusiness.entities.mappers;
 
-import com.test.autobusiness.controllers.CarController;
 import com.test.autobusiness.controllers.DeclarationController;
-import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.entities.dto.cardto.CarRequest;
-import com.test.autobusiness.entities.dto.cardto.CarResponse;
-import com.test.autobusiness.entities.dto.cardto.CarResponseForDeclaration;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
@@ -26,7 +21,7 @@ public interface DeclarationMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "carRequestList", target = "cars")
     void updateDeclarationFromUpdate(DeclarationUpdate declarationUpdate,
-                                             @MappingTarget Declaration declaration);
+                                     @MappingTarget Declaration declaration);
 
     @AfterMapping
     default void addLinks(@MappingTarget DeclarationResponse declarationResponse) {

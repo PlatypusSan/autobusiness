@@ -1,23 +1,24 @@
 package com.test.autobusiness.security.jwt;
 
 import com.test.autobusiness.entities.Role;
+import com.test.autobusiness.entities.User;
 import com.test.autobusiness.exceptions.JwtAuthenticationException;
 import com.test.autobusiness.security.JwtUserDetailsService;
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtTokenProvider {
@@ -28,12 +29,16 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtUserDetailsService userDetailsService;
 
-   /* public JwtTokenProvider(JwtUserDetailsService userDetailsService) {
+    /*@Autowired
+    public void setUserDetailsService(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }*/
+
+    public JwtTokenProvider(JwtUserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -45,10 +50,10 @@ public class JwtTokenProvider {
         secret = Base64.getEncoder().encodeToString(secret.getBytes());
     }
 
-    public String createToken(String username, List<Role> roles) {
+    public String createToken(User user) {
 
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("roles", getRoleNames(roles));
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        claims.put("roles", getRoleNames(user.getRoles()));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -92,7 +97,7 @@ public class JwtTokenProvider {
         }
     }
 
-    private List<String> getRoleNames(List<Role> roles){
+    private List<String> getRoleNames(List<Role> roles) {
 
         List<String> result = new ArrayList<>();
 

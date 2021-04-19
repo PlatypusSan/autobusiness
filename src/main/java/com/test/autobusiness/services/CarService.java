@@ -86,7 +86,7 @@ public class CarService {
 
         return carRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id));
-}
+    }
 
     @Transactional
     public void deleteCar(long id) {
@@ -187,7 +187,6 @@ public class CarService {
             entityManager.unwrap(Session.class).disableFilter(filter.getName());
         }
     }
-
 
 
 }

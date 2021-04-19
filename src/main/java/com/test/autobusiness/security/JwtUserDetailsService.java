@@ -6,6 +6,7 @@ import com.test.autobusiness.security.jwt.JwtUser;
 import com.test.autobusiness.security.jwt.JwtUserFactory;
 import com.test.autobusiness.services.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,11 +16,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final UserServiceImpl userService;
+    private UserServiceImpl userService;
 
-    private final JwtUserMapper userMapper;
+    private JwtUserMapper userMapper;
 
-    public JwtUserDetailsService(UserServiceImpl userService,
+    public JwtUserDetailsService(@Lazy UserServiceImpl userService,
                                  JwtUserMapper userMapper) {
         this.userMapper = userMapper;
         this.userService = userService;

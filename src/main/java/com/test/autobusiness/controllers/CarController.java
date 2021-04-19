@@ -1,6 +1,5 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;

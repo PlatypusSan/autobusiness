@@ -2,7 +2,6 @@ package com.test.autobusiness.entities.dto.cardto;
 
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
 import com.test.autobusiness.entities.dto.detailsdto.DetailsRequest;
-import lombok.Data;
 import lombok.Value;
 
 import javax.validation.constraints.Min;
