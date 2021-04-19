@@ -45,7 +45,7 @@ public class DeclarationController {
         return ResponseEntity.ok("Updated successfully: " + declarationUpdate.getId());
     }
 
-    @DeleteMapping(path = "/declaration/{id}")
+    @DeleteMapping(path = "/admin/declaration/{id}")
     public ResponseEntity<String> deleteDeclaration(@PathVariable long id) {
 
         declarationService.deleteDeclaration(id);

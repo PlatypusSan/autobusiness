@@ -48,12 +48,12 @@ public class CarController {
         return new ResponseEntity<>("Added successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/vendors")
+    @GetMapping(path = "admin/vendors")
     public List<VendorDTO> getCarsByVendor() {
         return carService.getCarsByVendor();
     }
 
-    @GetMapping(path = "/vendor/cars")
+    @GetMapping(path = "admin/vendor/cars")
     public List<CarResponse> getCarsByVendorAndDriveUnit(@RequestParam String vendor, @RequestParam String driveUnit) {
         return carMapper.carToCarResponseAsList(carService.getCarsByVendorAndDriveUnit(vendor, driveUnit));
     }
@@ -65,7 +65,7 @@ public class CarController {
         return ResponseEntity.ok("Updated successfully: " + carUpdate.getId());
     }
 
-    @DeleteMapping("/car/{id}")
+    @DeleteMapping("/admin/car/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable long id) {
 
         carService.deleteCar(id);
