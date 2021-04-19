@@ -1,7 +1,6 @@
 package com.test.autobusiness.security;
 
 import com.test.autobusiness.entities.User;
-import com.test.autobusiness.entities.mappers.JwtUserMapper;
 import com.test.autobusiness.security.jwt.JwtUser;
 import com.test.autobusiness.security.jwt.JwtUserFactory;
 import com.test.autobusiness.services.impl.UserServiceImpl;
@@ -18,11 +17,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private UserServiceImpl userService;
 
-    private JwtUserMapper userMapper;
+    public JwtUserDetailsService(@Lazy UserServiceImpl userService) {
 
-    public JwtUserDetailsService(@Lazy UserServiceImpl userService,
-                                 JwtUserMapper userMapper) {
-        this.userMapper = userMapper;
         this.userService = userService;
     }
 
@@ -36,6 +32,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
 
         JwtUser jwtUser = JwtUserFactory.create(user);
+
         log.info("IN loadUserByUsername - user with username: {} successfully loaded", username);
         return jwtUser;
     }

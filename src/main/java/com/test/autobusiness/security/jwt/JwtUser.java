@@ -1,18 +1,20 @@
 package com.test.autobusiness.security.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Data
 public class JwtUser implements UserDetails {
 
-    private final Long id;
-    private final String username;
-    private final String password;
+    private Long id;
+    private String username;
+    private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
+    private boolean enabled;
 
     public JwtUser(Long id,
                    String username,
