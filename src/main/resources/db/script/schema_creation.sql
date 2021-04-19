@@ -11,18 +11,12 @@ create table declaration
     vendor_name  varchar(255)
 );
 
-alter table declaration
-    owner to postgres;
-
 create table details
 (
     id          bigserial primary key,
     detail_name varchar(255),
     detail_type varchar(255)
 );
-
-alter table details
-    owner to postgres;
 
 create table car
 (
@@ -43,9 +37,6 @@ create table car
         references declaration
 );
 
-alter table car
-    owner to postgres;
-
 create table car_details
 (
     details_id bigint not null
@@ -54,5 +45,23 @@ create table car_details
         references car (id)
 );
 
-alter table car_details
-    owner to postgres;
+create table users
+(
+    id       bigserial primary key,
+    username varchar(20),
+    password varchar(255)
+);
+
+create table roles
+(
+    id   bigserial primary key,
+    name varchar(20)
+);
+
+create table user_roles
+(
+    user_id bigint not null
+        references users (id),
+    role_id bigint not null
+        references roles (id)
+);

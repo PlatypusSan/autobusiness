@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset platyPuss:2
+--changeset platyPuss:3
 insert
 into declaration (id, date, description, phone_number, place, vendor_name)
 values (1, '2005-05-05 00:00:00.000000', 'dec description 1', '123-63-61', 'Minsk', 'Goose');

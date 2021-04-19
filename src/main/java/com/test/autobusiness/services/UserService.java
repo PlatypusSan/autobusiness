@@ -1,35 +1,18 @@
 package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.User;
-import com.test.autobusiness.repositories.RoleRepository;
-import com.test.autobusiness.repositories.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.List;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    private final UserRepository userRepository;
+    User register(User user);
 
-    private final RoleRepository roleRepository;
+    List<User> getAll();
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    User findByUsername(String username);
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    User findById(Long id);
 
-    @Transactional
-    public void save(User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        if (user.getRoles() == null) {
-            user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-        }
-        userRepository.save(user);
-    }
+    void delete(Long id);
 }

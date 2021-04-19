@@ -2,6 +2,8 @@ databaseChangeLog:
   - include:
       file: db/script/schema_creation.sql
   - include:
+      file: db/script/users_roles_data_filling.sql
+  - include:
       file: db/script/basic_data_filling.sql
 
 
