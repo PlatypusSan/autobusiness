@@ -1,0 +1,28 @@
+logging:
+  level:
+    org:
+      hibernate:
+        type: debug
+
+server:
+  port: 9090
+  error:
+    include-message: always
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/autobusiness
+    username: postgres
+    password: root
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+jwt:
+  token:
+    secret: jwtsecret
+    expired: 3600000
