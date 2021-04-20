@@ -1,10 +1,10 @@
 databaseChangeLog:
   - include:
-      file: db/script/schema_creation.sql
+      file: db/script/V1.0__Schema_creation.sql
   - include:
-      file: db/script/users_roles_data_filling.sql
+      file: db/script/V1.1__Users_roles_data_filling.sql
   - include:
-      file: db/script/basic_data_filling.sql
+      file: db/script/V1.2__Basic_data_filling.sql
 
 
 
