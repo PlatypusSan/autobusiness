@@ -18,13 +18,9 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Long> {
             "group by  (vendor_name, drive_unit)")
     List<DirectoryElement> getAllDirectories();
 
-    //@Query(nativeQuery = true, value = "select * from car c left join declaration d on d.cars_id = c.id where c.drive_unit = :drive_unit and d.vendor_name = :vendor_name")
     @Query(nativeQuery = true, value = "select * from declaration d right join car c on d.id = c.dec_id where drive_unit = :drive_unit and vendor_name = :vendor_name")
     List<Car> findCarByDriveUnitAndDeclarationVendorName(
             @Param("drive_unit") String driveUnit,
             @Param("vendor_name") String vendorName);
 
-    /*@Override
-    @Query(nativeQuery = true, value = "delete from car c where c.id = :id")
-    void deleteById(@Param("id") Long aLong);*/
 }

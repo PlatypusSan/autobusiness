@@ -6,7 +6,6 @@ import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
 import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

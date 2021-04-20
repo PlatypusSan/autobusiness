@@ -15,10 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Component
 public class JwtTokenProvider {
@@ -30,11 +28,6 @@ public class JwtTokenProvider {
     private long validityInMilliseconds;
 
     private final JwtUserDetailsService userDetailsService;
-
-    /*@Autowired
-    public void setUserDetailsService(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }*/
 
     public JwtTokenProvider(JwtUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -53,7 +46,10 @@ public class JwtTokenProvider {
     public String createToken(User user) {
 
         Claims claims = Jwts.claims().setSubject(user.getUsername());
-        claims.put("roles", getRoleNames(user.getRoles()));
+        claims.put("roles",
+                user.getRoles()
+                        .stream()
+                        .map(Role::getName));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
@@ -95,16 +91,5 @@ public class JwtTokenProvider {
         } catch (JwtException | IllegalArgumentException e) {
             throw new JwtAuthenticationException("JWT token is expired or invalid");
         }
-    }
-
-    private List<String> getRoleNames(List<Role> roles) {
-
-        List<String> result = new ArrayList<>();
-
-        roles.forEach(role -> {
-            result.add(role.getName());
-        });
-
-        return result;
     }
 }

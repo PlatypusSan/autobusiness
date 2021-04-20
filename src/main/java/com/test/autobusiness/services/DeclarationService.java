@@ -34,8 +34,10 @@ public class DeclarationService {
 
     public Declaration getDeclaration(long id) {
 
-        return declarationRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + id));
+        return declarationRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "There is no declaration with id: " + id));
     }
 
     @Transactional
@@ -47,8 +49,10 @@ public class DeclarationService {
     @Transactional
     public Declaration updateDeclaration(DeclarationUpdate declarationUpdate) {
 
-        Declaration declaration = declarationRepository.findById(declarationUpdate.getId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no declaration with id: " + declarationUpdate.getId()));
+        Declaration declaration = declarationRepository.findById(declarationUpdate.getId())
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "There is no declaration with id: " + declarationUpdate.getId()));
 
         declarationMapper.updateDeclarationFromUpdate(declarationUpdate, declaration);
         declarationRepository.save(declaration);

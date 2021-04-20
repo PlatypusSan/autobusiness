@@ -8,7 +8,6 @@ import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,8 +61,8 @@ public class CarController {
     @PutMapping("/car")
     public CarResponse updateCar(@RequestBody CarUpdate carUpdate) {
 
-        Car car = carService.updateCar(carUpdate);
-        return carMapper.carToCarResponse(car);
+        //Car car = carService.updateCar(carUpdate);
+        return carService.updateCar(carUpdate);
     }
 
     @DeleteMapping("/admin/car/{id}")

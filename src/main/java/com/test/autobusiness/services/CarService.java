@@ -2,6 +2,7 @@ package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
+import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
@@ -28,8 +29,6 @@ import java.util.List;
 
 @Service
 public class CarService {
-
-    private final int pageSize = 3;
 
     private final CarRepository carRepository;
 
@@ -84,16 +83,20 @@ public class CarService {
 
     public Car getCar(long id) {
 
-        return carRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id));
+        return carRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "There is no car with id: " + id));
     }
 
     @Transactional
     public Car deleteCar(long id) {
 
-        Car car = carRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + id)
-        );
+        Car car = carRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "There is no car with id: " + id)
+                );
         car.removeDetails();
         carRepository.save(car);
         carRepository.deleteById(id);
@@ -101,14 +104,17 @@ public class CarService {
     }
 
     @Transactional
-    public Car updateCar(CarUpdate carUpdate) {
+    public CarResponse updateCar(CarUpdate carUpdate) {
 
-        Car car = carRepository.findById(carUpdate.getId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no car with id: " + carUpdate.getId())
-        );
-        carMapper.updateCarFromUpdate(carUpdate, car);
-        carRepository.save(car);
-        return car;
+        return carRepository.findById(carUpdate.getId())
+                .map(car -> carMapper.updateCarFromUpdate(carUpdate, car))
+                .map(carRepository::save)
+                .map(carMapper::carToCarResponse)
+                .orElseThrow(
+                        () -> new ResponseStatusException(
+                                HttpStatus.BAD_REQUEST,
+                                "There is no car with id: " + carUpdate.getId())
+                );
     }
 
 
@@ -116,6 +122,7 @@ public class CarService {
 
         Pageable pageConfig;
 
+        int pageSize = 3;
         if (carRep.getSortingField() != null) {
             if (carRep.getSortingOrder().equals("descending")) {
                 pageConfig = PageRequest.of(carRep.getPage(), pageSize, Sort.by(carRep.getSortingField()).descending());

@@ -41,7 +41,7 @@ public interface CarMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(source = "declarationRequest", target = "declaration")
     @Mapping(source = "detailsRequests", target = "details")
-    void updateCarFromUpdate(CarUpdate carUpdate, @MappingTarget Car car);
+    Car updateCarFromUpdate(CarUpdate carUpdate, @MappingTarget Car car);
 
     @AfterMapping
     default void addLinks(@MappingTarget CarResponse carResponse) {
