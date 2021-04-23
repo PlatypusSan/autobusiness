@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 @Value
 public class CarRepresentation {
 
-    CarFilter carFilter;
+    CarFilterDTO carFilterDTO;
 
     @Min(0)
     int page;

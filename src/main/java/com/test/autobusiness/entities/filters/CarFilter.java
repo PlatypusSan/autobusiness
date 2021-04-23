@@ -1,25 +1,39 @@
 package com.test.autobusiness.entities.filters;
 
-import com.test.autobusiness.entities.columnenums.DriveUnit;
-import com.test.autobusiness.entities.columnenums.EngineType;
-import com.test.autobusiness.entities.columnenums.Transmission;
-import lombok.Value;
+import lombok.Data;
 
-@Value
+@Data
 public class CarFilter {
 
-    String brand;
-    String model;
-    String generation;
-    String body;
-    DriveUnit driveUnit;
-    Transmission transmission;
-    EngineType engineType;
-    double minEngineVolume;
-    double maxEngineVolume;
-    int minAge;
-    int maxAge;
-    int maxMileAge;
-    int minPrice;
-    int maxPrice;
+    private String brand;
+    private String model;
+    private String generation;
+    private String body;
+    private String driveUnit;
+    private String transmission;
+    private String engineType;
+    private double minEngineVolume;
+    private double maxEngineVolume;
+    private int minAge;
+    private int maxAge;
+    private int maxMileAge;
+    private int minPrice;
+    private int maxPrice;
+
+    public CarFilter() {
+        this.brand = "";
+        this.model = "";
+        this.generation = "";
+        this.body = "";
+        this.driveUnit = "";
+        this.transmission = "";
+        this.engineType = "";
+        this.minEngineVolume = 0D;
+        this.maxEngineVolume = 9D;
+        this.maxMileAge = 1000000;
+        this.minAge = 1900;
+        this.maxAge = 2021;
+        this.minPrice = 0;
+        this.maxPrice = 10000000;
+    }
 }

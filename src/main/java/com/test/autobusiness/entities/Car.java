@@ -1,8 +1,5 @@
 package com.test.autobusiness.entities;
 
-import com.test.autobusiness.entities.columnenums.DriveUnit;
-import com.test.autobusiness.entities.columnenums.EngineType;
-import com.test.autobusiness.entities.columnenums.Transmission;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,35 +17,9 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@FilterDef(name = "filterByBrand", parameters = {@ParamDef(name = "brand", type = "string")})
-@FilterDef(name = "filterByModel", parameters = {@ParamDef(name = "model", type = "string")})
-@FilterDef(name = "filterByGeneration", parameters = {@ParamDef(name = "generation", type = "string")})
-@FilterDef(name = "filterByBody", parameters = {@ParamDef(name = "body", type = "string")})
-@FilterDef(name = "filterByDriveUnit", parameters = {@ParamDef(name = "drive_unit", type = "string")})
-@FilterDef(name = "filterByTransmission", parameters = {@ParamDef(name = "transmission ", type = "string")})
-@FilterDef(name = "filterByEngineType", parameters = {@ParamDef(name = "engine_type", type = "string")})
-@FilterDef(name = "filterByEngineVolume", parameters = {
-        @ParamDef(name = "minEngineVolume", type = "double"),
-        @ParamDef(name = "maxEngineVolume", type = "double"),
-        @ParamDef(name = "engine_volume", type = "double")})
-@FilterDef(name = "filterByMileAge", parameters = {
-        @ParamDef(name = "maxMileAge", type = "integer"),
-        @ParamDef(name = "mile_age", type = "integer")})
-
-@Filters({
-        @Filter(name = "filterByBrand", condition = ":brand = brand"),
-        @Filter(name = "filterByModel", condition = ":model = model"),
-        @Filter(name = "filterByGeneration", condition = ":generation = generation"),
-        @Filter(name = "filterByBody", condition = ":body = body"),
-        @Filter(name = "filterByDriveUnit", condition = ":drive_unit = drive_unit"),
-        @Filter(name = "filterByTransmission", condition = ":transmission = transmission"),
-        @Filter(name = "filterByEngineType", condition = ":engine_type = engine_type"),
-        @Filter(name = "filterByEngineVolume", condition = ":maxEngineVolume >= engine_volume and :minEngineVolume <= engine_volume"),
-        @Filter(name = "filterByMileAge", condition = ":maxMileAge >= mile_age")
-})
 public class Car extends AbstractEntity {
 
-    @ManyToOne(/*cascade = CascadeType.ALL,*/ fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dec_id")
     private Declaration declaration;
 
@@ -71,16 +42,13 @@ public class Car extends AbstractEntity {
     private String body;
 
     @Column
-    @Enumerated(EnumType.STRING)
-    private DriveUnit driveUnit;
+    private String driveUnit;
 
     @Column
-    @Enumerated(EnumType.STRING)
-    private Transmission transmission;
+    private String transmission;
 
     @Column
-    @Enumerated(EnumType.STRING)
-    private EngineType engineType;
+    private String engineType;
 
     @Column
     private double engineVolume;
@@ -101,8 +69,8 @@ public class Car extends AbstractEntity {
         this.details.clear();
     }
 
-    public Car(String brand, String model, String generation, String body, DriveUnit driveUnit,
-               Transmission transmission, EngineType engineType, double engineVolume, int age, int mileAge, int price) {
+    public Car(String brand, String model, String generation, String body, String driveUnit,
+               String transmission, String engineType, double engineVolume, int age, int mileAge, int price) {
         this.brand = brand;
         this.model = model;
         this.generation = generation;

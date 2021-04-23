@@ -25,4 +25,4 @@ spring:
 jwt:
   token:
     secret: jwtsecret
-    expired: 3600000
+    expired: 36000000
