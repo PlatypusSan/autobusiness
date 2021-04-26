@@ -32,6 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/swagger-ui/**", "/v3/api-docs/**","/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
                 .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
                 //.antMatchers("/api/v1/**").hasRole("USER")
