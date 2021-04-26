@@ -5,11 +5,13 @@ import com.test.autobusiness.entities.User;
 import com.test.autobusiness.exceptions.JwtAuthenticationException;
 import com.test.autobusiness.security.JwtUserDetailsService;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +29,9 @@ public class JwtTokenProvider {
     @Value("${jwt.token.expired}")
     private long validityInMilliseconds;
 
-    private final JwtUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public JwtTokenProvider(JwtUserDetailsService userDetailsService) {
+    public JwtTokenProvider(@Qualifier("jwtUserDetailsService") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

@@ -1,6 +1,7 @@
 package com.test.autobusiness.controllers;
 
 import com.test.autobusiness.entities.dto.AuthenticationRequest;
+import com.test.autobusiness.services.UserService;
 import com.test.autobusiness.services.impl.UserServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +15,9 @@ import java.util.Map;
 @RequestMapping(value = "/api/v1/auth")
 public class AuthenticationController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
-    public AuthenticationController(UserServiceImpl userService) {
+    public AuthenticationController(UserService userService) {
 
         this.userService = userService;
     }

@@ -3,6 +3,7 @@ package com.test.autobusiness.security;
 import com.test.autobusiness.entities.User;
 import com.test.autobusiness.security.jwt.JwtUser;
 import com.test.autobusiness.security.jwt.JwtUserFactory;
+import com.test.autobusiness.services.UserService;
 import com.test.autobusiness.services.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
@@ -15,9 +16,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private UserServiceImpl userService;
+    private UserService userService;
 
-    public JwtUserDetailsService(@Lazy UserServiceImpl userService) {
+    public JwtUserDetailsService(@Lazy UserService userService) {
 
         this.userService = userService;
     }
