@@ -12,6 +12,8 @@ public class CarRepresentation {
     @Min(0)
     int page;
 
+    String currency;
+
     String sortingField;
 
     String sortingOrder;

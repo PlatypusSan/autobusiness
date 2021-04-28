@@ -37,7 +37,7 @@ public class CarController {
     @PostMapping(path = "/cars")
     public List<CarResponse> getCars(@RequestBody CarRepresentation carRepresentation) {
 
-        return carMapper.carToCarResponseAsList(carService.getFilteredCars(carRepresentation));
+        return carService.getFilteredCars(carRepresentation);
     }
 
     @PostMapping(path = "/car")

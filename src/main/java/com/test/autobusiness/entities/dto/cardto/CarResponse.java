@@ -30,6 +30,8 @@ public class CarResponse extends RepresentationModel<CarResponse> {
 
     String engineType;
 
+    String currency;
+
     double engineVolume;
 
     int age;
