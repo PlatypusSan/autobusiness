@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CurrencyDTO  implements Serializable {
+public class CurrencyDTO implements Serializable {
 
     @JsonProperty("Date")
     private String date;

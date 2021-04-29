@@ -84,19 +84,19 @@ public class CarFilterRepositoryImpl implements CarFilterRepository {
     public Specification<Car> getFilterSpecification(CarFilter carFilter) {
         Specification<Car> specification =
                 priceLessThen(carFilter.getMaxPrice())
-                .and(priceGreaterThen(carFilter.getMinPrice()))
-                .and(mileAgeLessThen(carFilter.getMaxMileAge()))
-                .and(ageLessThen(carFilter.getMaxAge()))
-                .and(ageGreaterThen(carFilter.getMinAge()))
-                .and(engineVolumeLessThen(carFilter.getMaxEngineVolume()))
-                .and(engineVolumeGreaterThen(carFilter.getMinEngineVolume()))
-                .and(engineTypeContains(carFilter.getEngineType()))
-                .and(driveUnitContains(carFilter.getDriveUnit()))
-                .and(transmissionContains(carFilter.getTransmission()))
-                .and(bodyContains(carFilter.getBody()))
-                .and(generationContains(carFilter.getGeneration()))
-                .and(modelContains(carFilter.getModel()))
-                .and(brandContains(carFilter.getBrand()));
+                        .and(priceGreaterThen(carFilter.getMinPrice()))
+                        .and(mileAgeLessThen(carFilter.getMaxMileAge()))
+                        .and(ageLessThen(carFilter.getMaxAge()))
+                        .and(ageGreaterThen(carFilter.getMinAge()))
+                        .and(engineVolumeLessThen(carFilter.getMaxEngineVolume()))
+                        .and(engineVolumeGreaterThen(carFilter.getMinEngineVolume()))
+                        .and(engineTypeContains(carFilter.getEngineType()))
+                        .and(driveUnitContains(carFilter.getDriveUnit()))
+                        .and(transmissionContains(carFilter.getTransmission()))
+                        .and(bodyContains(carFilter.getBody()))
+                        .and(generationContains(carFilter.getGeneration()))
+                        .and(modelContains(carFilter.getModel()))
+                        .and(brandContains(carFilter.getBrand()));
 
         return specification;
     }

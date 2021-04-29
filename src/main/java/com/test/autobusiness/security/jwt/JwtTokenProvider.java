@@ -3,7 +3,6 @@ package com.test.autobusiness.security.jwt;
 import com.test.autobusiness.entities.Role;
 import com.test.autobusiness.entities.User;
 import com.test.autobusiness.exceptions.JwtAuthenticationException;
-import com.test.autobusiness.security.JwtUserDetailsService;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

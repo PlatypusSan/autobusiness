@@ -2,9 +2,9 @@ package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;
+import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
 import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
@@ -22,7 +22,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class CarService {
@@ -47,7 +49,6 @@ public class CarService {
         this.carMapper = carMapper;
         this.currencyService = currencyService;
     }
-
 
 
     public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
@@ -117,8 +118,6 @@ public class CarService {
     }
 
 
-
-
     public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
 
         return pickCurrency(carRep, filterAndSortCars(carRep));
@@ -158,7 +157,7 @@ public class CarService {
             CurrencyDTO currency = currencyService.getExchangeRates();
 
             switch (carRep.getCurrency()) {
-                case "USD" : {
+                case "USD": {
                     resultResponse
                             .forEach(carResponse -> {
                                 carResponse.setCurrency("USD");
@@ -173,7 +172,7 @@ public class CarService {
                             });
                     break;
                 }
-                case "BYN" : {
+                case "BYN": {
                     resultResponse
                             .forEach(carResponse -> {
                                 carResponse.setCurrency("BYN");
@@ -188,7 +187,7 @@ public class CarService {
                             });
                     break;
                 }
-                case "EUR" : {
+                case "EUR": {
                     resultResponse
                             .forEach(carResponse -> {
                                 carResponse.setCurrency("EUR");
