@@ -24,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CarService {
@@ -122,15 +123,13 @@ public class CarService {
     private List<Car> filterAndSortCars(CarRepresentation carRep) {
 
         Pageable pageConfig;
-        int pageSize = 3;
         if (carRep.getSortingField() != null) {
-            if (carRep.getSortingOrder().equals("descending")) {
-                pageConfig = PageRequest.of(carRep.getPage(), pageSize, Sort.by(carRep.getSortingField()).descending());
-            } else {
-                pageConfig = PageRequest.of(carRep.getPage(), pageSize, Sort.by(carRep.getSortingField()));
-            }
+            pageConfig = PageRequest.of(
+                    carRep.getPage(),
+                    carRep.getPageSize(),
+                    Sort.by(carRep.getSortingOrder(), carRep.getSortingField().name().toLowerCase(Locale.ROOT)));
         } else {
-            pageConfig = PageRequest.of(carRep.getPage(), pageSize);
+            pageConfig = PageRequest.of(carRep.getPage(), carRep.getPageSize());
         }
 
         List<Car> result;
