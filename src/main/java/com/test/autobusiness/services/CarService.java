@@ -122,15 +122,13 @@ public class CarService {
 
     private List<Car> filterAndSortCars(CarRepresentation carRep) {
 
-        Pageable pageConfig;
-        if (carRep.getSortingField() != null) {
-            pageConfig = PageRequest.of(
-                    carRep.getPage(),
-                    carRep.getPageSize(),
-                    Sort.by(carRep.getSortingOrder(), carRep.getSortingField().name().toLowerCase(Locale.ROOT)));
-        } else {
-            pageConfig = PageRequest.of(carRep.getPage(), carRep.getPageSize());
-        }
+        Pageable pageConfig = PageRequest.of(
+                carRep.getPage(),
+                carRep.getPageSize(),
+                Sort.by(carRep.getSortingOrder() == null ? Sort.Direction.ASC : carRep.getSortingOrder(),
+                        carRep.getSortingField()
+                                .name()
+                                .toLowerCase(Locale.ROOT)));//TODO: fix field pick
 
         List<Car> result;
         if (carRep.getCarFilterDTO() != null) {
