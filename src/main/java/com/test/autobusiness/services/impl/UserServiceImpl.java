@@ -3,6 +3,7 @@ package com.test.autobusiness.services.impl;
 import com.test.autobusiness.entities.Role;
 import com.test.autobusiness.entities.User;
 import com.test.autobusiness.entities.dto.AuthenticationRequest;
+import com.test.autobusiness.exceptions.JwtAuthenticationException;
 import com.test.autobusiness.repositories.RoleRepository;
 import com.test.autobusiness.repositories.UserRepository;
 import com.test.autobusiness.security.jwt.JwtTokenProvider;
@@ -96,7 +97,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        User result = userRepository.findByUsername(username);
+        User result = userRepository.findByUsername(username)
+                .orElseThrow(() -> new JwtAuthenticationException("No user with such username"));
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
         return result;
     }
