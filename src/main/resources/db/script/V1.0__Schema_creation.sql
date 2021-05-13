@@ -33,7 +33,7 @@ create table car
     model         varchar(255),
     price         integer,
     transmission  varchar(255),
-    dec_id        bigint
+    declaration_id bigint
         references declaration
 );
 

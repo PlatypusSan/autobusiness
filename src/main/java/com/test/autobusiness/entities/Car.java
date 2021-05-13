@@ -16,7 +16,7 @@ import java.util.Set;
 public class Car extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dec_id")
+    @JoinColumn(name = "declaration_id")
     private Declaration declaration;
 
     @ManyToMany(cascade = CascadeType.ALL)

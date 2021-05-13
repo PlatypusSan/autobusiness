@@ -15,11 +15,11 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Long>, Jp
 
     @Query(nativeQuery = true, value = "select distinct vendor_name, drive_unit, count(c) as size\n" +
             "from declaration\n" +
-            "join car c on declaration.id = c.dec_id\n" +
+            "join car c on declaration.id = c.declaration_id\n" +
             "group by  (vendor_name, drive_unit)")
     List<DirectoryElement> getAllDirectories();
 
-    @Query(nativeQuery = true, value = "select * from declaration d right join car c on d.id = c.dec_id where drive_unit = :drive_unit and vendor_name = :vendor_name")
+    @Query(nativeQuery = true, value = "select * from declaration d right join car c on d.id = c.declaration_id where drive_unit = :drive_unit and vendor_name = :vendor_name")
     List<Car> findCarByDriveUnitAndDeclarationVendorName(
             @Param("drive_unit") String driveUnit,
             @Param("vendor_name") String vendorName);
