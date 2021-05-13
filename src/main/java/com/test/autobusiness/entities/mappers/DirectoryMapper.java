@@ -29,13 +29,12 @@ public interface DirectoryMapper {
                     .forEach(p -> driveUnitDTOList.add(new DriveUnitDTO(p.getDrive_unit(), p.getSize())));
 
             vendorDTO.setDriveUnitDTOList(driveUnitDTOList);
-            long vendorCarListSize = 0;
-            for (int i = 0; i < vendorDTO.getDriveUnitDTOList().size(); i++) {
-                vendorCarListSize += vendorDTO.getDriveUnitDTOList().get(i).getSize();
-            }
-            vendorDTO.setSize(vendorCarListSize);
-        });
 
+            driveUnitDTOList
+                    .forEach(driveUnitDTO -> {
+                        vendorDTO.setSize(vendorDTO.getSize() + driveUnitDTO.getSize());
+                    });
+        });
 
         return vendorDTOList;
     }
