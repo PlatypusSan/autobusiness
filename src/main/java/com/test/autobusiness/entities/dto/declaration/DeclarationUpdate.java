@@ -1,6 +1,7 @@
 package com.test.autobusiness.entities.dto.declaration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.test.autobusiness.entities.DateFormat;
 import com.test.autobusiness.entities.dto.car.CarRequest;
 import lombok.Value;
 
@@ -19,7 +20,7 @@ public class DeclarationUpdate {
     String vendorName;
     String place;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormat.DATE)
     Date date;
 
     List<CarRequest> carRequestList;

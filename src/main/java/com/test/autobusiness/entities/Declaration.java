@@ -30,11 +30,9 @@ public class Declaration extends AbstractEntity {
     private String place;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormat.DATE)
     private Date date;
 
-    /* @OneToMany(cascade = CascadeType.ALL)
-     @JoinColumn(name = "dec_id")*/
     @OneToMany(mappedBy = "declaration",
             orphanRemoval = true,
             fetch = FetchType.LAZY,
