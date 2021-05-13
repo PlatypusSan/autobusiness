@@ -38,7 +38,7 @@ public class CarService {
                       DirectoryMapper directoryMapper,
                       DetailsRepository detailsRepository,
                       CarMapper carMapper,
-                      @Qualifier("feignCurrencyServiceImpl") CurrencyService currencyService) {
+                      @Qualifier("currencyServiceImpl") CurrencyService currencyService) {
         this.carRepository = carRepository;
         this.directoryMapper = directoryMapper;
         this.detailsRepository = detailsRepository;

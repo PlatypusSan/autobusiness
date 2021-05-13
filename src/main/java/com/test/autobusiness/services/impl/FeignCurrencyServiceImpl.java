@@ -1,7 +1,5 @@
 package com.test.autobusiness.services.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
 import com.test.autobusiness.services.CurrencyFeignClient;
 import com.test.autobusiness.services.CurrencyService;
@@ -19,16 +17,7 @@ public class FeignCurrencyServiceImpl implements CurrencyService {
     @Override
     public CurrencyDTO getExchangeRates() {
 
-
-        String result = currencyFeignClient.getCurrencyDTO();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        CurrencyDTO currencyDTO = new CurrencyDTO();
-        try {
-            currencyDTO = objectMapper.readValue(result, CurrencyDTO.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        CurrencyDTO currencyDTO = currencyFeignClient.getCurrency();
 
         return currencyDTO;
     }

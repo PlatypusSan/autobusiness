@@ -1,12 +1,12 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.config.FeignClientConfig;
+import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(name = "currencyClient", url = "${currency.client.url}", configuration = FeignClientConfig.class)
+@FeignClient(name = "currencyClient", url = "${currency.client.url}")
 public interface CurrencyFeignClient {
 
-    @GetMapping(value = "", consumes = "application/json;charset=utf-8")
-    String getCurrencyDTO();
+    @GetMapping(consumes = "application/javascript;charset=utf-8")
+    CurrencyDTO getCurrency();
 }
