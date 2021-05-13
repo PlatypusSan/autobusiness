@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/details")
 public class DetailsController {
 
     private final DetailsService detailsService;
@@ -18,7 +18,7 @@ public class DetailsController {
         this.detailsService = detailsService;
     }
 
-    @GetMapping(path = "/details")
+    @GetMapping()
     public Set<DetailsResponse> getDetails() {
         return detailsService.getAllDetails();
     }

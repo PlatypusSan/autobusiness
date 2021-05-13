@@ -4,6 +4,7 @@ import com.test.autobusiness.security.jwt.JwtConfigurer;
 import com.test.autobusiness.security.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(swaggerEndpoints).permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
-                .antMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                //.antMatchers("/api/v1/**").hasRole("USER")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/**").hasRole("ADMIN")
+                .antMatchers("/api/v1/vendor/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

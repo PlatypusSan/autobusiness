@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/declaration")
 public class DeclarationController {
 
     private final DeclarationService declarationService;
@@ -24,13 +24,13 @@ public class DeclarationController {
         this.declarationMapper = declarationMapper;
     }
 
-    @GetMapping(path = "/declaration/{id}")
+    @GetMapping(path = "/{id}")
     public DeclarationResponse getDeclaration(@PathVariable long id) {
 
         return declarationMapper.declarationToDeclarationResponse(declarationService.getDeclaration(id));
     }
 
-    @PostMapping(path = "/declaration")
+    @PostMapping()
     public DeclarationResponse addDeclaration(@Valid @RequestBody DeclarationRequest declarationRequest) {
 
         Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
@@ -38,17 +38,17 @@ public class DeclarationController {
         return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 
-    @PutMapping(path = "/declaration")
+    @PutMapping()
     public DeclarationResponse updateDeclaration(@RequestBody DeclarationUpdate declarationUpdate) {
 
         Declaration declaration = declarationService.updateDeclaration(declarationUpdate);
         return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 
-    @DeleteMapping(path = "/admin/declaration/{id}")
+    @DeleteMapping(path = "{id}")
     public ResponseEntity<String> deleteDeclaration(@PathVariable long id) {
 
         declarationService.deleteDeclaration(id);
-        return ResponseEntity.ok("Deleted successfully: " + id);
+        return ResponseEntity.ok().build();
     }
 }

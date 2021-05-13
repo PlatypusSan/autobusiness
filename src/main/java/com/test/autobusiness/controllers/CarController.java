@@ -4,7 +4,6 @@ import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.cardto.CarRequest;
 import com.test.autobusiness.entities.dto.cardto.CarResponse;
 import com.test.autobusiness.entities.dto.cardto.CarUpdate;
-import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
@@ -15,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/car")
 public class CarController {
 
     private final CarService carService;
@@ -27,20 +26,19 @@ public class CarController {
         this.carMapper = carMapper;
     }
 
-    @GetMapping(path = "/car/{id}")
+    @GetMapping(path = "/{id}")
     public CarResponse getCar(@PathVariable long id) {
 
         return carMapper.carToCarResponse(carService.getCar(id));
     }
 
-
-    @PostMapping(path = "/cars")
+    @PostMapping(path = "all")
     public List<CarResponse> getCars(@RequestBody CarRepresentation carRepresentation) {
 
         return carService.getFilteredCars(carRepresentation);
     }
 
-    @PostMapping(path = "/car")
+    @PostMapping()
     public CarResponse addCar(@Valid @RequestBody CarRequest carRequest) {
 
         Car car = carMapper.carRequestToCar(carRequest);
@@ -48,27 +46,16 @@ public class CarController {
         return carMapper.carToCarResponse(car);
     }
 
-    @GetMapping(path = "admin/vendors")
-    public List<VendorDTO> getCarsByVendor() {
-        return carService.getCarsByVendor();
-    }
-
-    @GetMapping(path = "admin/vendor/cars")
-    public List<CarResponse> getCarsByVendorAndDriveUnit(@RequestParam String vendor, @RequestParam String driveUnit) {
-        return carMapper.carToCarResponseAsList(carService.getCarsByVendorAndDriveUnit(vendor, driveUnit));
-    }
-
-    @PutMapping("/car")
+    @PutMapping()
     public CarResponse updateCar(@RequestBody CarUpdate carUpdate) {
 
         return carService.updateCar(carUpdate);
     }
 
-    @DeleteMapping("/admin/car/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCar(@PathVariable long id) {
 
         carService.deleteCar(id);
-        return ResponseEntity.ok("Deleted successfully: " + id);
+        return ResponseEntity.ok().build();
     }
-
 }
