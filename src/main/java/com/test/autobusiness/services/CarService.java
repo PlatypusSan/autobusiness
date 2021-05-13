@@ -24,7 +24,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 public class CarService {
@@ -126,9 +125,9 @@ public class CarService {
                 carRep.getPage(),
                 carRep.getPageSize(),
                 Sort.by(carRep.getSortingOrder() == null ? Sort.Direction.ASC : carRep.getSortingOrder(),
-                        carRep.getSortingField()
-                                .name()
-                                .toLowerCase(Locale.ROOT)));//TODO: fix field pick
+                        carRep
+                                .getSortingField()
+                                .getSortingFieldName()));
 
         List<Car> result;
         if (carRep.getCarFilterDTO() != null) {
