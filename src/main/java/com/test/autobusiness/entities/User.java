@@ -1,12 +1,16 @@
 package com.test.autobusiness.entities;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString
 @Table(name = "users")
 public class User extends AbstractEntity {
 
