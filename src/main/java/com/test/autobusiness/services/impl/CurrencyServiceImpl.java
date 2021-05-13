@@ -1,6 +1,6 @@
 package com.test.autobusiness.services.impl;
 
-import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
+import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
 import com.test.autobusiness.services.CurrencyService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

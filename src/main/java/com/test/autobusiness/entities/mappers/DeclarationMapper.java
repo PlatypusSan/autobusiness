@@ -2,9 +2,9 @@ package com.test.autobusiness.entities.mappers;
 
 import com.test.autobusiness.controllers.DeclarationController;
 import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
+import com.test.autobusiness.entities.dto.declaration.DeclarationRequest;
+import com.test.autobusiness.entities.dto.declaration.DeclarationResponse;
+import com.test.autobusiness.entities.dto.declaration.DeclarationUpdate;
 import org.mapstruct.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

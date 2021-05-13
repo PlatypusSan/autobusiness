@@ -1,9 +1,9 @@
 package com.test.autobusiness.controllers;
 
 import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponse;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
+import com.test.autobusiness.entities.dto.declaration.DeclarationRequest;
+import com.test.autobusiness.entities.dto.declaration.DeclarationResponse;
+import com.test.autobusiness.entities.dto.declaration.DeclarationUpdate;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.services.DeclarationService;
 import org.springframework.http.ResponseEntity;

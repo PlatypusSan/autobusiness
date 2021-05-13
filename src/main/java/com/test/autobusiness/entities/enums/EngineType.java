@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.columnenums;
+package com.test.autobusiness.entities.enums;
 
 public enum EngineType {
     PETROL,

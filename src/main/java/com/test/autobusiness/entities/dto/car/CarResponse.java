@@ -1,7 +1,7 @@
-package com.test.autobusiness.entities.dto.cardto;
+package com.test.autobusiness.entities.dto.car;
 
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationResponseForPage;
-import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
+import com.test.autobusiness.entities.dto.declaration.DeclarationResponseForPage;
+import com.test.autobusiness.entities.dto.details.DetailsResponse;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 

@@ -1,8 +1,8 @@
 package com.test.autobusiness.entities.mappers;
 
 import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.dto.detailsdto.DetailsRequest;
-import com.test.autobusiness.entities.dto.detailsdto.DetailsResponse;
+import com.test.autobusiness.entities.dto.details.DetailsRequest;
+import com.test.autobusiness.entities.dto.details.DetailsResponse;
 import org.mapstruct.Mapper;
 
 import java.util.Set;

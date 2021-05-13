@@ -2,10 +2,10 @@ package com.test.autobusiness.entities.mappers;
 
 import com.test.autobusiness.controllers.CarController;
 import com.test.autobusiness.entities.Car;
-import com.test.autobusiness.entities.dto.cardto.CarRequest;
-import com.test.autobusiness.entities.dto.cardto.CarResponse;
-import com.test.autobusiness.entities.dto.cardto.CarResponseForDeclaration;
-import com.test.autobusiness.entities.dto.cardto.CarUpdate;
+import com.test.autobusiness.entities.dto.car.CarRequest;
+import com.test.autobusiness.entities.dto.car.CarResponse;
+import com.test.autobusiness.entities.dto.car.CarResponseForDeclaration;
+import com.test.autobusiness.entities.dto.car.CarUpdate;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarFilterDTO;
 import org.mapstruct.*;

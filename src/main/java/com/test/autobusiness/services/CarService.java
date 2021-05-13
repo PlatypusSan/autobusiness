@@ -2,10 +2,10 @@ package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.dto.cardto.CarResponse;
-import com.test.autobusiness.entities.dto.cardto.CarUpdate;
-import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
-import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
+import com.test.autobusiness.entities.dto.car.CarResponse;
+import com.test.autobusiness.entities.dto.car.CarUpdate;
+import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
+import com.test.autobusiness.entities.dto.directory.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;

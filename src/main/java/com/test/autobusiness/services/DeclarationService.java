@@ -1,7 +1,7 @@
 package com.test.autobusiness.services;
 
 import com.test.autobusiness.entities.Declaration;
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationUpdate;
+import com.test.autobusiness.entities.dto.declaration.DeclarationUpdate;
 import com.test.autobusiness.entities.mappers.DeclarationMapper;
 import com.test.autobusiness.repositories.DeclarationRepository;
 import com.test.autobusiness.repositories.DetailsRepository;

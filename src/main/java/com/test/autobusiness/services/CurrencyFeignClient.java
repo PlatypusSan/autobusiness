@@ -1,6 +1,6 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.entities.dto.currencydto.CurrencyDTO;
+import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

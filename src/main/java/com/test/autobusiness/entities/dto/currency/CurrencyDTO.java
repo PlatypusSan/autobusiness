@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.dto.currencydto;
+package com.test.autobusiness.entities.dto.currency;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

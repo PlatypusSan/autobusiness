@@ -1,8 +1,8 @@
 package com.test.autobusiness.entities.mappers;
 
 import com.test.autobusiness.entities.DirectoryElement;
-import com.test.autobusiness.entities.dto.directorydto.DriveUnitDTO;
-import com.test.autobusiness.entities.dto.directorydto.VendorDTO;
+import com.test.autobusiness.entities.dto.directory.DriveUnitDTO;
+import com.test.autobusiness.entities.dto.directory.VendorDTO;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

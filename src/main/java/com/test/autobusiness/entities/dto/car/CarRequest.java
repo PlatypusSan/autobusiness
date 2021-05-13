@@ -1,7 +1,7 @@
-package com.test.autobusiness.entities.dto.cardto;
+package com.test.autobusiness.entities.dto.car;
 
-import com.test.autobusiness.entities.dto.declarationdto.DeclarationRequest;
-import com.test.autobusiness.entities.dto.detailsdto.DetailsRequest;
+import com.test.autobusiness.entities.dto.declaration.DeclarationRequest;
+import com.test.autobusiness.entities.dto.details.DetailsRequest;
 import lombok.Value;
 
 import javax.validation.constraints.Max;

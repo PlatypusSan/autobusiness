@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.dto.declarationdto;
+package com.test.autobusiness.entities.dto.declaration;
 
 import lombok.Value;
 

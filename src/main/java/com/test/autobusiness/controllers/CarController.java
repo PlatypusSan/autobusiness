@@ -1,9 +1,9 @@
 package com.test.autobusiness.controllers;
 
 import com.test.autobusiness.entities.Car;
-import com.test.autobusiness.entities.dto.cardto.CarRequest;
-import com.test.autobusiness.entities.dto.cardto.CarResponse;
-import com.test.autobusiness.entities.dto.cardto.CarUpdate;
+import com.test.autobusiness.entities.dto.car.CarRequest;
+import com.test.autobusiness.entities.dto.car.CarResponse;
+import com.test.autobusiness.entities.dto.car.CarUpdate;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;

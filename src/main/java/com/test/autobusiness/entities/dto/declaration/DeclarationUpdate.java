@@ -1,7 +1,7 @@
-package com.test.autobusiness.entities.dto.declarationdto;
+package com.test.autobusiness.entities.dto.declaration;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.test.autobusiness.entities.dto.cardto.CarRequest;
+import com.test.autobusiness.entities.dto.car.CarRequest;
 import lombok.Value;
 
 import javax.validation.constraints.Min;

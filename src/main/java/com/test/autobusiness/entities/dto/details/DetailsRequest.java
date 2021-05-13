@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.dto.detailsdto;
+package com.test.autobusiness.entities.dto.details;
 
 import com.test.autobusiness.entities.Car;
 import lombok.Value;

@@ -1,4 +1,4 @@
-package com.test.autobusiness.entities.dto.directorydto;
+package com.test.autobusiness.entities.dto.directory;
 
 import lombok.Data;
 
