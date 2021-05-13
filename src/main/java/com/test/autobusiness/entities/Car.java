@@ -1,18 +1,18 @@
 package com.test.autobusiness.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class Car extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -63,20 +63,5 @@ public class Car extends AbstractEntity {
 
     public void removeDetails() {
         this.details.clear();
-    }
-
-    public Car(String brand, String model, String generation, String body, String driveUnit,
-               String transmission, String engineType, double engineVolume, int age, int mileAge, int price) {
-        this.brand = brand;
-        this.model = model;
-        this.generation = generation;
-        this.body = body;
-        this.driveUnit = driveUnit;
-        this.transmission = transmission;
-        this.engineType = engineType;
-        this.engineVolume = engineVolume;
-        this.age = age;
-        this.mileAge = mileAge;
-        this.price = price;
     }
 }
