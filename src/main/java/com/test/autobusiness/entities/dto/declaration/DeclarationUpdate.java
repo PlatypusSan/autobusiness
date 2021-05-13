@@ -15,11 +15,8 @@ public class DeclarationUpdate {
     long id;
 
     String phoneNumber;
-
     String description;
-
     String vendorName;
-
     String place;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

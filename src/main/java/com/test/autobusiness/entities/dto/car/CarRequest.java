@@ -14,7 +14,6 @@ import java.util.Set;
 public class CarRequest {
 
     DeclarationRequest declarationRequest;
-
     Set<DetailsRequest> detailsRequests;
 
     @NotBlank(message = "brand is mandatory")

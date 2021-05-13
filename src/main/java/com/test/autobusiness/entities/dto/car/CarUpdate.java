@@ -14,28 +14,16 @@ public class CarUpdate {
     long id;
 
     DeclarationRequest declarationRequest;
-
     Set<DetailsRequest> detailsRequests;
-
     String brand;
-
     String model;
-
     String generation;
-
     String body;
-
     String driveUnit;
-
     String transmission;
-
     String engineType;
-
     Double engineVolume;
-
     Integer age;
-
     Integer mileAge;
-
     Integer price;
 }
