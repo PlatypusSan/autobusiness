@@ -13,6 +13,7 @@ import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -33,6 +34,12 @@ public class CarService {
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
     private final CurrencyService currencyService;
+
+    @Value("${sorting.default-field}")
+    private String defaultSortingField;
+
+    @Value("${sorting.default-direction}")
+    private String defaultSortingDirection;
 
     public CarService(CarRepository carRepository,
                       DirectoryMapper directoryMapper,
@@ -124,10 +131,12 @@ public class CarService {
         Pageable pageConfig = PageRequest.of(
                 carRep.getPage(),
                 carRep.getPageSize(),
-                Sort.by(carRep.getSortingOrder() == null ? Sort.Direction.ASC : carRep.getSortingOrder(),
-                        carRep
-                                .getSortingField()
-                                .getSortingFieldName()));
+                Sort.by(carRep.getSortingOrder() == null
+                                ? Sort.Direction.valueOf(defaultSortingDirection)
+                                : carRep.getSortingOrder(),
+                        carRep.getSortingField() == null
+                                ? defaultSortingField
+                                : carRep.getSortingField().getSortingFieldName()));
 
         List<Car> result;
         if (carRep.getCarFilterDTO() != null) {
@@ -154,12 +163,12 @@ public class CarService {
                             .forEach(carResponse -> {
                                 carResponse.setCurrency("USD");
                                 carResponse.setPrice(
-                                        (int) Math.round(carResponse.getPrice()
+                                        /*(int) Math.round(carResponse.getPrice()
                                                 * currency.getValutes().getEuro().getValue()
                                                 * currency.getValutes().getEuro().getNominal()
                                                 / currency.getValutes().getDollar().getValue()
                                                 / currency.getValutes().getDollar().getNominal()
-                                        )
+                                        )*/1
                                 );
                             });
                     break;
@@ -169,12 +178,12 @@ public class CarService {
                             .forEach(carResponse -> {
                                 carResponse.setCurrency("BYN");
                                 carResponse.setPrice(
-                                        (int) Math.round(carResponse.getPrice()
+                                        /*(int) Math.round(carResponse.getPrice()
                                                 * currency.getValutes().getEuro().getValue()
                                                 * currency.getValutes().getEuro().getNominal()
                                                 / currency.getValutes().getRuble().getValue()
                                                 / currency.getValutes().getRuble().getNominal()
-                                        )
+                                        )*/2
                                 );
                             });
                     break;

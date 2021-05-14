@@ -41,3 +41,7 @@ jwt:
 currency:
   client:
     url: https://www.cbr-xml-daily.ru/daily_json.js
+
+sorting:
+  default-field: brand
+  default-direction: ASC
