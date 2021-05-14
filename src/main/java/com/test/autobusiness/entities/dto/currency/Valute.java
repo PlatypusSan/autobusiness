@@ -3,7 +3,6 @@ package com.test.autobusiness.entities.dto.currency;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.test.autobusiness.entities.enums.Currency;
 import lombok.Data;
 
 @Data
@@ -11,7 +10,7 @@ import lombok.Data;
 public class Valute {
 
     @JsonProperty("CharCode")
-    private Currency code;
+    private String code;//TODO: replace with enum
 
     @JsonProperty("Value")
     private double value;

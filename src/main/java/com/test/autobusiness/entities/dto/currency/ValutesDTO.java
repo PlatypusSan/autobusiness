@@ -2,31 +2,19 @@ package com.test.autobusiness.entities.dto.currency;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.Getter;
 
+import java.util.HashMap;
 import java.util.Map;
 
-@Data
+@Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ValutesDTO {
 
-    /*@JsonProperty("BYN")
-    private Valute ruble;
-
-    @JsonProperty("EUR")
-    private Valute euro;
-
-    @JsonProperty("USD")
-    private Valute dollar;*/
-
-    private Map<String, String> properties;
+    private Map<String, Valute> properties = new HashMap<>();
 
     @JsonAnySetter
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
+    public void add(String key, Valute value) {
+        properties.put(key, value);
     }
-
-    /*public Map<String, String> setProperties() {
-        return properties;
-    }*/
 }

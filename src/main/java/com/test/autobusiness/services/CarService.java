@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CarService {
@@ -40,6 +41,8 @@ public class CarService {
 
     @Value("${sorting.default-direction}")
     private String defaultSortingDirection;
+
+    private CurrencyDTO currency;
 
     public CarService(CarRepository carRepository,
                       DirectoryMapper directoryMapper,
@@ -154,59 +157,34 @@ public class CarService {
         return result;
     }
 
+    private int calculatePrice(int price, String valute) {
+        return (int) Math.round(price
+                * currency.getValutes().getProperties().get("EUR").getValue()
+                * currency.getValutes().getProperties().get("EUR").getNominal()
+                / currency.getValutes().getProperties().get(valute).getValue()
+                / currency.getValutes().getProperties().get(valute).getNominal());
+
+    }
+
     private List<CarResponse> pickCurrency(CarRepresentation carRep, List<Car> cars) {
 
         List<CarResponse> resultResponse = carMapper.carToCarResponseAsList(cars);
 
         if (carRep.getCurrency() != null) {
 
-            CurrencyDTO currency = currencyService.getExchangeRates();
+            currency = currencyService.getExchangeRates();
 
-            switch (carRep.getCurrency()) {
-                case "USD": {
-                    resultResponse
-                            .forEach(carResponse -> {
-                                carResponse.setCurrency("USD");
-                                carResponse.setPrice(
-                                        /*(int) Math.round(carResponse.getPrice()
-                                                * currency.getValutes().getEuro().getValue()
-                                                * currency.getValutes().getEuro().getNominal()
-                                                / currency.getValutes().getDollar().getValue()
-                                                / currency.getValutes().getDollar().getNominal()
-                                        )*/1
-                                );
-                            });
-                    break;
-                }
-                case "BYN": {
-                    resultResponse
-                            .forEach(carResponse -> {
-                                carResponse.setCurrency("BYN");
-                                carResponse.setPrice(
-                                        /*(int) Math.round(carResponse.getPrice()
-                                                * currency.getValutes().getEuro().getValue()
-                                                * currency.getValutes().getEuro().getNominal()
-                                                / currency.getValutes().getRuble().getValue()
-                                                / currency.getValutes().getRuble().getNominal()
-                                        )*/2
-                                );
-                            });
-                    break;
-                }
-                case "EUR": {
-                    resultResponse
-                            .forEach(carResponse -> {
-                                carResponse.setCurrency("EUR");
-                            });
-                    break;
-                }
+            if (!currency.getValutes().getProperties().containsKey(carRep.getCurrency())) {
+                throw new NoSuchElementException("No currency found with value: " + carRep.getCurrency());
             }
-        } else {
+
             resultResponse
                     .forEach(carResponse -> {
-                        carResponse.setCurrency("EUR");
+                        carResponse.setCurrency(carRep.getCurrency());
+                        carResponse.setPrice(calculatePrice(carResponse.getPrice(), carRep.getCurrency()));
                     });
         }
+
         return resultResponse;
     }
 }
