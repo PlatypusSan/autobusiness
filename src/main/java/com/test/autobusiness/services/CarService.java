@@ -126,9 +126,9 @@ public class CarService {
         return pickCurrency(carRep, filterAndSortCars(carRep));
     }
 
-    private List<Car> filterAndSortCars(CarRepresentation carRep) {
+    private Pageable configurePage(CarRepresentation carRep) {
 
-        Pageable pageConfig = PageRequest.of(
+        return PageRequest.of(
                 carRep.getPage(),
                 carRep.getPageSize(),
                 Sort.by(carRep.getSortingOrder() == null
@@ -137,6 +137,11 @@ public class CarService {
                         carRep.getSortingField() == null
                                 ? defaultSortingField
                                 : carRep.getSortingField().getSortingFieldName()));
+    }
+
+    private List<Car> filterAndSortCars(CarRepresentation carRep) {
+
+        Pageable pageConfig = configurePage(carRep);
 
         List<Car> result;
         if (carRep.getCarFilterDTO() != null) {
