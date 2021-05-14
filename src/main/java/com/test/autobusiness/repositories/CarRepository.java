@@ -24,4 +24,5 @@ public interface CarRepository extends PagingAndSortingRepository<Car, Long>, Jp
             @Param("drive_unit") String driveUnit,
             @Param("vendor_name") String vendorName);
 
+    List<Car> findAll();
 }
