@@ -1,56 +1,85 @@
 package com.test.autobusiness;
 
 import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.mappers.CarMapper;
+import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
+import com.test.autobusiness.repositories.DetailsRepository;
 import com.test.autobusiness.services.CarService;
+import com.test.autobusiness.services.CurrencyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.atMostOnce;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CarServiceTests {
 
-    @TestConfiguration
-    static class CarServiceContextConfiguration {
 
-        /*@Bean
-        public CarService carService() {
-            return new CarService() {
-
-            }
-        }*/
-    }
-
-    private final CarService carService;
+    private CarService carService;
     private final MockMvc mockMvc;
 
     @Mock
     private CarRepository carRepository;
 
+    @Mock
+    private DetailsRepository detailsRepository;
+
+    @Spy
+    private DirectoryMapper directoryMapper;
+
+    @Spy
+    private CarMapper carMapper;
+
+    @Spy
+    private CurrencyService currencyService;
+
     private static String jwt;
-    private static String CAR_BRAND = "BMW";
-    private static long CAR_ID = 4;
+
 
     @Autowired
-    public CarServiceTests(CarService carService,
-                           MockMvc mockMvc) {
-        this.carService = carService;
+    public CarServiceTests(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
     }
 
     @BeforeEach
-    public void setUp() {
+    public void setupTestsEnvironment() {
+
+        carService = new CarService(
+                carRepository,
+                directoryMapper,
+                detailsRepository,
+                carMapper,
+                currencyService
+        );
+    }
+
+    @Test
+    void Given_carService_When_getCarServiceValue_Then_carServiceIsNotNull() {
+
+        assertThat(carService).isNotNull();
+    }
+
+
+    @Test
+    void Given_CarAndMockedRepo_When_carServiceReturnsCar_Then_brandIsEqualToGiven() {
+
+        //given
+        final String CAR_BRAND = "BMW";
+        final long CAR_ID = 4;
 
         Car car = Car
                 .builder()
@@ -60,52 +89,23 @@ public class CarServiceTests {
         Mockito
                 .when(carRepository.findById(CAR_ID))
                 .thenReturn(Optional.of(car));
-    }
 
-    @Test
-    void contextLoads() {
+        ArgumentCaptor<Long> arg = ArgumentCaptor.forClass(Long.class);
 
-        assertThat(carService).isNotNull();
-    }
+        //when
+        Car carResult = carService.getCar(CAR_ID);
 
-    /*@Test
-    void shouldAuthorize() throws Exception {
-
-        MvcResult result = this.mockMvc.perform(post("/api/v1/auth/login")
-        .contentType(MediaType.APPLICATION_JSON)
-        .content("{\n" +
-                "  \"password\": \"test\",\n" +
-                "  \"username\": \"goose\"\n" +
-                "}"))
-                .andExpect(status().isOk())
-        .andReturn();
-
-        ObjectMapper mapper = new ObjectMapper();
-        jwt = "Bearer_" + mapper.readTree(result
-                .getResponse()
-                .getContentAsString())
-            .get("token").asText();
-    }
-
-    @Test
-    void shouldReturnCarMock() throws Exception {
-
-        this.mockMvc.perform(get("/api/v1/car/4").header(HttpHeaders.AUTHORIZATION, jwt))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string((containsString("Jetta"))));
-    }*/
-
-    @Test
-    void shouldReturnCar() {
-
-        assertThat(carService.getCar(4)).isNotNull();
+        //then
+        Mockito
+                .verify(carRepository, atMostOnce()).findById(arg.capture());
+        assertThat(carResult.getBrand()).isEqualTo(CAR_BRAND);
+        assertEquals(CAR_ID, arg.getValue());
     }
 
     @Test
     void shouldReturnCarFromCarRepository() {
 
-        assertThat(carRepository.findById(CAR_ID).get().getBrand())
-                .isEqualTo(CAR_BRAND);
+        /*assertThat(carRepository.findById(CAR_ID).get().getBrand())
+                .isEqualTo(CAR_BRAND);*/
     }
 }

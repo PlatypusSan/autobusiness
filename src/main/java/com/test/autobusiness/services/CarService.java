@@ -1,6 +1,5 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.JacksonMapper;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.car.CarResponse;
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,7 +37,6 @@ public class CarService {
     private final CarMapper carMapper;
 
     private final CurrencyService currencyService;
-    private final JacksonMapper jacksonMapper;
 
     @Value("${sorting.default-field}")
     private String defaultSortingField;
@@ -48,20 +45,6 @@ public class CarService {
     private String defaultSortingDirection;
 
     private CurrencyDTO currency;
-
-    /*public CarService(CarRepository carRepository,
-                      DirectoryMapper directoryMapper,
-                      DetailsRepository detailsRepository,
-                      CarMapper carMapper,
-                      @Qualifier("currencyServiceImpl") CurrencyService currencyService,
-                      JacksonMapper jacksonMapper) {
-        this.carRepository = carRepository;
-        this.directoryMapper = directoryMapper;
-        this.detailsRepository = detailsRepository;
-        this.carMapper = carMapper;
-        this.currencyService = currencyService;
-        this.jacksonMapper = jacksonMapper;
-    }*/
 
 
     public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
@@ -133,11 +116,11 @@ public class CarService {
 
     public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
 
-        try {
+        /*try {
             jacksonMapper.writeFile();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return pickCurrency(carRep, filterAndSortCars(carRep));
     }
 
