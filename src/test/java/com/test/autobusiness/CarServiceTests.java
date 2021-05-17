@@ -1,12 +1,14 @@
 package com.test.autobusiness;
 
 import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
+import com.test.autobusiness.util.JacksonCarMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -18,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +34,7 @@ public class CarServiceTests {
 
     private CarService carService;
     private final MockMvc mockMvc;
+    private final JacksonCarMapper jacksonCarMapper;
 
     @Mock
     private CarRepository carRepository;
@@ -51,8 +55,10 @@ public class CarServiceTests {
 
 
     @Autowired
-    public CarServiceTests(MockMvc mockMvc) {
+    public CarServiceTests(MockMvc mockMvc,
+                           JacksonCarMapper jacksonCarMapper) {
         this.mockMvc = mockMvc;
+        this.jacksonCarMapper = jacksonCarMapper;
     }
 
     @BeforeEach
@@ -103,9 +109,14 @@ public class CarServiceTests {
     }
 
     @Test
-    void shouldReturnCarFromCarRepository() {
+    void Given_CarRepresentationAndCars_When_carServiceReturnsCars_Then_PricesAndCurrenciesAreCorrect() throws Exception {
 
-        /*assertThat(carRepository.findById(CAR_ID).get().getBrand())
-                .isEqualTo(CAR_BRAND);*/
+        //given
+        List<Car> carList = jacksonCarMapper.getCars();
+        CarRepresentation carRepresentation = CarRepresentation
+                .builder()
+                .currency("EUR")
+                .build();
+
     }
 }

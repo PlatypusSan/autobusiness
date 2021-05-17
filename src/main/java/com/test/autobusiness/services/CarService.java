@@ -117,6 +117,7 @@ public class CarService {
     public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
 
         /*try {
+            JacksonMapper jacksonMapper = new JacksonMapper(carRepository);
             jacksonMapper.writeFile();
         } catch (IOException e) {
             e.printStackTrace();
