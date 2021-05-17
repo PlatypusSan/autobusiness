@@ -1,12 +1,19 @@
 package com.test.autobusiness;
 
+import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.services.CarService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,13 +34,32 @@ public class CarServiceTests {
 
     private final CarService carService;
     private final MockMvc mockMvc;
+
+    @Mock
+    private CarRepository carRepository;
+
     private static String jwt;
+    private static String CAR_BRAND = "BMW";
+    private static long CAR_ID = 4;
 
     @Autowired
     public CarServiceTests(CarService carService,
                            MockMvc mockMvc) {
         this.carService = carService;
         this.mockMvc = mockMvc;
+    }
+
+    @BeforeEach
+    public void setUp() {
+
+        Car car = Car
+                .builder()
+                .brand(CAR_BRAND)
+                .build();
+
+        Mockito
+                .when(carRepository.findById(CAR_ID))
+                .thenReturn(Optional.of(car));
     }
 
     @Test
@@ -74,5 +100,12 @@ public class CarServiceTests {
     void shouldReturnCar() {
 
         assertThat(carService.getCar(4)).isNotNull();
+    }
+
+    @Test
+    void shouldReturnCarFromCarRepository() {
+
+        assertThat(carRepository.findById(CAR_ID).get().getBrand())
+                .isEqualTo(CAR_BRAND);
     }
 }

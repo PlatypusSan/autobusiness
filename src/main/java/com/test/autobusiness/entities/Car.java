@@ -1,9 +1,6 @@
 package com.test.autobusiness.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -13,6 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class Car extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
