@@ -1,6 +1,7 @@
 package com.test.autobusiness.entities.filters;
 
 import com.test.autobusiness.entities.enums.SortingField;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.Sort;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Value
+@RequiredArgsConstructor
 public class CarRepresentation {
 
     CarFilterDTO carFilterDTO;

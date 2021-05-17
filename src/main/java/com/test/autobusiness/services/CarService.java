@@ -13,7 +13,7 @@ import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +30,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class CarService {
 
     private final CarRepository carRepository;
     private final DirectoryMapper directoryMapper;
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
+
     private final CurrencyService currencyService;
     private final JacksonMapper jacksonMapper;
 
@@ -47,7 +49,7 @@ public class CarService {
 
     private CurrencyDTO currency;
 
-    public CarService(CarRepository carRepository,
+    /*public CarService(CarRepository carRepository,
                       DirectoryMapper directoryMapper,
                       DetailsRepository detailsRepository,
                       CarMapper carMapper,
@@ -59,7 +61,7 @@ public class CarService {
         this.carMapper = carMapper;
         this.currencyService = currencyService;
         this.jacksonMapper = jacksonMapper;
-    }
+    }*/
 
 
     public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
