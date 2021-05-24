@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:11
+    container_name: postgres
+    networks:
+      - web-postgres
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: autobusiness
+  web:
+    image: auto-business
+    container_name: web-app
+    ports:
+      - "9090:9090"
+    networks:
+      - web-postgres
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/autobusiness
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+networks:
+  web-postgres:
