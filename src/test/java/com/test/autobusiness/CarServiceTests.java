@@ -117,6 +117,5 @@ public class CarServiceTests {
                 .builder()
                 .currency("EUR")
                 .build();
-
     }
 }
