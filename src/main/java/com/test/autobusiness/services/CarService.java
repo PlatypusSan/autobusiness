@@ -35,7 +35,6 @@ public class CarService {
     private final DirectoryMapper directoryMapper;
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
-
     private final CurrencyService currencyService;
 
     @Value("${sorting.default-field}")
