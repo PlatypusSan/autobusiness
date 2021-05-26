@@ -35,7 +35,7 @@ public class CarService {
     private final DirectoryMapper directoryMapper;
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
-    private final CurrencyService currencyService;
+    private final CurrencyService currencyServiceImpl;
 
     @Value("${sorting.default-field}")
     private String defaultSortingField;
@@ -167,7 +167,7 @@ public class CarService {
 
         if (carRep.getCurrency() != null) {
 
-            currency = currencyService.getExchangeRates();
+            currency = currencyServiceImpl.getExchangeRates();
 
             if (!currency.getValutes().getProperties().containsKey(carRep.getCurrency())) {
                 throw new NoSuchElementException("No currency found with value: " + carRep.getCurrency());
