@@ -1,5 +1,7 @@
 package com.test.autobusiness.services;
 
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.car.CarResponse;
@@ -15,7 +17,6 @@ import com.test.autobusiness.repositories.DetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +41,13 @@ public class CarService {
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
     private final CurrencyService currencyServiceImpl;
+
+    private Cache<Long, Car> cache = Caffeine.newBuilder()
+            .expireAfterAccess(Duration.ofMinutes(4))
+            .weigher((k, v) -> 5)
+            .maximumWeight(10)
+            .recordStats()
+            .build();
 
     @Value("${sorting.default-field}")
     private String defaultSortingField;
@@ -80,15 +89,17 @@ public class CarService {
         car.setDetails(new HashSet<Details>(details));
     }
 
-    @Cacheable("cars")
+    @Transactional
     public Car getCar(long id) {
 
-
-        log.info("IN getCars - car with id: {} found", id);
-        return carRepository.findById(id)
-                .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                "There is no car with id: " + id));
+        Car car = cache.get(id, k -> {
+            log.info("IN getCars - car with id: {} found", id);
+            return carRepository.findById(id)
+                    .orElseThrow(
+                            () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                    "There is no car with id: " + id));
+        });
+        return car;
     }
 
     @Transactional
