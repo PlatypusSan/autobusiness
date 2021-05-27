@@ -4,6 +4,7 @@ import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
 import com.test.autobusiness.repositories.CurrencyRepository;
 import com.test.autobusiness.services.CurrencyService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CurrencyServiceImpl implements CurrencyService {
 
     private final RestTemplate restTemplate;
@@ -44,7 +46,7 @@ public class CurrencyServiceImpl implements CurrencyService {
         return currency;
     }
 
-    private CurrencyDTO getRatesViaTemplate() {
+    public CurrencyDTO getRatesViaTemplate() {
 
         CurrencyDTO currency;
         try {
@@ -53,12 +55,13 @@ public class CurrencyServiceImpl implements CurrencyService {
             update.set("date", currency.getDate());
             update.set("valutes", currency.getValutes());
             mongoTemplate.updateFirst(new Query(), update, CurrencyDTO.class);
+            log.info("Currency was received from API");
 
         } catch (Exception e) {
             currency = mongoTemplate.findOne(new Query(), CurrencyDTO.class);
+            log.info("Currency was received database");
+
         }
         return currency;
     }
-
-
 }

@@ -13,7 +13,9 @@ import com.test.autobusiness.entities.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,6 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CarService {
@@ -77,8 +80,11 @@ public class CarService {
         car.setDetails(new HashSet<Details>(details));
     }
 
+    @Cacheable("cars")
     public Car getCar(long id) {
 
+
+        log.info("IN getCars - car with id: {} found", id);
         return carRepository.findById(id)
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
