@@ -110,6 +110,7 @@ public class CarService {
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                                 "There is no car with id: " + id)
                 );
+        cache.invalidate(car.getId());
         car.removeDetails();
         carRepository.save(car);
         carRepository.deleteById(id);
@@ -119,7 +120,10 @@ public class CarService {
     public CarResponse updateCar(CarUpdate carUpdate) {
 
         return carRepository.findById(carUpdate.getId())
-                .map(car -> carMapper.updateCarFromUpdate(carUpdate, car))
+                .map(car -> {
+                    cache.invalidate(car.getId());
+                    return carMapper.updateCarFromUpdate(carUpdate, car);
+                })
                 .map(carRepository::save)
                 .map(carMapper::carToCarResponse)
                 .orElseThrow(
