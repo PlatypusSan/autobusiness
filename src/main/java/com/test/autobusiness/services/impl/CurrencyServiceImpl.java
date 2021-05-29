@@ -6,9 +6,9 @@ import com.test.autobusiness.services.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -27,8 +27,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override
     @Transactional
+    @Cacheable("currencies")
     public CurrencyDTO getExchangeRates() {
 
+        log.info("IN getExchangeRates - currency received without using cache");
         return getRatesViaTemplate();
     }
 
@@ -36,31 +38,30 @@ public class CurrencyServiceImpl implements CurrencyService {
 
         CurrencyDTO currency;
         try {
+            currency = currencyRepository.findAll().get(0);
+            log.info("IN getRatesViaRepository - Currency was received from database");
+        } catch (Exception e) {
             currency = restTemplate.getForObject(uri, CurrencyDTO.class);
             currencyRepository.deleteAll();
             currencyRepository.save(currency);
-
-        } catch (Exception e) {
-            currency = currencyRepository.findAll().get(0);
+            log.info("IN getRatesViaRepository - Currency was received from API");
         }
         return currency;
     }
 
-    public CurrencyDTO getRatesViaTemplate() {
+    private CurrencyDTO getRatesViaTemplate() {
 
         CurrencyDTO currency;
         try {
-            currency = restTemplate.getForObject(uri, CurrencyDTO.class);
-            Update update = new Update();
-            update.set("date", currency.getDate());
-            update.set("valutes", currency.getValutes());
-            mongoTemplate.updateFirst(new Query(), update, CurrencyDTO.class);
-            log.info("Currency was received from API");
+            currency = mongoTemplate.findOne(new Query(), CurrencyDTO.class);
+
+            if (currency == null) throw new NullPointerException();
+            log.info("IN getRatesViaTemplate - Currency was received from database");
 
         } catch (Exception e) {
-            currency = mongoTemplate.findOne(new Query(), CurrencyDTO.class);
-            log.info("Currency was received database");
-
+            currency = restTemplate.getForObject(uri, CurrencyDTO.class);
+            mongoTemplate.save(currency);
+            log.info("IN getRatesViaTemplate - Currency was received from API");
         }
         return currency;
     }
