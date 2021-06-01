@@ -24,9 +24,11 @@ spring:
       ddl-auto: none
     generate-ddl: false
   datasource:
+    driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/autobusiness
     username: postgres
     password: root
+    name: autobusiness
   jackson:
     serialization:
       fail-on-empty-beans: false
@@ -52,3 +54,7 @@ currency:
 sorting:
   default-field: brand
   default-direction: ASC
+
+test:
+  containers:
+    postgres: postgres:11.1
