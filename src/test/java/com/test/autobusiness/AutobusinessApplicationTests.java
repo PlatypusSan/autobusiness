@@ -1,13 +1,22 @@
 package com.test.autobusiness;
 
+import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
-@SpringBootTest
-class AutobusinessApplicationTests {
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+
+class AutobusinessApplicationTests extends AbstractTests {
+
+    @ClassRule
+    @Autowired
+    private ApplicationContext applicationContext;
 
     @Test
-    void contextLoads() {
+    void givenApplicationContext_thenContextIsNotNull() {
+        assertNotNull(applicationContext);
     }
 
 }

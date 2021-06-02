@@ -6,7 +6,6 @@ import com.test.autobusiness.repositories.CarRepository;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -22,11 +21,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-//@ExtendWith(SpringExtension.class)
-@SpringBootTest
 @Testcontainers
 @ContextConfiguration(initializers = {CarRepositoryDatabaseContainerTests.Initializer.class})
-public class CarRepositoryDatabaseContainerTests {
+public class CarRepositoryDatabaseContainerTests extends AbstractTests {
 
     @Autowired
     private CarRepository carRepository;
