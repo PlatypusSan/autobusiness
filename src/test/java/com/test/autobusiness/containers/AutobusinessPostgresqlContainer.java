@@ -1,27 +1,25 @@
-package com.test.autobusiness;
+package com.test.autobusiness.containers;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-@Component
 public class AutobusinessPostgresqlContainer extends PostgreSQLContainer<AutobusinessPostgresqlContainer> {
 
-    private static final String IMAGE_VERSION = "postgres:11.1";
     private static AutobusinessPostgresqlContainer container;
-
+    private static final String IMAGE_VERSION = "postgres:11.1";
+    private static final String DB_NAME = "autobusiness";
+    private static final String DB_USERNAME = "postgres";
+    private static final String DB_PASSWORD = "root";
 
     private AutobusinessPostgresqlContainer() {
-
         super(IMAGE_VERSION);
     }
 
-    @Bean
-    public static AutobusinessPostgresqlContainer getInstance() {
+    public static AutobusinessPostgresqlContainer postgresqlContainer() {
 
-        if (container == null) {
-            container = new AutobusinessPostgresqlContainer();
-        }
+        container = new AutobusinessPostgresqlContainer()
+                .withUsername(DB_USERNAME)
+                .withPassword(DB_PASSWORD)
+                .withDatabaseName(DB_NAME);
         return container;
     }
 

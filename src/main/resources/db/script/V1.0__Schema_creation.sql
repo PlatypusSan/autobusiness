@@ -65,3 +65,7 @@ create table user_roles
     role_id bigint not null
         references roles (id)
 );
+
+create sequence hibernate_sequence;
+
+alter sequence hibernate_sequence owner to postgres;

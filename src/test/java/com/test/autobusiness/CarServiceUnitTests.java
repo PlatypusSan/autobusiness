@@ -29,7 +29,7 @@ import static org.mockito.Mockito.atMostOnce;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CarServiceTests {
+public class CarServiceUnitTests {
 
 
     private CarService carService;
@@ -55,8 +55,8 @@ public class CarServiceTests {
 
 
     @Autowired
-    public CarServiceTests(MockMvc mockMvc,
-                           JacksonCarMapper jacksonCarMapper) {
+    public CarServiceUnitTests(MockMvc mockMvc,
+                               JacksonCarMapper jacksonCarMapper) {
         this.mockMvc = mockMvc;
         this.jacksonCarMapper = jacksonCarMapper;
     }
@@ -74,14 +74,14 @@ public class CarServiceTests {
     }
 
     @Test
-    void Given_carService_When_getCarServiceValue_Then_carServiceIsNotNull() {
+    void givenCarService_whenGetCarServiceValue_then_CarServiceIsNotNull() {
 
         assertThat(carService).isNotNull();
     }
 
 
     @Test
-    void Given_CarAndMockedRepo_When_carServiceReturnsCar_Then_brandIsEqualToGiven() {
+    void givenCarAndMockedRepo_whenCarServiceReturnsCar_thenBrandIsEqualToGiven() {
 
         //given
         final String CAR_BRAND = "BMW";
@@ -91,11 +91,9 @@ public class CarServiceTests {
                 .builder()
                 .brand(CAR_BRAND)
                 .build();
-
         Mockito
                 .when(carRepository.findById(CAR_ID))
                 .thenReturn(Optional.of(car));
-
         ArgumentCaptor<Long> arg = ArgumentCaptor.forClass(Long.class);
 
         //when
@@ -109,7 +107,7 @@ public class CarServiceTests {
     }
 
     @Test
-    void Given_CarRepresentationAndCars_When_carServiceReturnsCars_Then_PricesAndCurrenciesAreCorrect() throws Exception {
+    void givenCarRepresentationAndCars_whenCarServiceReturnsCars_thenPricesAndCurrenciesAreCorrect() throws Exception {
 
         //given
         List<Car> carList = jacksonCarMapper.getCars();

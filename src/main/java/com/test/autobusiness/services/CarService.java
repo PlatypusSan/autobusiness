@@ -114,6 +114,7 @@ public class CarService {
         car.removeDetails();
         carRepository.save(car);
         carRepository.deleteById(id);
+        log.info("IN deleteCar - car with id: {} successfully deleted", id);
     }
 
     @Transactional

@@ -57,4 +57,10 @@ sorting:
 
 test:
   containers:
-    postgres: postgres:11.1
+    postgres:
+      name: autobusiness
+      version: postgres:11.1
+      port: 55050 #${random.int[50000, 60000]}
+      username: postgres
+      password: root
+      driver-class-name: org.postgresql.Driver
