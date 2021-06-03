@@ -17,8 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,12 +25,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atMostOnce;
 
-@AutoConfigureMockMvc
 public class CarServiceUnitTests extends AbstractTests {
 
     private CarService carService;
-    private final MockMvc mockMvc;
     private final JacksonCarMapper jacksonCarMapper;
+    private final CurrencyService currencyServiceImpl;
 
     @Mock
     private CarRepository carRepository;
@@ -46,14 +43,10 @@ public class CarServiceUnitTests extends AbstractTests {
     @Spy
     private CarMapper carMapper;
 
-    @Spy
-    private CurrencyService currencyService;
-
     @Autowired
-    public CarServiceUnitTests(MockMvc mockMvc,
-                               JacksonCarMapper jacksonCarMapper) {
-        this.mockMvc = mockMvc;
+    public CarServiceUnitTests(JacksonCarMapper jacksonCarMapper, CurrencyService currencyServiceImpl) {
         this.jacksonCarMapper = jacksonCarMapper;
+        this.currencyServiceImpl = currencyServiceImpl;
     }
 
     @BeforeEach
@@ -64,7 +57,7 @@ public class CarServiceUnitTests extends AbstractTests {
                 directoryMapper,
                 detailsRepository,
                 carMapper,
-                currencyService
+                currencyServiceImpl
         );
     }
 
