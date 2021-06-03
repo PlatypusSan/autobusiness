@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atMostOnce;
 
-public class CarServiceUnitTests extends AbstractTests {
+@SpringBootTest
+public class CarServiceUnitTests {
 
     private CarService carService;
     private final JacksonCarMapper jacksonCarMapper;

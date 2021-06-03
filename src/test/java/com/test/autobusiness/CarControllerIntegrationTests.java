@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,7 +20,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @AutoConfigureMockMvc
-public class CarControllerIntegrationTests extends AbstractTests {
+@SpringBootTest
+public class CarControllerIntegrationTests {
 
     private static MockMvc mockMvc;
 
@@ -63,6 +65,7 @@ public class CarControllerIntegrationTests extends AbstractTests {
         //given
         String carJson = mockMvc.perform(get("/api/v1/car/4")
                 .header(HttpHeaders.AUTHORIZATION, token))
+                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
