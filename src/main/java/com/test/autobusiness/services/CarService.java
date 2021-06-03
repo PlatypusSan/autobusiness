@@ -183,7 +183,7 @@ public class CarService {
 
     }
 
-    private List<CarResponse> pickCurrency(CarRepresentation carRep, List<Car> cars) {
+    public List<CarResponse> pickCurrency(CarRepresentation carRep, List<Car> cars) {
 
         List<CarResponse> resultResponse = carMapper.carToCarResponseAsList(cars);
 

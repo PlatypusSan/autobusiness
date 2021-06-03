@@ -1,6 +1,7 @@
 package com.test.autobusiness;
 
 import com.test.autobusiness.entities.Car;
+import com.test.autobusiness.entities.dto.car.CarResponse;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.entities.mappers.DirectoryMapper;
@@ -29,7 +30,6 @@ import static org.mockito.Mockito.atMostOnce;
 @AutoConfigureMockMvc
 public class CarServiceUnitTests extends AbstractTests {
 
-
     private CarService carService;
     private final MockMvc mockMvc;
     private final JacksonCarMapper jacksonCarMapper;
@@ -48,9 +48,6 @@ public class CarServiceUnitTests extends AbstractTests {
 
     @Spy
     private CurrencyService currencyService;
-
-    private static String jwt;
-
 
     @Autowired
     public CarServiceUnitTests(MockMvc mockMvc,
@@ -76,7 +73,6 @@ public class CarServiceUnitTests extends AbstractTests {
 
         assertThat(carService).isNotNull();
     }
-
 
     @Test
     void givenCarAndMockedRepo_whenCarServiceReturnsCar_thenBrandIsEqualToGiven() {
@@ -113,5 +109,14 @@ public class CarServiceUnitTests extends AbstractTests {
                 .builder()
                 .currency("EUR")
                 .build();
+
+        //when
+        List<CarResponse> carResponseList = carService.pickCurrency(carRepresentation, carList);
+
+        //then
+        carResponseList
+                .forEach(carResponse -> {
+                    assertEquals(carRepresentation.getCurrency(), carResponse.getCurrency());
+                });
     }
 }
