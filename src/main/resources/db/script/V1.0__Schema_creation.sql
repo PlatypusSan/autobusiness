@@ -66,6 +66,23 @@ create table user_roles
         references roles (id)
 );
 
+create table dealership
+(
+    id       bigserial primary key,
+    name     varchar(20),
+    city     varchar(20),
+    time     varchar(20),
+    property jsonb
+);
+
+create table contact
+(
+    id            bigserial primary key,
+    type          varchar(20),
+    value         varchar(20),
+    dealership_id bigint references dealership
+);
+
 create sequence hibernate_sequence;
 
 alter sequence hibernate_sequence owner to postgres;

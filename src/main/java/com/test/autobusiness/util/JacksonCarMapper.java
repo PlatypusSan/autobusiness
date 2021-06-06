@@ -15,6 +15,7 @@ import java.util.List;
 public class JacksonCarMapper {
 
     private final CarRepository carRepository;
+    private final String FILE_PATH = "src/main/resources/cars.json";
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public JacksonCarMapper(CarRepository carRepository) {
@@ -30,15 +31,15 @@ public class JacksonCarMapper {
             c.setDetails(null);
         });
 
-        objectMapper.writeValue(new File("target/cars.json"), cars);
+        objectMapper.writeValue(new File(FILE_PATH), cars);
 
-        cars = objectMapper.readValue(new URL("file:target/cars.json"), List.class);
-        JsonNode jsonNode = objectMapper.readTree(new URL("file:target/cars.json"));
+        cars = objectMapper.readValue(new URL("file:" + FILE_PATH), List.class);
+        JsonNode jsonNode = objectMapper.readTree(new URL("file:" + FILE_PATH));
 
     }
 
     public List<Car> getCars() throws Exception {
 
-        return objectMapper.readValue(new URL("file:target/cars.json"), List.class);
+        return objectMapper.readValue(new URL("file:" + FILE_PATH), List.class);
     }
 }
