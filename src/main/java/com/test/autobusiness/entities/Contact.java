@@ -6,12 +6,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
-public class Contact extends AbstractEntity {
+public class Contact extends AbstractEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
