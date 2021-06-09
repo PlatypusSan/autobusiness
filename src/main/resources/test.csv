@@ -1,4 +1,4 @@
-id,name,role,salary,properties
-1,Андрей,разработчик,3000,"[sdfd, dfsf, qfsf]"
-2,Дима,разработчик,222,
-3,Марина,разработчик,333,
+name    ,city ,time       ,contacts            ,property
+Jeep    ,LA   ,8:00-21:00 ,EMAIL.gdfs|EMAIL.sdf,fghfdsf
+Audi    ,Minsk,8:00-20:00 ,EMAIL.gdfs|EMAIL.sdf,sdfsadf
+Mercedes,Rome ,10:00-20:00,EMAIL.gdfs|EMAIL.sdf,gdfgfd
