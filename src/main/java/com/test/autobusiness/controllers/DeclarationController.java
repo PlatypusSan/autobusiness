@@ -16,7 +16,6 @@ import javax.validation.Valid;
 public class DeclarationController {
 
     private final DeclarationService declarationService;
-
     private final DeclarationMapper declarationMapper;
 
     public DeclarationController(DeclarationService declarationService, DeclarationMapper declarationMapper) {

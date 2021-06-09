@@ -1,12 +1,13 @@
 package com.test.autobusiness.controllers;
 
+import com.test.autobusiness.entities.dto.dealership.DealershipResponse;
+import com.test.autobusiness.entities.mappers.DealershipMapper;
 import com.test.autobusiness.services.DealershipService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/dealership")
@@ -14,10 +15,19 @@ import org.springframework.web.multipart.MultipartFile;
 public class DealershipController {
 
     private final DealershipService dealershipService;
+    private final DealershipMapper dealershipMapper;
 
-    @PostMapping()
+    @PostMapping
     public void uploadFile(@RequestParam("file") MultipartFile multipartFile) throws Exception {
 
         dealershipService.saveDealerships(multipartFile);
+    }
+
+    @GetMapping
+    public List<DealershipResponse> getAllDealers() {
+
+        List<DealershipResponse> dealershipResponses =
+                dealershipMapper.dealershipListToDealershipResponseList(dealershipService.getAllDealerships());
+        return dealershipResponses;
     }
 }

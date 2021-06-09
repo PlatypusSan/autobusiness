@@ -1,4 +1,4 @@
-name    ,city ,time       ,contacts            ,property
-Jeep    ,LA   ,8:00-21:00 ,EMAIL.gdfs|EMAIL.sdf,fghfdsf
-Audi    ,Minsk,8:00-20:00 ,EMAIL.gdfs|EMAIL.sdf,sdfsadf
-Mercedes,Rome ,10:00-20:00,EMAIL.gdfs|EMAIL.sdf,gdfgfd
+name    ,city ,time       ,contacts                                     ,someProperty
+Jeep    ,LA   ,8:00-21:00 ,EMAIL.jeep@gmail.com|PHONE_NUMBER.1234567    ,fghfdsf
+Audi    ,Minsk,8:00-20:00 ,EMAIL.audi@gmail.com|PHONE_NUMBER.4325423    ,sdfsadf
+Mercedes,Rome ,10:00-20:00,EMAIL.mercedes@gmail.com|PHONE_NUMBER.7543465,gdfgfd

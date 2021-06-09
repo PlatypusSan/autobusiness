@@ -1,8 +1,11 @@
 package com.test.autobusiness.entities;
 
-import com.opencsv.bean.CsvBindAndSplitByName;
+import com.opencsv.bean.CsvBindAndSplitByPosition;
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvCustomBindByPosition;
 import com.test.autobusiness.util.converters.ContactConverter;
+import com.test.autobusiness.util.converters.PropertyConverter;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
 import org.hibernate.annotations.Type;
@@ -24,23 +27,23 @@ import java.util.List;
 @Builder
 public class Dealership extends AbstractEntity implements Serializable {
 
-    @CsvBindByName(column = "name")
+    @CsvBindByPosition(position = 0)
     private String name;
 
-    @CsvBindByName(column = "city")
+    @CsvBindByPosition(position = 1)
     private String city;
 
-    @CsvBindByName(column = "time")
+    @CsvBindByPosition(position = 2)
     private String time;
 
     @Type(type = "jsonb")
-    //@CsvCustomBindByPosition(position = 4, converter = PropertyConverter.class)
+    @CsvCustomBindByPosition(position = 4, converter = PropertyConverter.class)
     @CsvBindByName(column = "property")
     private String property;
 
-    @CsvBindAndSplitByName(elementType = Contact.class, splitOn = "\\|", converter = ContactConverter.class)
+    @CsvBindAndSplitByPosition(position = 3, elementType = Contact.class, splitOn = "\\|", converter = ContactConverter.class)
     @OneToMany(mappedBy = "dealership",
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private List<Contact> contacts;
 }

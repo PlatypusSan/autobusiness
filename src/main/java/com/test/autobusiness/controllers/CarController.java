@@ -18,7 +18,6 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-
     private final CarMapper carMapper;
 
     public CarController(CarService carService, CarMapper carMapper) {

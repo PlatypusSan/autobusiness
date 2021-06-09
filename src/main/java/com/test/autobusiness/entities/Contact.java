@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 @Entity
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Contact extends AbstractEntity implements Serializable {
 
@@ -24,9 +24,4 @@ public class Contact extends AbstractEntity implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealership_id")
     private Dealership dealership;
-
-    public Contact(ContactType contactType, String value) {
-        this.contactType = contactType;
-        this.value = value;
-    }
 }
