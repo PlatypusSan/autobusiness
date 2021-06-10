@@ -27,7 +27,7 @@ public class DealershipController {
     public String uploadFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
         ObjectNode objectNode = (new ObjectMapper()).createObjectNode();
-        objectNode.put("statusCode", dealershipService.incrementProcessId());
+        objectNode.put("importJobId", dealershipService.incrementJobId());
         long fileId = fileService.saveImportFile(multipartFile);
         dealershipService.saveDealerships(fileId);
         return objectNode.toPrettyString();
@@ -36,7 +36,7 @@ public class DealershipController {
     @GetMapping(path = "/import-status/{id}")
     public String getImportStatus(@PathVariable long id) {
 
-        return dealershipService.getProcessState(id).name();
+        return dealershipService.getJobState(id).name();
     }
 
     @GetMapping

@@ -33,38 +33,38 @@ public class DealershipService {
 
     private final DealershipRepository dealershipRepository;
     private final FileRepository fileRepository;
-    private ConcurrentHashMap<Long, ProcessState> states = new ConcurrentHashMap<>();
-    private long processId;
+    private ConcurrentHashMap<Long, ProcessState> jobStates = new ConcurrentHashMap<>();
+    private long jobId;
 
     @Getter
     private static List<String> headers;
 
-    public ProcessState getProcessState(long id) {
-        return states.getOrDefault(id, ProcessState.NOT_STARTED);
+    public ProcessState getJobState(long id) {
+        return jobStates.getOrDefault(id, ProcessState.NOT_STARTED);
     }
 
-    public synchronized long incrementProcessId() {
-        return ++processId;
+    public synchronized long incrementJobId() {
+        return ++jobId;
     }
 
     @Transactional
     @Async
     public synchronized CompletableFuture<List<Dealership>> saveDealerships(long fileId) throws Exception {
 
-        states.put(processId, ProcessState.RUNNING);
-        log.info("IN saveDealership - thread with id {} started", processId);
+        jobStates.put(jobId, ProcessState.RUNNING);
+        log.info("IN saveDealership - thread with id {} started", jobId);
         Thread.sleep(5000);
-        log.info("IN saveDealership - thread with id {} slept 5000 ms", processId);
+        log.info("IN saveDealership - thread with id {} slept 5000 ms", jobId);
         List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
-        log.info("IN saveDealership - thread with id {} completed parsing", processId);
+        log.info("IN saveDealership - thread with id {} completed parsing", jobId);
         dealershipList.forEach(dealership -> {
             dealership.getContacts().forEach(contact -> {
                 contact.setDealership(dealership);
             });
         });
         dealershipRepository.saveAll(dealershipList);
-        states.put(processId, ProcessState.ENDED);
-        log.info("IN saveDealership - thread with id {} ended", processId);
+        jobStates.put(jobId, ProcessState.ENDED);
+        log.info("IN saveDealership - thread with id {} ended", jobId);
 
         return CompletableFuture.completedFuture(dealershipList);
     }
