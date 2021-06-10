@@ -1,5 +1,7 @@
 package com.test.autobusiness.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.test.autobusiness.entities.dto.dealership.DealershipResponse;
 import com.test.autobusiness.entities.mappers.DealershipMapper;
 import com.test.autobusiness.services.DealershipService;
@@ -22,24 +24,24 @@ public class DealershipController {
     private final FileService fileService;
 
     @PostMapping(path = "/import")
-    public void uploadFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
+    public String uploadFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
-        long id = 1;
-
+        ObjectNode objectNode = (new ObjectMapper()).createObjectNode();
+        objectNode.put("statusCode", dealershipService.incrementProcessId());
         long fileId = fileService.saveImportFile(multipartFile);
-        dealershipService.saveDealerships(fileId, id);
+        dealershipService.saveDealerships(fileId);
+        return objectNode.toPrettyString();
     }
 
-    @GetMapping(path = "/import-status")
-    public void getImportStatus() {
-        log.info("IN getImportStatus - {}", dealershipService.getProcessState(1).name());
+    @GetMapping(path = "/import-status/{id}")
+    public String getImportStatus(@PathVariable long id) {
+
+        return dealershipService.getProcessState(id).name();
     }
 
     @GetMapping
     public List<DealershipResponse> getAllDealerships() {
 
-        List<DealershipResponse> dealershipResponses =
-                dealershipMapper.dealershipListToDealershipResponseList(dealershipService.getAllDealerships());
-        return dealershipResponses;
+        return dealershipMapper.dealershipListToDealershipResponseList(dealershipService.getAllDealerships());
     }
 }

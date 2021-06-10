@@ -7,6 +7,7 @@ import com.test.autobusiness.entities.dto.car.CarUpdate;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,15 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/car")
+@RequiredArgsConstructor
 public class CarController {
 
     private final CarService carService;
     private final CarMapper carMapper;
-
-    public CarController(CarService carService, CarMapper carMapper) {
-        this.carService = carService;
-        this.carMapper = carMapper;
-    }
 
     @GetMapping(path = "/{id}")
     public CarResponse getCar(@PathVariable long id) {

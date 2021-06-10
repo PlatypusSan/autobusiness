@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @Slf4j
@@ -35,34 +34,37 @@ public class DealershipService {
     private final DealershipRepository dealershipRepository;
     private final FileRepository fileRepository;
     private ConcurrentHashMap<Long, ProcessState> states = new ConcurrentHashMap<>();
+    private long processId;
 
     @Getter
     private static List<String> headers;
-
-    ReentrantLock lock = new ReentrantLock();
 
     public ProcessState getProcessState(long id) {
         return states.getOrDefault(id, ProcessState.NOT_STARTED);
     }
 
+    public synchronized long incrementProcessId() {
+        return ++processId;
+    }
+
     @Transactional
     @Async
-    public CompletableFuture<List<Dealership>> saveDealerships(long fileId, long id) throws Exception {
+    public synchronized CompletableFuture<List<Dealership>> saveDealerships(long fileId) throws Exception {
 
-        states.put(id, ProcessState.RUNNING);
-        log.info("IN saveDealership - thread with id {} started", id);
-        Thread.sleep(1000);
-        log.info("IN saveDealership - thread with id {} slept 1000 ms", id);
+        states.put(processId, ProcessState.RUNNING);
+        log.info("IN saveDealership - thread with id {} started", processId);
+        Thread.sleep(5000);
+        log.info("IN saveDealership - thread with id {} slept 5000 ms", processId);
         List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
-        log.info("IN saveDealership - thread with id {} completed parsing", id);
+        log.info("IN saveDealership - thread with id {} completed parsing", processId);
         dealershipList.forEach(dealership -> {
             dealership.getContacts().forEach(contact -> {
                 contact.setDealership(dealership);
             });
         });
         dealershipRepository.saveAll(dealershipList);
-        states.put(id, ProcessState.ENDED);
-        log.info("IN saveDealership - thread with id {} ended", id);
+        states.put(processId, ProcessState.ENDED);
+        log.info("IN saveDealership - thread with id {} ended", processId);
 
         return CompletableFuture.completedFuture(dealershipList);
     }
@@ -82,17 +84,14 @@ public class DealershipService {
     }
 
 
-    private List<Dealership> parseCsvFileToDealership(long fileId) {
+    private synchronized List<Dealership> parseCsvFileToDealership(long fileId) {
 
         DataObject dataObject = fileRepository.findById(fileId).get();
         MultipartFile multipartFile = new MockMultipartFile(dataObject.getName(), dataObject.getFile());
         List<Dealership> dealershipList = new ArrayList<>();
 
         try (final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(multipartFile.getInputStream()))) {
-            synchronized (this) {
-                headers = Arrays.asList(bufferedReader.readLine().split(","));
-            }
-
+            headers = Arrays.asList(bufferedReader.readLine().split(","));
             CsvToBean<Dealership> cb = new CsvToBeanBuilder<Dealership>(bufferedReader)
                     .withType(Dealership.class)
                     .build();
