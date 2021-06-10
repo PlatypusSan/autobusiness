@@ -83,6 +83,15 @@ create table contact
     dealership_id bigint references dealership
 );
 
+create table data_object
+(
+    id   bigserial primary key,
+    name varchar(100),
+    file bytea
+);
+
+
+
 create sequence hibernate_sequence;
 
 alter sequence hibernate_sequence owner to postgres;
