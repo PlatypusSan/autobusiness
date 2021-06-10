@@ -85,9 +85,10 @@ create table contact
 
 create table data_object
 (
-    id   bigserial primary key,
-    name varchar(100),
-    file bytea
+    id     bigserial primary key,
+    name   varchar(100),
+    file   bytea,
+    digest bytea
 );
 
 

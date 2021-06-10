@@ -47,13 +47,13 @@ public class DealershipService {
 
     @Transactional
     @Async
-    public CompletableFuture<List<Dealership>> saveDealerships(final MultipartFile file, long id) throws Exception {
+    public CompletableFuture<List<Dealership>> saveDealerships(long fileId, long id) throws Exception {
 
         states.put(id, ProcessState.RUNNING);
         log.info("IN saveDealership - thread with id {} started", id);
         Thread.sleep(1000);
         log.info("IN saveDealership - thread with id {} slept 1000 ms", id);
-        List<Dealership> dealershipList = parseCsvFileToDealership(file);
+        List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
         log.info("IN saveDealership - thread with id {} completed parsing", id);
         dealershipList.forEach(dealership -> {
             dealership.getContacts().forEach(contact -> {
@@ -82,9 +82,9 @@ public class DealershipService {
     }
 
 
-    private List<Dealership> parseCsvFileToDealership(final MultipartFile file) {
+    private List<Dealership> parseCsvFileToDealership(long fileId) {
 
-        DataObject dataObject = fileRepository.findById(1L).get();
+        DataObject dataObject = fileRepository.findById(fileId).get();
         MultipartFile multipartFile = new MockMultipartFile(dataObject.getName(), dataObject.getFile());
         List<Dealership> dealershipList = new ArrayList<>();
 

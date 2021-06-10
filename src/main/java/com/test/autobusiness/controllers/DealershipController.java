@@ -26,8 +26,8 @@ public class DealershipController {
 
         long id = 1;
 
-        fileService.saveImportFile(multipartFile);
-        dealershipService.saveDealerships(multipartFile, id);
+        long fileId = fileService.saveImportFile(multipartFile);
+        dealershipService.saveDealerships(fileId, id);
     }
 
     @GetMapping(path = "/import-status")
