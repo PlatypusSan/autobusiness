@@ -8,6 +8,8 @@ import com.test.autobusiness.entities.DataObject;
 import com.test.autobusiness.entities.Dealership;
 import com.test.autobusiness.repositories.DealershipRepository;
 import com.test.autobusiness.repositories.FileRepository;
+import com.test.autobusiness.services.states.JobState;
+import com.test.autobusiness.services.states.State;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

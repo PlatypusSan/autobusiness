@@ -1,4 +1,4 @@
-package com.test.autobusiness.services;
+package com.test.autobusiness.services.states;
 
 public enum State {
     NOT_STARTED,
