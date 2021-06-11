@@ -47,7 +47,7 @@ public class DealershipService {
     private static List<String> headers;
 
     public JobState getJobState(long id) {
-        return jobStates.getOrDefault(id, JobState.NOT_STARTED);
+        return jobStates.getOrDefault(id, new JobState(State.NOT_STARTED));
     }
 
     public synchronized long incrementJobId() {
@@ -58,7 +58,7 @@ public class DealershipService {
     @Async
     public synchronized CompletableFuture<List<Dealership>> saveDealerships(long fileId) throws Exception {
 
-        jobStates.put(jobId, JobState.RUNNING);
+        jobStates.put(jobId, new JobState(State.RUNNING));
         log.info("IN saveDealership - thread with id {} started", jobId);
         Thread.sleep(5000);
         List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
@@ -68,7 +68,7 @@ public class DealershipService {
             });
         });
         dealershipRepository.saveAll(dealershipList);
-        jobStates.put(jobId, JobState.ENDED);
+        jobStates.put(jobId, new JobState(State.ENDED));
         log.info("IN saveDealership - thread with id {} ended", jobId);
 
         return CompletableFuture.completedFuture(dealershipList);
@@ -112,7 +112,8 @@ public class DealershipService {
     @Async
     public synchronized void writeCsvFileFromDealership() {
 
-        jobStates.put(jobId, JobState.RUNNING);
+
+        jobStates.put(jobId, new JobState(State.RUNNING));
         log.info("IN saveDealership - thread with id {} started", jobId);
         List<Dealership> dealershipList = dealershipRepository.findAll();
 
@@ -127,8 +128,7 @@ public class DealershipService {
 
             MultipartFile multipartFile = new MockMultipartFile(path.toString(), FileUtils.readFileToByteArray(path.toFile()));
             long fileId = fileService.saveImportFile(multipartFile);
-            JobState jobState = JobState.ENDED;
-            jobState.setFileId(fileId);
+            JobState jobState = new JobState(State.ENDED, fileId);
             jobStates.put(jobId, jobState);
             log.info("IN saveDealership - thread with id {} ended", jobId);
         } catch (Exception e) {
@@ -139,7 +139,6 @@ public class DealershipService {
     public Resource loadFileAsResource(Long fileId) throws FileNotFoundException {
 
         try {
-
             String fileName = fileRepository.findById(fileId)
                     .orElseThrow(() -> new FileNotFoundException("File not found: " + fileId))
                     .getName();

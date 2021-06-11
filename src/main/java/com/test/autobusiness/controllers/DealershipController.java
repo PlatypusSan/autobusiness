@@ -1,12 +1,12 @@
 package com.test.autobusiness.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.test.autobusiness.entities.dto.dealership.DealershipResponse;
 import com.test.autobusiness.entities.mappers.DealershipMapper;
 import com.test.autobusiness.services.DealershipService;
 import com.test.autobusiness.services.FileService;
 import com.test.autobusiness.services.JobState;
+import com.test.autobusiness.services.State;
+import com.test.autobusiness.util.ResponseHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/dealership")
@@ -31,45 +32,41 @@ public class DealershipController {
     private final DealershipService dealershipService;
     private final DealershipMapper dealershipMapper;
     private final FileService fileService;
+    private final ResponseHelper responseHelper;
 
     @PostMapping(path = "/import")
     public String importFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
-        ObjectNode objectNode = (new ObjectMapper()).createObjectNode();
-        objectNode.put("importJobId", dealershipService.incrementJobId());
-        long fileId = fileService.saveImportFile(multipartFile);
-        dealershipService.saveDealerships(fileId);
-        return objectNode.toPrettyString();
+        long jobId = dealershipService.incrementJobId();
+        dealershipService.saveDealerships(fileService.saveImportFile(multipartFile));
+        return responseHelper.getResponse("importJobId", jobId);
     }
 
     @GetMapping(path = "/import-status/{id}")
     public String getImportStatus(@PathVariable long id) {
 
-        return dealershipService.getJobState(id).name();
+        return responseHelper.getResponse("importJobState", dealershipService.getJobState(id).getState().name());
     }
 
     @GetMapping(path = "/export")
     public String exportFile() {
 
-        ObjectNode objectNode = (new ObjectMapper()).createObjectNode();
-        objectNode.put("importJobId", dealershipService.incrementJobId());
+        long jobId = dealershipService.incrementJobId();
         dealershipService.writeCsvFileFromDealership();
-        return objectNode.toPrettyString();
+        return responseHelper.getResponse("exportJobId", jobId);
     }
 
     @GetMapping(path = "/export-status/{id}")
-    public ResponseEntity<JobState> getExportStatus(@PathVariable long id) throws IOException {
+    public ResponseEntity<String> getExportStatus(@PathVariable long id) throws IOException {
 
         JobState jobState = dealershipService.getJobState(id);
-        if (jobState == JobState.ENDED) {
+        if (jobState.getState() == State.ENDED) {
             return ResponseEntity
                     .status(HttpStatus.SEE_OTHER)
                     .location(URI.create("http://localhost:9090/api/v1/dealership/export/" + id))
                     .build();
         } else {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(jobState);
+            return ResponseEntity.of(Optional.of(responseHelper.getResponse("exportJobState", jobState.getState().name())));
         }
     }
 

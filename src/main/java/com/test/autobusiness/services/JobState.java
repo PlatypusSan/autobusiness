@@ -1,14 +1,14 @@
 package com.test.autobusiness.services;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-public enum JobState {
-    NOT_STARTED,
-    RUNNING,
-    ENDED;
+@Data
+@AllArgsConstructor
+@RequiredArgsConstructor
+public class JobState {
 
-    @Getter
-    @Setter
+    private final State state;
     private long fileId;
 }
