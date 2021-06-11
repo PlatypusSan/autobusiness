@@ -81,6 +81,12 @@ public class DealershipController {
                 .body(resource);
     }
 
+    @GetMapping(path = "/{id}")
+    public DealershipResponse getDealership(@PathVariable long id) {
+
+        return dealershipMapper.dealershipToDealershipResponse(dealershipService.getDealership(id));
+    }
+
     @GetMapping
     public List<DealershipResponse> getAllDealerships() {
 

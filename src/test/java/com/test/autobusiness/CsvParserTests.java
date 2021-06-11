@@ -18,13 +18,6 @@ public class CsvParserTests {
     private DealershipMapper dealershipMapper;
 
     @Test
-    void fileWriting() {
-
-        dealershipService.writeCsvFileFromDealership();
-
-    }
-
-    @Test
     void fileIdFromProcessState() {
 
 

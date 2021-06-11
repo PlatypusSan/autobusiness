@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,6 +17,11 @@ import java.util.Optional;
 public class FileService {
 
     private final FileRepository fileRepository;
+
+    public DataObject getFile(long id) throws FileNotFoundException {
+
+        return fileRepository.findById(id).orElseThrow(FileNotFoundException::new);
+    }
 
     public long saveImportFile(MultipartFile file) {
 

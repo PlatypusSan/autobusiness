@@ -7,7 +7,6 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.test.autobusiness.entities.DataObject;
 import com.test.autobusiness.entities.Dealership;
 import com.test.autobusiness.repositories.DealershipRepository;
-import com.test.autobusiness.repositories.FileRepository;
 import com.test.autobusiness.services.states.JobState;
 import com.test.autobusiness.services.states.State;
 import lombok.Getter;
@@ -40,7 +39,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DealershipService {
 
     private final DealershipRepository dealershipRepository;
-    private final FileRepository fileRepository;
     private final FileService fileService;
     private ConcurrentHashMap<Long, JobState> jobStates = new ConcurrentHashMap<>();
     private long jobId;
@@ -91,9 +89,9 @@ public class DealershipService {
     }
 
 
-    private synchronized List<Dealership> parseCsvFileToDealership(long fileId) {
+    private synchronized List<Dealership> parseCsvFileToDealership(long fileId) throws FileNotFoundException {
 
-        DataObject dataObject = fileRepository.findById(fileId).get();
+        DataObject dataObject = fileService.getFile(fileId);
         MultipartFile multipartFile = new MockMultipartFile(dataObject.getName(), dataObject.getFile());
         List<Dealership> dealershipList = new ArrayList<>();
 
@@ -141,9 +139,7 @@ public class DealershipService {
     public Resource loadFileAsResource(Long fileId) throws FileNotFoundException {
 
         try {
-            String fileName = fileRepository.findById(fileId)
-                    .orElseThrow(() -> new FileNotFoundException("File not found: " + fileId))
-                    .getName();
+            String fileName = fileService.getFile(fileId).getName();
             return new UrlResource(Paths.get(fileName).toUri());
         } catch (MalformedURLException e) {
             throw new FileNotFoundException("File not found: " + fileId);
