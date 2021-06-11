@@ -38,13 +38,4 @@ public class Declaration extends AbstractEntity {
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Car> cars;
-
-    /*public Declaration(String phoneNumber, String description, String vendorName, String place, Date date) {
-        this.phoneNumber = phoneNumber;
-        this.description = description;
-        this.vendorName = vendorName;
-        this.place = place;
-        this.date = date;
-    }*/
-
 }

@@ -36,14 +36,15 @@ public class Dealership extends AbstractEntity implements Serializable {
     @CsvBindByPosition(position = 2)
     private String time;
 
-    @Type(type = "jsonb")
-    @CsvCustomBindByPosition(position = 4, converter = PropertyConverter.class)
-    @CsvBindByName(column = "property")
-    private String property;
-
     @CsvBindAndSplitByPosition(position = 3, elementType = Contact.class, splitOn = "\\|", converter = ContactConverter.class)
     @OneToMany(mappedBy = "dealership",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     private List<Contact> contacts;
+
+    @Type(type = "jsonb")
+    @CsvCustomBindByPosition(position = 4, converter = PropertyConverter.class)
+    @CsvBindByName(column = "property")
+    private String property;
+
 }

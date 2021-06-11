@@ -2,6 +2,8 @@ package com.test.autobusiness.services;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.test.autobusiness.entities.DataObject;
 import com.test.autobusiness.entities.Dealership;
 import com.test.autobusiness.repositories.DealershipRepository;
@@ -9,6 +11,9 @@ import com.test.autobusiness.repositories.FileRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.scheduling.annotation.Async;
@@ -17,9 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,14 +39,15 @@ public class DealershipService {
 
     private final DealershipRepository dealershipRepository;
     private final FileRepository fileRepository;
-    private ConcurrentHashMap<Long, ProcessState> jobStates = new ConcurrentHashMap<>();
+    private final FileService fileService;
+    private ConcurrentHashMap<Long, JobState> jobStates = new ConcurrentHashMap<>();
     private long jobId;
 
     @Getter
     private static List<String> headers;
 
-    public ProcessState getJobState(long id) {
-        return jobStates.getOrDefault(id, ProcessState.NOT_STARTED);
+    public JobState getJobState(long id) {
+        return jobStates.getOrDefault(id, JobState.NOT_STARTED);
     }
 
     public synchronized long incrementJobId() {
@@ -51,19 +58,17 @@ public class DealershipService {
     @Async
     public synchronized CompletableFuture<List<Dealership>> saveDealerships(long fileId) throws Exception {
 
-        jobStates.put(jobId, ProcessState.RUNNING);
+        jobStates.put(jobId, JobState.RUNNING);
         log.info("IN saveDealership - thread with id {} started", jobId);
         Thread.sleep(5000);
-        log.info("IN saveDealership - thread with id {} slept 5000 ms", jobId);
         List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
-        log.info("IN saveDealership - thread with id {} completed parsing", jobId);
         dealershipList.forEach(dealership -> {
             dealership.getContacts().forEach(contact -> {
                 contact.setDealership(dealership);
             });
         });
         dealershipRepository.saveAll(dealershipList);
-        jobStates.put(jobId, ProcessState.ENDED);
+        jobStates.put(jobId, JobState.ENDED);
         log.info("IN saveDealership - thread with id {} ended", jobId);
 
         return CompletableFuture.completedFuture(dealershipList);
@@ -101,5 +106,46 @@ public class DealershipService {
             e.printStackTrace();
         }
         return dealershipList;
+    }
+
+    @Transactional
+    @Async
+    public synchronized void writeCsvFileFromDealership() {
+
+        jobStates.put(jobId, JobState.RUNNING);
+        log.info("IN saveDealership - thread with id {} started", jobId);
+        List<Dealership> dealershipList = dealershipRepository.findAll();
+
+        try {
+            Thread.sleep(5000);
+            Path path = Paths.get("yourfile.csv");
+            Writer writer = new FileWriter(path.toString());
+
+            StatefulBeanToCsv<Dealership> beanToCsv = new StatefulBeanToCsvBuilder<Dealership>(writer).build();
+            beanToCsv.write(dealershipList);
+            writer.close();
+
+            MultipartFile multipartFile = new MockMultipartFile(path.toString(), FileUtils.readFileToByteArray(path.toFile()));
+            long fileId = fileService.saveImportFile(multipartFile);
+            JobState jobState = JobState.ENDED;
+            jobState.setFileId(fileId);
+            jobStates.put(jobId, jobState);
+            log.info("IN saveDealership - thread with id {} ended", jobId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Resource loadFileAsResource(Long fileId) throws FileNotFoundException {
+
+        try {
+
+            String fileName = fileRepository.findById(fileId)
+                    .orElseThrow(() -> new FileNotFoundException("File not found: " + fileId))
+                    .getName();
+            return new UrlResource(Paths.get(fileName).toUri());
+        } catch (MalformedURLException e) {
+            throw new FileNotFoundException("File not found: " + fileId);
+        }
     }
 }

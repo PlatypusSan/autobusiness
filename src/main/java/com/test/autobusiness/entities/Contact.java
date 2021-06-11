@@ -4,6 +4,7 @@ import com.test.autobusiness.entities.enums.ContactType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class Contact extends AbstractEntity implements Serializable {
     @Column
     private String value;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dealership_id")
     private Dealership dealership;
