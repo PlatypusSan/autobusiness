@@ -66,7 +66,7 @@ public class DealershipController {
         UUID jobId = dealershipService.generateJobId();
         dealershipService.writeCsvFileFromDealership();
         return ResponseEntity.ok()
-                .header("Import-Job", WebMvcLinkBuilder
+                .header("Export-Job", WebMvcLinkBuilder
                         .linkTo(WebMvcLinkBuilder
                                 .methodOn(DealershipController.class)
                                 .getExportStatus(jobId))
@@ -86,7 +86,7 @@ public class DealershipController {
                     .build();
         } else {
             return ResponseEntity.ok()
-                    .header("Import-Status", dealershipService.getJobState(id)
+                    .header("Export-Status", dealershipService.getJobState(id)
                             .getState()
                             .name())
                     .build();
