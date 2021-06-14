@@ -112,7 +112,6 @@ public class DealershipService {
     @Async
     public synchronized void writeCsvFileFromDealership() {
 
-
         jobStates.put(jobId, new JobState(State.RUNNING));
         log.info("IN saveDealership - thread with id {} started", jobId);
         List<Dealership> dealershipList = dealershipRepository.findAll();
