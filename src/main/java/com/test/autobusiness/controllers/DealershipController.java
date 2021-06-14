@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/v1/dealership")
@@ -35,7 +36,7 @@ public class DealershipController {
     @PostMapping(path = "/import")
     public ResponseEntity<String> importFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
-        long jobId = dealershipService.incrementJobId();
+        UUID jobId = dealershipService.generateJobId();
         dealershipService.saveDealerships(fileService.saveImportFile(multipartFile));
         return ResponseEntity
                 .ok()
@@ -49,7 +50,7 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/import-status/{id}")
-    public ResponseEntity<String> getImportStatus(@PathVariable long id) {
+    public ResponseEntity<String> getImportStatus(@PathVariable UUID id) {
 
         return ResponseEntity
                 .ok()
@@ -62,7 +63,7 @@ public class DealershipController {
     @GetMapping(path = "/export")
     public ResponseEntity<String> exportFile() throws IOException {
 
-        long jobId = dealershipService.incrementJobId();
+        UUID jobId = dealershipService.generateJobId();
         dealershipService.writeCsvFileFromDealership();
         return ResponseEntity.ok()
                 .header("Import-Job", WebMvcLinkBuilder
@@ -75,7 +76,7 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/export-status/{id}")
-    public ResponseEntity<String> getExportStatus(@PathVariable long id) throws IOException {
+    public ResponseEntity<String> getExportStatus(@PathVariable UUID id) throws IOException {
 
         JobState jobState = dealershipService.getJobState(id);
         if (jobState.getState() == State.ENDED) {
@@ -93,7 +94,7 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/export/{id}")
-    public ResponseEntity<Resource> getFile(@PathVariable long id) throws FileNotFoundException {
+    public ResponseEntity<Resource> getFile(@PathVariable UUID id) throws FileNotFoundException {
 
         long fileId = dealershipService.getJobState(id).getFileId();
         Resource resource = dealershipService.loadFileAsResource(fileId);

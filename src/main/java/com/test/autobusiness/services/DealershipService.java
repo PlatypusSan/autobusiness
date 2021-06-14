@@ -30,6 +30,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,18 +41,20 @@ public class DealershipService {
 
     private final DealershipRepository dealershipRepository;
     private final FileService fileService;
-    private ConcurrentHashMap<Long, JobState> jobStates = new ConcurrentHashMap<>();
-    private long jobId;
+    private ConcurrentHashMap<UUID, JobState> jobStates = new ConcurrentHashMap<>();
+    private UUID jobId;
 
     @Getter
     private static List<String> headers;
 
-    public JobState getJobState(long id) {
+    public JobState getJobState(UUID id) {
         return jobStates.getOrDefault(id, new JobState(State.NOT_STARTED));
     }
 
-    public synchronized long incrementJobId() {
-        return ++jobId;
+    public synchronized UUID generateJobId() {
+
+        jobId = UUID.randomUUID();
+        return jobId;
     }
 
     @Transactional
