@@ -1,7 +1,5 @@
 package com.test.autobusiness.services;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
 import com.test.autobusiness.entities.dto.car.CarResponse;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -42,21 +39,12 @@ public class CarService {
     private final CarMapper carMapper;
     private final CurrencyService currencyServiceImpl;
 
-    private Cache<Long, Car> cache = Caffeine.newBuilder()
-            .expireAfterAccess(Duration.ofMinutes(4))
-            .weigher((k, v) -> 5)
-            .maximumWeight(10)
-            .recordStats()
-            .build();
-
     @Value("${sorting.default-field}")
     private String defaultSortingField;
 
     @Value("${sorting.default-direction}")
     private String defaultSortingDirection;
-
     private CurrencyDTO currency;
-
 
     public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
         return carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnit, vendor);
@@ -92,14 +80,10 @@ public class CarService {
     @Transactional
     public Car getCar(long id) {
 
-        Car car = cache.get(id, k -> {
-            log.info("IN getCars - car with id: {} found", id);
-            return carRepository.findById(id)
-                    .orElseThrow(
-                            () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                                    "There is no car with id: " + id));
-        });
-        return car;
+        return carRepository.findById(id)
+                .orElseThrow(
+                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                                "There is no car with id: " + id));
     }
 
     @Transactional
@@ -110,7 +94,6 @@ public class CarService {
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                                 "There is no car with id: " + id)
                 );
-        cache.invalidate(car.getId());
         car.removeDetails();
         carRepository.save(car);
         carRepository.deleteById(id);
@@ -121,10 +104,7 @@ public class CarService {
     public CarResponse updateCar(CarUpdate carUpdate) {
 
         return carRepository.findById(carUpdate.getId())
-                .map(car -> {
-                    cache.invalidate(car.getId());
-                    return carMapper.updateCarFromUpdate(carUpdate, car);
-                })
+                .map(car -> carMapper.updateCarFromUpdate(carUpdate, car))
                 .map(carRepository::save)
                 .map(carMapper::carToCarResponse)
                 .orElseThrow(
@@ -137,12 +117,6 @@ public class CarService {
 
     public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
 
-        /*try {
-            JacksonMapper jacksonMapper = new JacksonMapper(carRepository);
-            jacksonMapper.writeFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         return pickCurrency(carRep, filterAndSortCars(carRep));
     }
 
