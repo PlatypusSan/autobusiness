@@ -6,10 +6,10 @@ import com.test.autobusiness.services.DealershipService;
 import com.test.autobusiness.services.FileService;
 import com.test.autobusiness.services.states.JobState;
 import com.test.autobusiness.services.states.State;
-import com.test.autobusiness.util.ResponseHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/dealership")
@@ -32,28 +31,47 @@ public class DealershipController {
     private final DealershipService dealershipService;
     private final DealershipMapper dealershipMapper;
     private final FileService fileService;
-    private final ResponseHelper responseHelper;
 
     @PostMapping(path = "/import")
-    public String importFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
+    public ResponseEntity<String> importFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
         long jobId = dealershipService.incrementJobId();
         dealershipService.saveDealerships(fileService.saveImportFile(multipartFile));
-        return responseHelper.getResponse("importJobId", jobId);
+        return ResponseEntity
+                .ok()
+                .header("Import-Job", WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder
+                                .methodOn(DealershipController.class)
+                                .getImportStatus(jobId))
+                        .withSelfRel()
+                        .getHref())
+                .build();
     }
 
     @GetMapping(path = "/import-status/{id}")
-    public String getImportStatus(@PathVariable long id) {
+    public ResponseEntity<String> getImportStatus(@PathVariable long id) {
 
-        return responseHelper.getResponse("importJobState", dealershipService.getJobState(id).getState().name());
+        return ResponseEntity
+                .ok()
+                .header("Import-Status", dealershipService.getJobState(id)
+                        .getState()
+                        .name())
+                .build();
     }
 
     @GetMapping(path = "/export")
-    public String exportFile() {
+    public ResponseEntity<String> exportFile() throws IOException {
 
         long jobId = dealershipService.incrementJobId();
         dealershipService.writeCsvFileFromDealership();
-        return responseHelper.getResponse("exportJobId", jobId);
+        return ResponseEntity.ok()
+                .header("Import-Job", WebMvcLinkBuilder
+                        .linkTo(WebMvcLinkBuilder
+                                .methodOn(DealershipController.class)
+                                .getExportStatus(jobId))
+                        .withSelfRel()
+                        .getHref())
+                .build();
     }
 
     @GetMapping(path = "/export-status/{id}")
@@ -66,7 +84,11 @@ public class DealershipController {
                     .location(URI.create("http://localhost:9090/api/v1/dealership/export/" + id))
                     .build();
         } else {
-            return ResponseEntity.of(Optional.of(responseHelper.getResponse("exportJobState", jobState.getState().name())));
+            return ResponseEntity.ok()
+                    .header("Import-Status", dealershipService.getJobState(id)
+                            .getState()
+                            .name())
+                    .build();
         }
     }
 
