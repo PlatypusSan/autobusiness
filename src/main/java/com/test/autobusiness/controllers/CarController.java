@@ -7,11 +7,16 @@ import com.test.autobusiness.entities.dto.car.CarUpdate;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
+import com.test.autobusiness.services.ExportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,6 +26,7 @@ public class CarController {
 
     private final CarService carService;
     private final CarMapper carMapper;
+    private final ExportService exportService;
 
     @GetMapping(path = "/{id}")
     public CarResponse getCar(@PathVariable long id) {
@@ -31,7 +37,8 @@ public class CarController {
     @PostMapping(path = "all")
     public List<CarResponse> getCars(@RequestBody CarRepresentation carRepresentation) {
 
-        return carService.getFilteredCars(carRepresentation);
+        List<Car> filteredCars = carService.getFilteredCars(carRepresentation);
+        return carService.pickCurrency(carRepresentation, filteredCars);
     }
 
     @PostMapping()
@@ -53,5 +60,16 @@ public class CarController {
 
         carService.deleteCar(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(path = "/export")
+    public ResponseEntity<Resource> exportFile(@RequestBody CarRepresentation carRepresentation) throws IOException {
+
+        Resource resource = exportService.getExportFile(carRepresentation);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 }

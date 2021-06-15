@@ -115,10 +115,10 @@ public class CarService {
     }
 
 
-    public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
+    /*public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
 
         return pickCurrency(carRep, filterAndSortCars(carRep));
-    }
+    }*/
 
     private Pageable configurePage(CarRepresentation carRep) {
 
@@ -133,7 +133,7 @@ public class CarService {
                                 : carRep.getSortingField().getSortingFieldName()));
     }
 
-    private List<Car> filterAndSortCars(CarRepresentation carRep) {
+    public List<Car> getFilteredCars(CarRepresentation carRep) {
 
         Pageable pageConfig = configurePage(carRep);
 
