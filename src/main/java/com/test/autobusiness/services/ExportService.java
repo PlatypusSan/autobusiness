@@ -1,6 +1,6 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.entities.dto.car.CarResponse;
+import com.test.autobusiness.dto.car.CarResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 

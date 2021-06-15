@@ -1,5 +1,6 @@
 package com.test.autobusiness.entities.filters;
 
+import com.test.autobusiness.dto.CarFilterDTO;
 import com.test.autobusiness.entities.enums.SortingField;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;

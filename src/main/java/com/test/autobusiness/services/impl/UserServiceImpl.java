@@ -1,8 +1,8 @@
 package com.test.autobusiness.services.impl;
 
+import com.test.autobusiness.dto.AuthenticationRequest;
 import com.test.autobusiness.entities.Role;
 import com.test.autobusiness.entities.User;
-import com.test.autobusiness.entities.dto.AuthenticationRequest;
 import com.test.autobusiness.exceptions.JwtAuthenticationException;
 import com.test.autobusiness.repositories.RoleRepository;
 import com.test.autobusiness.repositories.UserRepository;

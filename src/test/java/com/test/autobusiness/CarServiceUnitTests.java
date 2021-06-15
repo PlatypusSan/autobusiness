@@ -1,16 +1,16 @@
 package com.test.autobusiness;
 
+import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.entities.Car;
-import com.test.autobusiness.entities.dto.car.CarResponse;
 import com.test.autobusiness.entities.filters.CarRepresentation;
-import com.test.autobusiness.entities.mappers.CarMapper;
-import com.test.autobusiness.entities.mappers.DirectoryMapper;
+import com.test.autobusiness.mappers.CarMapper;
+import com.test.autobusiness.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
 import com.test.autobusiness.services.ExportService;
-import com.test.autobusiness.util.JacksonCarMapper;
+import com.test.autobusiness.utils.JacksonCarMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

@@ -1,6 +1,6 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.dto.AuthenticationRequest;
+import com.test.autobusiness.dto.AuthenticationRequest;
 import com.test.autobusiness.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

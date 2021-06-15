@@ -1,8 +1,8 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.dto.car.CarResponse;
-import com.test.autobusiness.entities.dto.directory.VendorDTO;
-import com.test.autobusiness.entities.mappers.CarMapper;
+import com.test.autobusiness.dto.car.CarResponse;
+import com.test.autobusiness.dto.directory.VendorDTO;
+import com.test.autobusiness.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

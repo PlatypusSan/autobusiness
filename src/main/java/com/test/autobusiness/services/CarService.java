@@ -1,15 +1,15 @@
 package com.test.autobusiness.services;
 
+import com.test.autobusiness.dto.car.CarResponse;
+import com.test.autobusiness.dto.car.CarUpdate;
+import com.test.autobusiness.dto.currency.CurrencyDTO;
+import com.test.autobusiness.dto.directory.VendorDTO;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.dto.car.CarResponse;
-import com.test.autobusiness.entities.dto.car.CarUpdate;
-import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
-import com.test.autobusiness.entities.dto.directory.VendorDTO;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
-import com.test.autobusiness.entities.mappers.CarMapper;
-import com.test.autobusiness.entities.mappers.DirectoryMapper;
+import com.test.autobusiness.mappers.CarMapper;
+import com.test.autobusiness.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import lombok.RequiredArgsConstructor;

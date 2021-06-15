@@ -1,7 +1,7 @@
 package com.test.autobusiness.services;
 
+import com.test.autobusiness.dto.AuthenticationRequest;
 import com.test.autobusiness.entities.User;
-import com.test.autobusiness.entities.dto.AuthenticationRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

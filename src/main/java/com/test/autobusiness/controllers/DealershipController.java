@@ -1,7 +1,7 @@
 package com.test.autobusiness.controllers;
 
-import com.test.autobusiness.entities.dto.dealership.DealershipResponse;
-import com.test.autobusiness.entities.mappers.DealershipMapper;
+import com.test.autobusiness.dto.dealership.DealershipResponse;
+import com.test.autobusiness.mappers.DealershipMapper;
 import com.test.autobusiness.services.DealershipService;
 import com.test.autobusiness.services.FileService;
 import com.test.autobusiness.services.states.JobState;

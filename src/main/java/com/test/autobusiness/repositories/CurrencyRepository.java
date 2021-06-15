@@ -1,6 +1,6 @@
 package com.test.autobusiness.repositories;
 
-import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
+import com.test.autobusiness.dto.currency.CurrencyDTO;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

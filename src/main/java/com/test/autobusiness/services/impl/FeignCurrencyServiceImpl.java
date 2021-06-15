@@ -1,7 +1,7 @@
 package com.test.autobusiness.services.impl;
 
-import com.test.autobusiness.entities.dto.currency.CurrencyDTO;
-import com.test.autobusiness.services.CurrencyFeignClient;
+import com.test.autobusiness.clients.CurrencyFeignClient;
+import com.test.autobusiness.dto.currency.CurrencyDTO;
 import com.test.autobusiness.services.CurrencyService;
 import org.springframework.stereotype.Service;
 
