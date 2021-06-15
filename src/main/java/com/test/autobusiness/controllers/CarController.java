@@ -7,7 +7,6 @@ import com.test.autobusiness.entities.dto.car.CarUpdate;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.entities.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
-import com.test.autobusiness.services.ExportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -26,7 +25,6 @@ public class CarController {
 
     private final CarService carService;
     private final CarMapper carMapper;
-    private final ExportService exportService;
 
     @GetMapping(path = "/{id}")
     public CarResponse getCar(@PathVariable long id) {
@@ -65,7 +63,7 @@ public class CarController {
     @PostMapping(path = "/export")
     public ResponseEntity<Resource> exportFile(@RequestBody CarRepresentation carRepresentation) throws IOException {
 
-        Resource resource = exportService.getExportFile(carRepresentation);
+        Resource resource = carService.getExportFile(carRepresentation);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)

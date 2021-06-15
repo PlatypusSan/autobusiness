@@ -1,9 +1,6 @@
 package com.test.autobusiness.services.impl;
 
-import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.dto.car.CarResponse;
-import com.test.autobusiness.entities.filters.CarRepresentation;
-import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.ExportService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
@@ -22,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExportServiceImpl implements ExportService {
 
-    private final CarService carService;
     private Font headerFont;
     private CellStyle headerCellStyle;
     private Workbook workbook;
@@ -30,10 +26,8 @@ public class ExportServiceImpl implements ExportService {
     private static final String[] COLUMNS = new String[]{"Id", "Brand", "Model", "Generation", "Body",
             "Drive Unit", "Transmission", "Engine Type", "Currency", "Engine Volume", "Age", "Mileage", "Price"};
 
-    public Resource getExportFile(CarRepresentation carRepresentation) throws IOException {
+    public Resource getExportFile(List<CarResponse> carResponseList) throws IOException {
 
-        List<Car> filteredCars = carService.getFilteredCars(carRepresentation);
-        List<CarResponse> carResponseList = carService.pickCurrency(carRepresentation, filteredCars);
         workbook = new XSSFWorkbook();
         Sheet carsSheet = workbook.createSheet("Cars");
 
@@ -68,15 +62,11 @@ public class ExportServiceImpl implements ExportService {
             carsSheet.autoSizeColumn(i);
         }
 
-        try {
-            File file = new File("cars.xlsx");
-            FileOutputStream fileOut = new FileOutputStream(file);
-            workbook.write(fileOut);
-            fileOut.close();
-            return new UrlResource(Paths.get(file.toURI()).toUri());
-        } catch (IOException e) {
-            throw new IOException();
-        }
+        File file = new File("cars.xlsx");
+        FileOutputStream fileOut = new FileOutputStream(file);
+        workbook.write(fileOut);
+        fileOut.close();
+        return new UrlResource(Paths.get(file.toURI()).toUri());
     }
 
     private void configureStyle() {

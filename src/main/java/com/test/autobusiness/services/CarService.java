@@ -15,6 +15,7 @@ import com.test.autobusiness.repositories.DetailsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +40,8 @@ public class CarService {
     private final DetailsRepository detailsRepository;
     private final CarMapper carMapper;
     private final CurrencyService currencyServiceImpl;
+    private final ExportService exportService;
+
 
     @Value("${sorting.default-field}")
     private String defaultSortingField;
@@ -114,12 +118,6 @@ public class CarService {
                 );
     }
 
-
-    /*public List<CarResponse> getFilteredCars(CarRepresentation carRep) {
-
-        return pickCurrency(carRep, filterAndSortCars(carRep));
-    }*/
-
     private Pageable configurePage(CarRepresentation carRep) {
 
         return PageRequest.of(
@@ -175,7 +173,12 @@ public class CarService {
                         carResponse.setPrice(calculatePrice(carResponse.getPrice(), carRep.getCurrency()));
                     });
         }
-
         return resultResponse;
+    }
+
+    public Resource getExportFile(CarRepresentation carRepresentation) throws IOException {
+
+        List<CarResponse> carResponseList = pickCurrency(carRepresentation, getFilteredCars(carRepresentation));
+        return exportService.getExportFile(carResponseList);
     }
 }

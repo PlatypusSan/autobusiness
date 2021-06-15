@@ -1,13 +1,14 @@
 package com.test.autobusiness.services;
 
-import com.test.autobusiness.entities.filters.CarRepresentation;
+import com.test.autobusiness.entities.dto.car.CarResponse;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public interface ExportService {
 
-    Resource getExportFile(CarRepresentation carRepresentation) throws IOException;
+    Resource getExportFile(List<CarResponse> carResponses) throws IOException;
 }

@@ -9,6 +9,7 @@ import com.test.autobusiness.repositories.CarRepository;
 import com.test.autobusiness.repositories.DetailsRepository;
 import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
+import com.test.autobusiness.services.ExportService;
 import com.test.autobusiness.util.JacksonCarMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ public class CarServiceUnitTests {
     @Spy
     private CarMapper carMapper;
 
+    @Spy
+    private ExportService exportService;
+
     @Autowired
     public CarServiceUnitTests(JacksonCarMapper jacksonCarMapper, CurrencyService currencyServiceImpl) {
         this.jacksonCarMapper = jacksonCarMapper;
@@ -59,7 +63,8 @@ public class CarServiceUnitTests {
                 directoryMapper,
                 detailsRepository,
                 carMapper,
-                currencyServiceImpl
+                currencyServiceImpl,
+                exportService
         );
     }
 
