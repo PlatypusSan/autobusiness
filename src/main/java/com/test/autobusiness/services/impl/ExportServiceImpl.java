@@ -23,43 +23,32 @@ import java.util.List;
 public class ExportServiceImpl implements ExportService {
 
     private final CarService carService;
+    private Font headerFont;
+    private CellStyle headerCellStyle;
+    private Workbook workbook;
 
-    private static final String[] columns = new String[]{"Id", "Brand", "Model", "Generation", "Body",
+    private static final String[] COLUMNS = new String[]{"Id", "Brand", "Model", "Generation", "Body",
             "Drive Unit", "Transmission", "Engine Type", "Currency", "Engine Volume", "Age", "Mileage", "Price"};
-
 
     public Resource getExportFile(CarRepresentation carRepresentation) throws IOException {
 
         List<Car> filteredCars = carService.getFilteredCars(carRepresentation);
         List<CarResponse> carResponseList = carService.pickCurrency(carRepresentation, filteredCars);
+        workbook = new XSSFWorkbook();
+        Sheet carsSheet = workbook.createSheet("Cars");
 
-        Workbook workbook = new XSSFWorkbook();
+        configureStyle();
 
-        Sheet sheet = workbook.createSheet("Cars");
-
-        Font headerFont = workbook.createFont();
-        headerFont.setBold(true);
-        headerFont.setFontHeightInPoints((short) 14);
-        headerFont.setColor(IndexedColors.GREY_80_PERCENT.getIndex());
-
-        CellStyle headerCellStyle = workbook.createCellStyle();
-        headerCellStyle.setFont(headerFont);
-        headerCellStyle.setBorderTop(BorderStyle.THICK);
-        headerCellStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
-        headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        headerCellStyle.setBorderBottom(BorderStyle.THICK);
-
-        Row headerRow = sheet.createRow(0);
-        for (int i = 0; i < columns.length; i++) {
+        Row headerRow = carsSheet.createRow(0);
+        for (int i = 0; i < COLUMNS.length; i++) {
             Cell cell = headerRow.createCell(i);
-            cell.setCellValue(columns[i]);
+            cell.setCellValue(COLUMNS[i]);
             cell.setCellStyle(headerCellStyle);
         }
 
         int rowNum = 1;
-
         for (CarResponse carResponse : carResponseList) {
-            Row row = sheet.createRow(rowNum++);
+            Row row = carsSheet.createRow(rowNum++);
             row.createCell(0).setCellValue(carResponse.getId());
             row.createCell(1).setCellValue(carResponse.getBrand());
             row.createCell(2).setCellValue(carResponse.getModel());
@@ -75,20 +64,33 @@ public class ExportServiceImpl implements ExportService {
             row.createCell(12).setCellValue(carResponse.getPrice());
         }
 
-        for (int i = 0; i < columns.length; i++) {
-            sheet.autoSizeColumn(i);
+        for (int i = 0; i < COLUMNS.length; i++) {
+            carsSheet.autoSizeColumn(i);
         }
 
         try {
-
-            File file = new File("car.xlsx");
+            File file = new File("cars.xlsx");
             FileOutputStream fileOut = new FileOutputStream(file);
             workbook.write(fileOut);
             fileOut.close();
-
             return new UrlResource(Paths.get(file.toURI()).toUri());
         } catch (IOException e) {
             throw new IOException();
         }
+    }
+
+    private void configureStyle() {
+
+        headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerFont.setFontHeightInPoints((short) 14);
+        headerFont.setColor(IndexedColors.GREY_80_PERCENT.getIndex());
+
+        headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+        headerCellStyle.setBorderTop(BorderStyle.THICK);
+        headerCellStyle.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        headerCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerCellStyle.setBorderBottom(BorderStyle.THICK);
     }
 }
