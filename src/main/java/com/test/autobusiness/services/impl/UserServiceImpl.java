@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
+
         User result = userRepository.findByUsername(username)
                 .orElseThrow(() -> new JwtAuthenticationException("No user with such username"));
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
@@ -93,13 +94,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Long id) {
-        User result = userRepository.findById(id).orElse(null);
 
-        if (result == null) {
-            log.warn("IN findById - no user found by id: {}", id);
-            return null;
-        }
-
+        User result = userRepository.findById(id).orElseThrow(
+                () -> new JwtAuthenticationException("No user found by id: " + id));
         log.info("IN findById - user: {} found by id: {}", result, id);
         return result;
     }
