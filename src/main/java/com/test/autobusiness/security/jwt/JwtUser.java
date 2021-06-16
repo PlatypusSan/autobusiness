@@ -28,10 +28,6 @@ public class JwtUser implements UserDetails {
         this.enabled = enabled;
     }
 
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
     @JsonIgnore
     public Long getId() {
         return id;
@@ -69,6 +65,10 @@ public class JwtUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override

@@ -19,12 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExportServiceImpl implements ExportService {
 
+    private static final String[] COLUMNS = new String[]{"Id", "Brand", "Model", "Generation", "Body",
+            "Drive Unit", "Transmission", "Engine Type", "Currency", "Engine Volume", "Age", "Mileage", "Price"};
     private Font headerFont;
     private CellStyle headerCellStyle;
     private Workbook workbook;
-
-    private static final String[] COLUMNS = new String[]{"Id", "Brand", "Model", "Generation", "Body",
-            "Drive Unit", "Transmission", "Engine Type", "Currency", "Engine Volume", "Age", "Mileage", "Price"};
 
     public Resource getExportFile(List<CarResponse> carResponseList) throws IOException {
 

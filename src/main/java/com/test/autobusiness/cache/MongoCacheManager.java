@@ -7,8 +7,8 @@ import java.util.*;
 
 public class MongoCacheManager extends AbstractCacheManager {
 
-    private List<Cache> caches = new ArrayList<>();
-    private Map<Object, MongoCache> cacheMap = new HashMap<>();
+    private final List<Cache> caches = new ArrayList<>();
+    private final Map<Object, MongoCache> cacheMap = new HashMap<>();
 
     public void putCache(MongoCache cache) {
         cacheMap.put(cache.getName(), cache);

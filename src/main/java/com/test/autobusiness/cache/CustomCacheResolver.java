@@ -16,13 +16,13 @@ import java.util.*;
 @Component
 public class CustomCacheResolver implements CacheResolver {
 
+    private final Set<CacheManager> cacheManagers;
+
     @Setter(onMethod = @__({@Autowired}))
     private MongoTemplate mongoTemplate;
 
     @Setter(onMethod = @__({@Autowired}))
     private MongoCacheManager mongoCacheManager;
-
-    private Set<CacheManager> cacheManagers;
     private Collection<Cache> result;
 
     public CustomCacheResolver(Set<CacheManager> cacheManagers) {

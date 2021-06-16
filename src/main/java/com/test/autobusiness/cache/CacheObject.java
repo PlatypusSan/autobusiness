@@ -6,8 +6,8 @@ import java.util.Objects;
 public class CacheObject {
 
     @Id
-    private Object id;
-    private Object cacheValue;
+    private final Object id;
+    private final Object cacheValue;
 
     public CacheObject(Object id, Object cacheValue) {
         this.id = id;

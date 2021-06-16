@@ -31,9 +31,9 @@ import static org.mockito.Mockito.atMostOnce;
 @SpringBootTest
 public class CarServiceUnitTests {
 
-    private CarService carService;
     private final JacksonCarMapper jacksonCarMapper;
     private final CurrencyService currencyServiceImpl;
+    private CarService carService;
 
     @Value("${brand}")
     private String brand;

@@ -11,7 +11,7 @@ public enum SortingField {
     MILE_AGE("mileAge"),
     PRICE("price");
 
-    private String sortingFieldName;
+    private final String sortingFieldName;
 
     SortingField(String sortingField) {
         this.sortingFieldName = sortingField;

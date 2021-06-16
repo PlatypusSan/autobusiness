@@ -29,11 +29,11 @@ public class CarControllerIntegrationTests {
 
     private static MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
     @ClassRule
     private static String token;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
     @Value("${auth-json}")
     private String authJson;

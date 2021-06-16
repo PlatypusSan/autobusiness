@@ -13,6 +13,9 @@ import java.util.Set;
 @Builder
 public class Car extends AbstractEntity {
 
+    @Column
+    boolean deleted;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "declaration_id")
     private Declaration declaration;
@@ -25,39 +28,26 @@ public class Car extends AbstractEntity {
 
     @Column
     private String brand;
-
     @Column
     private String model;
-
     @Column
     private String generation;
-
     @Column
     private String body;
-
     @Column
     private String driveUnit;
-
     @Column
     private String transmission;
-
     @Column
     private String engineType;
-
     @Column
     private double engineVolume;
-
     @Column
     private int age;
-
     @Column
     private int mileAge;
-
     @Column
     private int price;
-
-    @Column
-    boolean deleted;
 
     public void removeDetails() {
         this.details.clear();

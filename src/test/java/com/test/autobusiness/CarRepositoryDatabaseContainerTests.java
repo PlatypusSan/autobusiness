@@ -30,25 +30,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @TestPropertySource("/application-test.yaml")
 public class CarRepositoryDatabaseContainerTests {
 
+    @ClassRule
+    @Container
+    private static final AutobusinessPostgresqlContainer postgreSQLContainer = AutobusinessPostgresqlContainer.postgresqlContainer();
+
     @Autowired
     private CarRepository carRepository;
 
     @Value("${username}")
     private String username;
-
-    @ClassRule
-    @Container
-    private static final AutobusinessPostgresqlContainer postgreSQLContainer = AutobusinessPostgresqlContainer.postgresqlContainer();
-
-    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues.of(
-                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
-                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
-                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
-            ).applyTo(configurableApplicationContext.getEnvironment());
-        }
-    }
 
     @Test
     void givenPostgresContainer_whenGetPostgresUsername_thenUsernameIsCorrect() {
@@ -86,5 +76,15 @@ public class CarRepositoryDatabaseContainerTests {
 
         //then
         assertEquals(car, carToCompare);
+    }
+
+    static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
+            TestPropertyValues.of(
+                    "spring.datasource.url=" + postgreSQLContainer.getJdbcUrl(),
+                    "spring.datasource.username=" + postgreSQLContainer.getUsername(),
+                    "spring.datasource.password=" + postgreSQLContainer.getPassword()
+            ).applyTo(configurableApplicationContext.getEnvironment());
+        }
     }
 }

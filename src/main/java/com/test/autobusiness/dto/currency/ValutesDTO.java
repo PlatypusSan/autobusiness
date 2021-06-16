@@ -11,7 +11,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ValutesDTO {
 
-    private Map<String, Valute> properties = new HashMap<>();
+    private final Map<String, Valute> properties = new HashMap<>();
 
     @JsonAnySetter
     public void add(String key, Valute value) {
