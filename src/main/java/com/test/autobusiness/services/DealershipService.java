@@ -62,7 +62,6 @@ public class DealershipService {
 
         jobStates.put(jobId, new JobState(State.RUNNING));
         log.info("IN saveDealership - thread with id {} started", jobId);
-        Thread.sleep(5000);
         List<Dealership> dealershipList = parseCsvFileToDealership(fileId);
         dealershipList.forEach(dealership -> {
             dealership.getContacts().forEach(contact -> {
@@ -119,7 +118,6 @@ public class DealershipService {
         List<Dealership> dealershipList = dealershipRepository.findAll();
 
         try {
-            Thread.sleep(5000);
             Path path = Paths.get("yourfile.csv");
             Writer writer = new FileWriter(path.toString());
 

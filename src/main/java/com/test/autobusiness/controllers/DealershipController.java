@@ -8,6 +8,7 @@ import com.test.autobusiness.services.states.JobState;
 import com.test.autobusiness.services.states.State;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +30,8 @@ import java.util.UUID;
 @Slf4j
 public class DealershipController {
 
+    @Value("${url.controller.dealership-export}")
+    private String exportUrl;
     private final DealershipService dealershipService;
     private final DealershipMapper dealershipMapper;
     private final FileService fileService;
@@ -82,7 +85,7 @@ public class DealershipController {
         if (jobState.getState() == State.ENDED) {
             return ResponseEntity
                     .status(HttpStatus.SEE_OTHER)
-                    .location(URI.create("http://localhost:9090/api/v1/dealership/export/" + id))
+                    .location(URI.create(exportUrl + id))
                     .build();
         } else {
             return ResponseEntity.ok()

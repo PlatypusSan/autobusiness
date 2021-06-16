@@ -60,3 +60,6 @@ currency:
 sorting:
   default-field: brand
   default-direction: ASC
+url:
+  controller:
+    dealership-export: http://localhost:9090/api/v1/dealership/export/

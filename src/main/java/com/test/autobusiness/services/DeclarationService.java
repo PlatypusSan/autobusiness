@@ -4,7 +4,7 @@ import com.test.autobusiness.dto.declaration.DeclarationUpdate;
 import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.mappers.DeclarationMapper;
 import com.test.autobusiness.repositories.DeclarationRepository;
-import com.test.autobusiness.repositories.DetailsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,25 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class DeclarationService {
 
     private final DeclarationRepository declarationRepository;
-
-    private final DetailsRepository detailsRepository;
-
     private final CarService carService;
-
     private final DeclarationMapper declarationMapper;
-
-    public DeclarationService(DeclarationRepository declarationRepository,
-                              DetailsRepository detailsRepository,
-                              CarService carService,
-                              DeclarationMapper declarationMapper) {
-        this.declarationRepository = declarationRepository;
-        this.detailsRepository = detailsRepository;
-        this.carService = carService;
-        this.declarationMapper = declarationMapper;
-    }
 
     public Declaration getDeclaration(long id) {
 

@@ -15,18 +15,15 @@ import javax.validation.constraints.Min;
 @Builder
 public class CarRepresentation {
 
-    CarFilterDTO carFilterDTO;
-
     @Min(0)
     int page;
 
     @Min(0)
     @Max(50)
     int pageSize;
-
     String currency;
-
     SortingField sortingField;
-
     Sort.Direction sortingOrder;
+    CarFilterDTO carFilterDTO;
+
 }
