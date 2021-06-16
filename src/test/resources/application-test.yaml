@@ -1,0 +1,19 @@
+containers:
+  postgres:
+    name: autobusiness
+    version: postgres:11.1
+    port: 55050
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+test-data:
+  controller:
+    auth-json: { "password\": \"test\", \"username\": \"goose" }
+    url:
+      login: /api/v1/auth/login
+      get-car: /api/v1/car/
+      car-id: 4
+  service:
+    brand:
+    currency:

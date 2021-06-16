@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -33,6 +34,15 @@ public class CarServiceUnitTests {
     private CarService carService;
     private final JacksonCarMapper jacksonCarMapper;
     private final CurrencyService currencyServiceImpl;
+
+    @Value("${brand}")
+    private String brand;
+
+    @Value("${currency}")
+    private String currency;
+
+    @Value("${car-id}")
+    private long carId;
 
     @Mock
     private CarRepository carRepository;
@@ -78,26 +88,23 @@ public class CarServiceUnitTests {
     void givenCarAndMockedRepo_whenCarServiceReturnsCar_thenBrandIsEqualToGiven() {
 
         //given
-        final String CAR_BRAND = "BMW";
-        final long CAR_ID = 4;
-
         Car car = Car
                 .builder()
-                .brand(CAR_BRAND)
+                .brand(brand)
                 .build();
         Mockito
-                .when(carRepository.findById(CAR_ID))
+                .when(carRepository.findById(carId))
                 .thenReturn(Optional.of(car));
         ArgumentCaptor<Long> arg = ArgumentCaptor.forClass(Long.class);
 
         //when
-        Car carResult = carService.getCar(CAR_ID);
+        Car carResult = carService.getCar(carId);
 
         //then
         Mockito
                 .verify(carRepository, atMostOnce()).findById(arg.capture());
-        assertThat(carResult.getBrand()).isEqualTo(CAR_BRAND);
-        assertEquals(CAR_ID, arg.getValue());
+        assertThat(carResult.getBrand()).isEqualTo(brand);
+        assertEquals(carId, arg.getValue());
     }
 
     @Test
@@ -107,7 +114,7 @@ public class CarServiceUnitTests {
         List<Car> carList = jacksonCarMapper.getCars();
         CarRepresentation carRepresentation = CarRepresentation
                 .builder()
-                .currency("EUR")
+                .currency(currency)
                 .build();
 
         //when

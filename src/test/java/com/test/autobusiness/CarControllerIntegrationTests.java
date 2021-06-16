@@ -6,21 +6,25 @@ import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@TestPropertySource("/application-test.yaml")
 public class CarControllerIntegrationTests {
 
     private static MockMvc mockMvc;
@@ -31,7 +35,17 @@ public class CarControllerIntegrationTests {
     @ClassRule
     private static String token;
 
-    private final String AUTH_JSON = "{\"password\": \"test\", \"username\": \"goose\"}";
+    @Value("${auth-json}")
+    private String authJson;
+
+    @Value("${login}")
+    private String loginUrl;
+
+    @Value("${get-car}")
+    private String getCarUrl;
+
+    @Value("${car-id}")
+    private long carId;
 
     @Autowired
     public CarControllerIntegrationTests(MockMvc mockMvc) {
@@ -41,9 +55,9 @@ public class CarControllerIntegrationTests {
     @BeforeEach
     private void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
-        String tokenJson = mockMvc.perform(post("/api/v1/auth/login")
+        String tokenJson = mockMvc.perform(post(loginUrl)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(AUTH_JSON))
+                .content(authJson))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
                 .getResponse()
@@ -63,7 +77,7 @@ public class CarControllerIntegrationTests {
     void givenMockMvc_whenGetCarsFromController_thenCarsAreValid() throws Exception {
 
         //given
-        String carJson = mockMvc.perform(get("/api/v1/car/4")
+        String carJson = mockMvc.perform(get(getCarUrl + carId)
                 .header(HttpHeaders.AUTHORIZATION, token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn()
@@ -75,8 +89,6 @@ public class CarControllerIntegrationTests {
         ObjectNode carNode = mapper.readValue(carJson, ObjectNode.class);
 
         //then
-        assertEquals(4, Integer.parseInt(carNode.get("id").asText()));
-        assertNotNull(carNode.get("brand"));
-        assertNotEquals("", carNode.get("id"));
+        assertEquals(carId, Integer.parseInt(carNode.get("id").asText()));
     }
 }

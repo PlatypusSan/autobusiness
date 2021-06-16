@@ -6,6 +6,7 @@ import com.test.autobusiness.repositories.CarRepository;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
@@ -13,6 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -25,10 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Testcontainers
 @ContextConfiguration(initializers = {CarRepositoryDatabaseContainerTests.Initializer.class})
 @SpringBootTest
+@TestPropertySource("/application-test.yaml")
 public class CarRepositoryDatabaseContainerTests {
 
     @Autowired
     private CarRepository carRepository;
+
+    @Value("${username}")
+    private String username;
 
     @ClassRule
     @Container
@@ -47,7 +53,7 @@ public class CarRepositoryDatabaseContainerTests {
     @Test
     void givenPostgresContainer_whenGetPostgresUsername_thenUsernameIsCorrect() {
 
-        assertEquals("postgres", postgreSQLContainer.getUsername());
+        assertEquals(username, postgreSQLContainer.getUsername());
     }
 
     @Test

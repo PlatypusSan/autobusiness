@@ -1,14 +1,19 @@
 package com.test.autobusiness.containers;
 
+import com.test.autobusiness.util.PropertiesLoader;
 import org.testcontainers.containers.PostgreSQLContainer;
+
+import java.util.Properties;
 
 public class AutobusinessPostgresqlContainer extends PostgreSQLContainer<AutobusinessPostgresqlContainer> {
 
     private static AutobusinessPostgresqlContainer container;
-    private static final String IMAGE_VERSION = "postgres:11.1";
-    private static final String DB_NAME = "autobusiness";
-    private static final String DB_USERNAME = "postgres";
-    private static final String DB_PASSWORD = "root";
+    private static final Properties PROPERTIES = PropertiesLoader
+            .loadProperties("application-test.yaml");
+    private static final String IMAGE_VERSION = PROPERTIES.getProperty("version");
+    private static final String DB_NAME = PROPERTIES.getProperty("name");
+    private static final String DB_USERNAME = PROPERTIES.getProperty("username");
+    private static final String DB_PASSWORD = PROPERTIES.getProperty("password");
 
     private AutobusinessPostgresqlContainer() {
         super(IMAGE_VERSION);
