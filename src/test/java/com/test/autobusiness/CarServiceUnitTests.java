@@ -10,6 +10,7 @@ import com.test.autobusiness.repositories.DetailsRepository;
 import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
 import com.test.autobusiness.services.ExportService;
+import com.test.autobusiness.services.impl.CarServiceImpl;
 import com.test.autobusiness.utils.JacksonCarMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,7 +69,7 @@ public class CarServiceUnitTests {
     @BeforeEach
     public void setupTestsEnvironment() {
 
-        carService = new CarService(
+        carService = new CarServiceImpl(
                 carRepository,
                 directoryMapper,
                 detailsRepository,
