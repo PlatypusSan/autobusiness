@@ -44,5 +44,5 @@ public interface CarService {
 
     List<CarResponse> pickCurrency(CarRepresentation carRep, List<Car> cars);
 
-    Resource getExportFile(CarRepresentation carRepresentation) throws IOException;
+    Resource getExportFile(CarRepresentation carRepresentation) throws IOException, Exception;
 }

@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -54,7 +53,7 @@ public class CarController {
     }
 
     @PostMapping(path = "/export")
-    public ResponseEntity<Resource> exportFile(@RequestBody CarRepresentation carRepresentation) throws IOException {
+    public ResponseEntity<Resource> exportFile(@RequestBody CarRepresentation carRepresentation) throws Exception {
 
         Resource resource = carService.getExportFile(carRepresentation);
         return ResponseEntity.ok()

@@ -60,6 +60,12 @@ currency:
 sorting:
   default-field: brand
   default-direction: ASC
+
 url:
   controller:
     dealership-export: http://localhost:9090/api/v1/dealership/export/
+
+export:
+  car:
+    columns: Id, Brand, Model, Generation, Body, Drive Unit, Transmission, Engine Type, Currency,
+      Engine Volume, Age, Mileage, Price, Details

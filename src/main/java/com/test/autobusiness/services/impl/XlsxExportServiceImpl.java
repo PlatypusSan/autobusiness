@@ -5,6 +5,7 @@ import com.test.autobusiness.services.ExportService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ExportServiceImpl implements ExportService {
+public class XlsxExportServiceImpl implements ExportService {
 
-    private static final String[] COLUMNS = new String[]{"Id", "Brand", "Model", "Generation", "Body",
-            "Drive Unit", "Transmission", "Engine Type", "Currency", "Engine Volume", "Age", "Mileage", "Price"};
+    @Value("${export.car.columns}")
+    private String[] columns;
     private Font headerFont;
     private CellStyle headerCellStyle;
     private Workbook workbook;
@@ -33,9 +34,9 @@ public class ExportServiceImpl implements ExportService {
         configureStyle();
 
         Row headerRow = carsSheet.createRow(0);
-        for (int i = 0; i < COLUMNS.length; i++) {
+        for (int i = 0; i < columns.length; i++) {
             Cell cell = headerRow.createCell(i);
-            cell.setCellValue(COLUMNS[i]);
+            cell.setCellValue(columns[i]);
             cell.setCellStyle(headerCellStyle);
         }
 
@@ -57,7 +58,7 @@ public class ExportServiceImpl implements ExportService {
             row.createCell(12).setCellValue(carResponse.getPrice());
         }
 
-        for (int i = 0; i < COLUMNS.length; i++) {
+        for (int i = 0; i < columns.length; i++) {
             carsSheet.autoSizeColumn(i);
         }
 
