@@ -17,8 +17,6 @@ public class FeignCurrencyServiceImpl implements CurrencyService {
     @Override
     public CurrencyDTO getExchangeRates() {
 
-        CurrencyDTO currencyDTO = currencyFeignClient.getCurrency();
-
-        return currencyDTO;
+        return currencyFeignClient.getCurrency();
     }
 }

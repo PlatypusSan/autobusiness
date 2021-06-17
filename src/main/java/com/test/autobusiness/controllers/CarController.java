@@ -3,9 +3,7 @@ package com.test.autobusiness.controllers;
 import com.test.autobusiness.dto.car.CarRequest;
 import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.dto.car.CarUpdate;
-import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.filters.CarRepresentation;
-import com.test.autobusiness.mappers.CarMapper;
 import com.test.autobusiness.services.CarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -24,27 +22,23 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
-    private final CarMapper carMapper;
 
     @GetMapping(path = "/{id}")
     public CarResponse getCar(@PathVariable long id) {
 
-        return carMapper.carToCarResponse(carService.getCar(id));
+        return carService.getCarResponse(id);
     }
 
     @PostMapping(path = "all")
     public List<CarResponse> getCars(@RequestBody CarRepresentation carRepresentation) {
 
-        List<Car> filteredCars = carService.getFilteredCars(carRepresentation);
-        return carService.pickCurrency(carRepresentation, filteredCars);
+        return carService.getCarResponses(carRepresentation);
     }
 
     @PostMapping()
     public CarResponse addCar(@Valid @RequestBody CarRequest carRequest) {
 
-        Car car = carMapper.carRequestToCar(carRequest);
-        carService.addCar(car);
-        return carMapper.carToCarResponse(car);
+        return carService.addCar(carRequest);
     }
 
     @PutMapping()
@@ -54,17 +48,15 @@ public class CarController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteCar(@PathVariable long id) {
+    public void deleteCar(@PathVariable long id) {
 
         carService.deleteCar(id);
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping(path = "/export")
     public ResponseEntity<Resource> exportFile(@RequestBody CarRepresentation carRepresentation) throws IOException {
 
         Resource resource = carService.getExportFile(carRepresentation);
-
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")

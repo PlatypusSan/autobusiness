@@ -34,7 +34,7 @@ public interface DeclarationMapper {
                 .linkTo(WebMvcLinkBuilder.methodOn(DeclarationController.class).getDeclaration(id))
                 .withSelfRel());
         declarationResponse.add(WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(DeclarationController.class).deleteDeclaration(id))
+                .linkTo(WebMvcLinkBuilder.methodOn(DeclarationController.class))
                 .withRel("delete"));
         declarationResponse.add(WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(DeclarationController.class).updateDeclaration(null))

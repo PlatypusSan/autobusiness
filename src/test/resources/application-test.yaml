@@ -15,5 +15,5 @@ test-data:
       get-car: /api/v1/car/
       car-id: 4
   service:
-    brand:
-    currency:
+    brand: BMW
+    currency: USD

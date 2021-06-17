@@ -1,5 +1,6 @@
 package com.test.autobusiness.services;
 
+import com.test.autobusiness.dto.car.CarRequest;
 import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.dto.car.CarUpdate;
 import com.test.autobusiness.dto.directory.VendorDTO;
@@ -15,17 +16,23 @@ import java.util.List;
 @Service
 public interface CarService {
 
-    List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit);
+    List<CarResponse> getCarsByVendorAndDriveUnit(String vendor, String driveUnit);
 
     List<VendorDTO> getCarsByVendor();
 
     @Transactional
-    void addCar(Car car);
+    Car saveCar(Car car);
+
+    CarResponse addCar(CarRequest carRequest);
 
     void checkUniqueDetails(Car car);
 
     @Transactional
     Car getCar(long id);
+
+    CarResponse getCarResponse(long id);
+
+    List<CarResponse> getCarResponses(CarRepresentation carRepresentation);
 
     @Transactional
     void deleteCar(long id);

@@ -1,10 +1,7 @@
 package com.test.autobusiness.controllers;
 
 import com.test.autobusiness.dto.dealership.DealershipResponse;
-import com.test.autobusiness.mappers.DealershipMapper;
 import com.test.autobusiness.services.DealershipService;
-import com.test.autobusiness.services.FileService;
-import com.test.autobusiness.services.states.JobState;
 import com.test.autobusiness.services.states.State;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
@@ -33,20 +29,15 @@ public class DealershipController {
     @Value("${url.controller.dealership-export}")
     private String exportUrl;
     private final DealershipService dealershipService;
-    private final DealershipMapper dealershipMapper;
-    private final FileService fileService;
 
     @PostMapping(path = "/import")
     public ResponseEntity<String> importFile(@RequestParam("file") final MultipartFile multipartFile) throws Exception {
 
-        UUID jobId = dealershipService.generateJobId();
-        dealershipService.saveDealerships(fileService.saveImportFile(multipartFile));
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .header("Import-Job", WebMvcLinkBuilder
                         .linkTo(WebMvcLinkBuilder
                                 .methodOn(DealershipController.class)
-                                .getImportStatus(jobId))
+                                .getImportStatus(dealershipService.processImportJob(multipartFile)))
                         .withSelfRel()
                         .getHref())
                 .build();
@@ -55,8 +46,7 @@ public class DealershipController {
     @GetMapping(path = "/import-status/{id}")
     public ResponseEntity<String> getImportStatus(@PathVariable UUID id) {
 
-        return ResponseEntity
-                .ok()
+        return ResponseEntity.ok()
                 .header("Import-Status", dealershipService.getJobState(id)
                         .getState()
                         .name())
@@ -64,25 +54,22 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/export")
-    public ResponseEntity<String> exportFile() throws IOException {
+    public ResponseEntity<String> exportFile() {
 
-        UUID jobId = dealershipService.generateJobId();
-        dealershipService.writeCsvFileFromDealership();
         return ResponseEntity.ok()
                 .header("Export-Job", WebMvcLinkBuilder
                         .linkTo(WebMvcLinkBuilder
                                 .methodOn(DealershipController.class)
-                                .getExportStatus(jobId))
+                                .getExportStatus(dealershipService.processExportJob()))
                         .withSelfRel()
                         .getHref())
                 .build();
     }
 
     @GetMapping(path = "/export-status/{id}")
-    public ResponseEntity<String> getExportStatus(@PathVariable UUID id) throws IOException {
+    public ResponseEntity<String> getExportStatus(@PathVariable UUID id) {
 
-        JobState jobState = dealershipService.getJobState(id);
-        if (jobState.getState() == State.ENDED) {
+        if (dealershipService.getJobState(id).getState() == State.ENDED) {
             return ResponseEntity
                     .status(HttpStatus.SEE_OTHER)
                     .location(URI.create(exportUrl + id))
@@ -99,8 +86,7 @@ public class DealershipController {
     @GetMapping(path = "/export/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable UUID id) throws FileNotFoundException {
 
-        long fileId = dealershipService.getJobState(id).getFileId();
-        Resource resource = dealershipService.loadFileAsResource(fileId);
+        Resource resource = dealershipService.loadFileAsResource(id);
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
@@ -110,12 +96,12 @@ public class DealershipController {
     @GetMapping(path = "/{id}")
     public DealershipResponse getDealership(@PathVariable long id) {
 
-        return dealershipMapper.dealershipToDealershipResponse(dealershipService.getDealership(id));
+        return dealershipService.getDealershipResponse(id);
     }
 
     @GetMapping
     public List<DealershipResponse> getAllDealerships() {
 
-        return dealershipMapper.dealershipListToDealershipResponseList(dealershipService.getAllDealerships());
+        return dealershipService.getDealershipResponses();
     }
 }

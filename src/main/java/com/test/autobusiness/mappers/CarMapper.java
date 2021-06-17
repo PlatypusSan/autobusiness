@@ -65,7 +65,7 @@ public interface CarMapper {
                 .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).getCar(id))
                 .withSelfRel());
         carToLink.add(WebMvcLinkBuilder
-                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).deleteCar(id))
+                .linkTo(WebMvcLinkBuilder.methodOn(CarController.class))
                 .withRel("delete"));
         carToLink.add(WebMvcLinkBuilder
                 .linkTo(WebMvcLinkBuilder.methodOn(CarController.class).updateCar(null))

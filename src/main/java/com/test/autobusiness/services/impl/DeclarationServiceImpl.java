@@ -1,5 +1,7 @@
 package com.test.autobusiness.services.impl;
 
+import com.test.autobusiness.dto.declaration.DeclarationRequest;
+import com.test.autobusiness.dto.declaration.DeclarationResponse;
 import com.test.autobusiness.dto.declaration.DeclarationUpdate;
 import com.test.autobusiness.entities.Declaration;
 import com.test.autobusiness.mappers.DeclarationMapper;
@@ -29,14 +31,27 @@ public class DeclarationServiceImpl implements DeclarationService {
                                 "There is no declaration with id: " + id));
     }
 
-    @Transactional
-    public void addDeclaration(Declaration declaration) {
-        declaration.getCars().forEach(carService::checkUniqueDetails);
-        declarationRepository.save(declaration);
+    @Override
+    public DeclarationResponse getDeclarationResponse(long id) {
+        return declarationMapper.declarationToDeclarationResponse(getDeclaration(id));
     }
 
     @Transactional
-    public Declaration updateDeclaration(DeclarationUpdate declarationUpdate) {
+    public Declaration saveDeclaration(Declaration declaration) {
+        declaration.getCars()
+                .forEach(carService::checkUniqueDetails);
+        return declarationRepository.save(declaration);
+    }
+
+    @Override
+    public DeclarationResponse addDeclaration(DeclarationRequest declarationRequest) {
+
+        Declaration declaration = declarationMapper.declarationRequestToDeclaration(declarationRequest);
+        return declarationMapper.declarationToDeclarationResponse(saveDeclaration(declaration));
+    }
+
+    @Transactional
+    public DeclarationResponse updateDeclaration(DeclarationUpdate declarationUpdate) {
 
         Declaration declaration = declarationRepository.findById(declarationUpdate.getId())
                 .orElseThrow(
@@ -45,7 +60,7 @@ public class DeclarationServiceImpl implements DeclarationService {
 
         declarationMapper.updateDeclarationFromUpdate(declarationUpdate, declaration);
         declarationRepository.save(declaration);
-        return declaration;
+        return declarationMapper.declarationToDeclarationResponse(declaration);
     }
 
     public void deleteDeclaration(long id) {

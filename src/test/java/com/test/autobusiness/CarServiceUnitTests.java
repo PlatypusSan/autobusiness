@@ -21,6 +21,7 @@ import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.atMostOnce;
 
 @SpringBootTest
+@TestPropertySource("/application-test.yaml")
 public class CarServiceUnitTests {
 
     private final JacksonCarMapper jacksonCarMapper;

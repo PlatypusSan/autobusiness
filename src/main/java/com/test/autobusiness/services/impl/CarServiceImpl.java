@@ -1,5 +1,6 @@
 package com.test.autobusiness.services.impl;
 
+import com.test.autobusiness.dto.car.CarRequest;
 import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.dto.car.CarUpdate;
 import com.test.autobusiness.dto.currency.CurrencyDTO;
@@ -53,8 +54,10 @@ public class CarServiceImpl implements CarService {
     private String defaultSortingDirection;
     private CurrencyDTO currency;
 
-    public List<Car> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
-        return carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnit, vendor);
+    public List<CarResponse> getCarsByVendorAndDriveUnit(String vendor, String driveUnit) {
+
+        List<Car> carList = carRepository.findCarByDriveUnitAndDeclarationVendorName(driveUnit, vendor);
+        return carMapper.carToCarResponseAsList(carList);
     }
 
     public List<VendorDTO> getCarsByVendor() {
@@ -63,9 +66,17 @@ public class CarServiceImpl implements CarService {
     }
 
     @Transactional
-    public void addCar(Car car) {
+    public Car saveCar(Car car) {
+
         checkUniqueDetails(car);
-        carRepository.save(car);
+        return carRepository.save(car);
+    }
+
+    @Override
+    public CarResponse addCar(CarRequest carRequest) {
+
+        Car car = carMapper.carRequestToCar(carRequest);
+        return carMapper.carToCarResponse(saveCar(car));
     }
 
     public void checkUniqueDetails(Car car) {
@@ -75,7 +86,6 @@ public class CarServiceImpl implements CarService {
             if (details.get(i).getId() == 0) {
                 Details tempDetail = detailsRepository.findDetailsByDetailNameAndDetailType(details.get(i).getDetailName(),
                         details.get(i).getDetailType());
-
                 if (tempDetail != null) {
                     details.set(i, tempDetail);
                 }
@@ -91,6 +101,18 @@ public class CarServiceImpl implements CarService {
                 .orElseThrow(
                         () -> new ResponseStatusException(HttpStatus.BAD_REQUEST,
                                 "There is no car with id: " + id));
+    }
+
+    @Override
+    public CarResponse getCarResponse(long id) {
+        return carMapper.carToCarResponse(getCar(id));
+    }
+
+    @Override
+    public List<CarResponse> getCarResponses(CarRepresentation carRepresentation) {
+
+        List<Car> filteredCars = getFilteredCars(carRepresentation);
+        return pickCurrency(carRepresentation, filteredCars);
     }
 
     @Transactional
@@ -137,7 +159,6 @@ public class CarServiceImpl implements CarService {
     public List<Car> getFilteredCars(CarRepresentation carRep) {
 
         Pageable pageConfig = configurePage(carRep);
-
         List<Car> result;
         if (carRep.getCarFilterDTO() != null) {
             CarFilter carFilter = new CarFilter();
@@ -165,11 +186,9 @@ public class CarServiceImpl implements CarService {
         if (carRep.getCurrency() != null) {
 
             currency = currencyServiceImpl.getExchangeRates();
-
             if (!currency.getValutes().getProperties().containsKey(carRep.getCurrency())) {
                 throw new NoSuchElementException("No currency found with value: " + carRep.getCurrency());
             }
-
             resultResponse
                     .forEach(carResponse -> {
                         carResponse.setCurrency(carRep.getCurrency());

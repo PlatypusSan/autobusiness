@@ -1,13 +1,16 @@
 package com.test.autobusiness.cache;
 
+import lombok.Data;
+
 import javax.persistence.Id;
 import java.util.Objects;
 
+@Data
 public class CacheObject {
 
     @Id
-    private final Object id;
-    private final Object cacheValue;
+    private Object id;
+    private Object cacheValue;
 
     public CacheObject(Object id, Object cacheValue) {
         this.id = id;

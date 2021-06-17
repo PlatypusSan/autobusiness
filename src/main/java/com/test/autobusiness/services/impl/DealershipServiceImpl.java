@@ -4,8 +4,10 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import com.test.autobusiness.dto.dealership.DealershipResponse;
 import com.test.autobusiness.entities.DataObject;
 import com.test.autobusiness.entities.Dealership;
+import com.test.autobusiness.mappers.DealershipMapper;
 import com.test.autobusiness.repositories.DealershipRepository;
 import com.test.autobusiness.services.DealershipService;
 import com.test.autobusiness.services.FileService;
@@ -45,6 +47,7 @@ public class DealershipServiceImpl implements DealershipService {
     private static List<String> headers;
     private final DealershipRepository dealershipRepository;
     private final FileService fileService;
+    private final DealershipMapper dealershipMapper;
     private final ConcurrentHashMap<UUID, JobState> jobStates = new ConcurrentHashMap<>();
     private UUID jobId;
 
@@ -52,9 +55,25 @@ public class DealershipServiceImpl implements DealershipService {
         return jobStates.getOrDefault(id, new JobState(State.NOT_STARTED));
     }
 
-    public synchronized UUID generateJobId() {
+    private synchronized UUID generateJobId() {
 
         jobId = UUID.randomUUID();
+        return jobId;
+    }
+
+    @Override
+    public UUID processImportJob(MultipartFile multipartFile) throws Exception {
+
+        UUID jobId = generateJobId();
+        saveDealerships(fileService.saveImportFile(multipartFile));
+        return jobId;
+    }
+
+    @Override
+    public UUID processExportJob() {
+
+        UUID jobId = generateJobId();
+        writeCsvFileFromDealership();
         return jobId;
     }
 
@@ -91,6 +110,15 @@ public class DealershipServiceImpl implements DealershipService {
                         "There is no dealership with id: " + id));
     }
 
+    @Override
+    public DealershipResponse getDealershipResponse(long id) {
+        return dealershipMapper.dealershipToDealershipResponse(getDealership(id));
+    }
+
+    @Override
+    public List<DealershipResponse> getDealershipResponses() {
+        return dealershipMapper.dealershipListToDealershipResponseList(getAllDealerships());
+    }
 
     private synchronized List<Dealership> parseCsvFileToDealership(long fileId) throws FileNotFoundException {
 
@@ -137,7 +165,9 @@ public class DealershipServiceImpl implements DealershipService {
         }
     }
 
-    public Resource loadFileAsResource(Long fileId) throws FileNotFoundException {
+    public Resource loadFileAsResource(UUID jobId) throws FileNotFoundException {
+
+        long fileId = getJobState(jobId).getFileId();
 
         try {
             String fileName = fileService.getFile(fileId).getName();
