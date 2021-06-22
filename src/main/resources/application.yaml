@@ -1,4 +1,6 @@
 logging:
+  file:
+    name: log/autobusiness.log
   level:
     org:
       hibernate:
