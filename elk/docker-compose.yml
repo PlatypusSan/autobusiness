@@ -1,49 +1,14 @@
-version: "3.8"
+version: '3.2'
+
 services:
-  postgres:
-    image: postgres:11
-    container_name: postgres
-    expose:
-      - "5432"
-    networks:
-      - web-postgres
-    environment:
-      POSTGRES_PASSWORD: root
-      POSTGRES_USER: postgres
-      POSTGRES_DB: autobusiness
-  mongodb:
-    image: mongo
-    networks:
-      - web-postgres
-    environment:
-      - PUID=1000
-      - PGID=1000
-  web:
-    build:
-      context: .
-    container_name: web-app
-    volumes:
-      - type: volume
-        source: logs
-        target: /log
-    ports:
-      - "9090:9090"
-    networks:
-      - web-postgres
-    depends_on:
-      - postgres
-      - mongodb
-    environment:
-      - SPRING_DATA_MONGODB_HOST=mongodb
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/autobusiness
   elasticsearch:
     build:
-      context: elk/elasticsearch/
+      context: elasticsearch/
       args:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - type: bind
-        source: ./elk/elasticsearch/config/elasticsearch.yml
+        source: ./elasticsearch/config/elasticsearch.yml
         target: /usr/share/elasticsearch/config/elasticsearch.yml
         read_only: true
       - type: volume
@@ -60,24 +25,23 @@ services:
       discovery.type: single-node
     networks:
       - elk
-    depends_on:
-      - web
+
   logstash:
     build:
-      context: elk/logstash/
+      context: logstash/
       args:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - type: bind
-        source: ./elk/logstash/config/logstash.yml
+        source: ./logstash/config/logstash.yml
         target: /usr/share/logstash/config/logstash.yml
         read_only: true
       - type: bind
-        source: ./elk/logstash/pipeline
+        source: ./logstash/pipeline
         target: /usr/share/logstash/pipeline
         read_only: true
-      - type: volume
-        source: logs
+      - type: bind
+        source: /c/Project/idea/autobusiness/log
         target: /usr/share/logstash/log
     ports:
       - "5044:5044"
@@ -90,14 +54,15 @@ services:
       - elk
     depends_on:
       - elasticsearch
+
   kibana:
     build:
-      context: elk/kibana/
+      context: kibana/
       args:
         ELK_VERSION: $ELK_VERSION
     volumes:
       - type: bind
-        source: ./elk/kibana/config/kibana.yml
+        source: ./kibana/config/kibana.yml
         target: /usr/share/kibana/config/kibana.yml
         read_only: true
     ports:
@@ -107,11 +72,9 @@ services:
     depends_on:
       - elasticsearch
 
-volumes:
-  elasticsearch:
-  logs:
 networks:
-  web-postgres:
-    driver: bridge
   elk:
     driver: bridge
+
+volumes:
+  elasticsearch:
