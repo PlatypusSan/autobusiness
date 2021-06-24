@@ -142,7 +142,7 @@ public class CarServiceImpl implements CarService {
                 );
     }
 
-    private Pageable configurePage(CarRepresentation carRep) {
+    protected Pageable configurePage(CarRepresentation carRep) {
 
         return PageRequest.of(
                 carRep.getPage(),

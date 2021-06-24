@@ -7,13 +7,11 @@ import com.test.autobusiness.dto.directory.VendorDTO;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
 
-@Service
 public interface CarService {
 
     List<CarResponse> getCarsByVendorAndDriveUnit(String vendor, String driveUnit);

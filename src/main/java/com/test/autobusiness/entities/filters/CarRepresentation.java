@@ -5,6 +5,7 @@ import com.test.autobusiness.entities.enums.SortingField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Sort;
 
 import javax.validation.constraints.Max;
@@ -13,6 +14,7 @@ import javax.validation.constraints.Min;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CarRepresentation {
 
     @Min(0)

@@ -1,8 +1,10 @@
 package com.test.autobusiness.dto;
 
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Value
+@Data
+@NoArgsConstructor
 public class CarFilterDTO {
 
     String brand;

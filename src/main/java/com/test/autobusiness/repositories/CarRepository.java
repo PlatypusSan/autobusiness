@@ -4,6 +4,7 @@ import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.DirectoryElement;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CarRepository extends PagingAndSortingRepository<Car, Long>, JpaSpecificationExecutor<Car>, CarFilterRepository {
+public interface CarRepository extends PagingAndSortingRepository<Car, Long>,
+        JpaSpecificationExecutor<Car>,
+        CarFilterRepository,
+        QuerydslPredicateExecutor<Car> {
 
     @Query(nativeQuery = true, value = "select distinct vendor_name, drive_unit, count(c) as size\n" +
             "from declaration\n" +
