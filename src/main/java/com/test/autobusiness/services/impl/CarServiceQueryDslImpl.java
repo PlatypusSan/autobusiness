@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -32,8 +31,7 @@ public class CarServiceQueryDslImpl extends CarServiceImpl {
                                   DetailsRepository detailsRepository,
                                   CarMapper carMapper,
                                   CurrencyService currencyServiceImpl,
-                                  ExportService exportService,
-                                  EntityManager entityManager) {
+                                  ExportService exportService) {
         super(carRepository, directoryMapper, detailsRepository, carMapper, currencyServiceImpl, exportService);
         this.carMapper = carMapper;
         this.carRepository = carRepository;
@@ -54,7 +52,7 @@ public class CarServiceQueryDslImpl extends CarServiceImpl {
         return result;
     }
 
-    public BooleanExpression getFilterExpression(CarFilter carFilter) {
+    private BooleanExpression getFilterExpression(CarFilter carFilter) {
 
         return QCar.car.brand.contains(carFilter.getBrand())
                 .and(QCar.car.model.contains(carFilter.getModel()))
