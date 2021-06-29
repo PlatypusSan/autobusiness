@@ -81,23 +81,24 @@ public class CarFilterRepositoryImpl implements CarFilterRepository {
     }
 
     @Override
-    public Specification<Car> getFilterSpecification(CarFilter carFilter) {
-        Specification<Car> specification =
-                priceLessThen(carFilter.getMaxPrice())
-                        .and(priceGreaterThen(carFilter.getMinPrice()))
-                        .and(mileAgeLessThen(carFilter.getMaxMileAge()))
-                        .and(ageLessThen(carFilter.getMaxAge()))
-                        .and(ageGreaterThen(carFilter.getMinAge()))
-                        .and(engineVolumeLessThen(carFilter.getMaxEngineVolume()))
-                        .and(engineVolumeGreaterThen(carFilter.getMinEngineVolume()))
-                        .and(engineTypeContains(carFilter.getEngineType()))
-                        .and(driveUnitContains(carFilter.getDriveUnit()))
-                        .and(transmissionContains(carFilter.getTransmission()))
-                        .and(bodyContains(carFilter.getBody()))
-                        .and(generationContains(carFilter.getGeneration()))
-                        .and(modelContains(carFilter.getModel()))
-                        .and(brandContains(carFilter.getBrand()));
+    public Specification<Car> getFilterSpecification(CarFilter filter) {
 
-        return specification;
+
+        Specification<Car> spec = Specification.where(null);
+        if (filter.getBrand() != null) spec = spec.and(brandContains(filter.getBrand()));
+        if (filter.getModel() != null) spec = spec.and(modelContains(filter.getModel()));
+        if (filter.getGeneration() != null) spec = spec.and(generationContains(filter.getGeneration()));
+        if (filter.getBody() != null) spec = spec.and(bodyContains(filter.getBody()));
+        if (filter.getDriveUnit() != null) spec = spec.and(driveUnitContains(filter.getDriveUnit()));
+        if (filter.getTransmission() != null) spec = spec.and(transmissionContains(filter.getTransmission()));
+        if (filter.getEngineType() != null) spec = spec.and(engineTypeContains(filter.getEngineType()));
+        if (filter.getMinEngineVolume() != null) spec = spec.and(engineVolumeGreaterThen(filter.getMinEngineVolume()));
+        if (filter.getMaxEngineVolume() != null) spec = spec.and(engineVolumeLessThen(filter.getMaxEngineVolume()));
+        if (filter.getMinAge() != null) spec = spec.and(ageGreaterThen(filter.getMinAge()));
+        if (filter.getMaxAge() != null) spec = spec.and(ageLessThen(filter.getMaxAge()));
+        if (filter.getMaxMileAge() != null) spec = spec.and(mileAgeLessThen(filter.getMaxMileAge()));
+        if (filter.getMinPrice() != null) spec = spec.and(priceGreaterThen(filter.getMinPrice()));
+        if (filter.getMaxPrice() != null) spec = spec.and(priceLessThen(filter.getMaxPrice()));
+        return spec;
     }
 }

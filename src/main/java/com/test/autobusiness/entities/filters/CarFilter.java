@@ -1,22 +1,22 @@
 package com.test.autobusiness.entities.filters;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class CarFilter {
 
-    private String brand = "";
-    private String model = "";
-    private String generation = "";
-    private String body = "";
-    private String driveUnit = "";
-    private String transmission = "";
-    private String engineType = "";
-    private double minEngineVolume = 0D;
-    private double maxEngineVolume = 9D;
-    private int minAge = 1900;
-    private int maxAge = 2021;
-    private int maxMileAge = 1000000;
-    private int minPrice = 0;
-    private int maxPrice = 10000000;
+    String brand;
+    String model;
+    String generation;
+    String body;
+    String driveUnit;
+    String transmission;
+    String engineType;
+    Double minEngineVolume;
+    Double maxEngineVolume;
+    Integer minAge;
+    Integer maxAge;
+    Integer maxMileAge;
+    Integer minPrice;
+    Integer maxPrice;
 }

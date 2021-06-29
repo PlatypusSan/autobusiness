@@ -15,7 +15,6 @@ import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
 import org.jooq.DSLContext;
 import org.jooq.SelectWhereStep;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ import java.util.List;
 
 import static com.test.autobusiness.jooq.tables.Car.CAR;
 
-@Primary
 @Service
 public class CarServiceJooqImpl extends AbstractCarService implements CarService {
 
@@ -43,10 +41,8 @@ public class CarServiceJooqImpl extends AbstractCarService implements CarService
     public List<Car> getFilteredCars(CarRepresentation carRep) {
 
         SelectWhereStep<CarRecord> record = context.selectFrom(Tables.CAR);
-        CarFilter carFilter = new CarFilter();
-        carMapper.updateCarFilterFromDTO(carRep.getCarFilterDTO(), carFilter);
 
-        setupSortingAndPagination(carFilter, record);
+        if (carRep.getCarFilter() != null) setupSortingAndPagination(carRep.getCarFilter(), record);
 
         return record
                 .orderBy(CAR.BRAND.desc())
@@ -57,19 +53,19 @@ public class CarServiceJooqImpl extends AbstractCarService implements CarService
 
     private void setupSortingAndPagination(CarFilter filter, SelectWhereStep<CarRecord> record) {
 
-        record.where(CAR.BRAND.contains(filter.getBrand())
-                .and(CAR.MODEL.contains(filter.getModel()))
-                .and(CAR.GENERATION.contains(filter.getGeneration()))
-                .and(CAR.DRIVE_UNIT.contains(filter.getDriveUnit()))
-                .and(CAR.TRANSMISSION.contains(filter.getTransmission()))
-                .and(CAR.ENGINE_TYPE.contains(filter.getEngineType()))
-                .and(CAR.ENGINE_VOLUME.gt(filter.getMinEngineVolume()))
-                .and(CAR.ENGINE_VOLUME.lt(filter.getMaxEngineVolume()))
-                .and(CAR.AGE.gt(filter.getMinAge()))
-                .and(CAR.AGE.lt(filter.getMaxAge()))
-                .and(CAR.MILE_AGE.lt(filter.getMaxMileAge()))
-                .and(CAR.PRICE.gt(filter.getMinPrice()))
-                .and(CAR.PRICE.lt(filter.getMaxPrice())));
+        if (filter.getBrand() != null) record.where(CAR.BRAND.contains(filter.getBrand()));
+        if (filter.getModel() != null) record.where(CAR.MODEL.contains(filter.getModel()));
+        if (filter.getGeneration() != null) record.where(CAR.GENERATION.contains(filter.getGeneration()));
+        if (filter.getDriveUnit() != null) record.where(CAR.DRIVE_UNIT.contains(filter.getDriveUnit()));
+        if (filter.getTransmission() != null) record.where(CAR.TRANSMISSION.contains(filter.getTransmission()));
+        if (filter.getEngineType() != null) record.where(CAR.ENGINE_TYPE.contains(filter.getEngineType()));
+        if (filter.getMinEngineVolume() != null) record.where(CAR.ENGINE_VOLUME.gt(filter.getMinEngineVolume()));
+        if (filter.getMaxEngineVolume() != null) record.where(CAR.ENGINE_VOLUME.lt(filter.getMaxEngineVolume()));
+        if (filter.getMinAge() != null) record.where(CAR.AGE.gt(filter.getMinAge()));
+        if (filter.getMaxAge() != null) record.where(CAR.AGE.lt(filter.getMaxAge()));
+        if (filter.getMaxMileAge() != null) record.where(CAR.MILE_AGE.lt(filter.getMaxMileAge()));
+        if (filter.getMinPrice() != null) record.where(CAR.PRICE.gt(filter.getMinPrice()));
+        if (filter.getMaxPrice() != null) record.where(CAR.PRICE.lt(filter.getMaxPrice()));
     }
 
     @Override

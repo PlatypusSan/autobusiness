@@ -1,6 +1,5 @@
 package com.test.autobusiness.entities.filters;
 
-import com.test.autobusiness.dto.CarFilterDTO;
 import com.test.autobusiness.entities.enums.SortingField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,5 +25,5 @@ public class CarRepresentation {
     String currency;
     SortingField sortingField;
     Sort.Direction sortingOrder;
-    CarFilterDTO carFilterDTO;
+    CarFilter carFilter;
 }

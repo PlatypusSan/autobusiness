@@ -1,13 +1,11 @@
 package com.test.autobusiness.mappers;
 
 import com.test.autobusiness.controllers.CarController;
-import com.test.autobusiness.dto.CarFilterDTO;
 import com.test.autobusiness.dto.car.CarRequest;
 import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.dto.car.CarResponseForDeclaration;
 import com.test.autobusiness.dto.car.CarUpdate;
 import com.test.autobusiness.entities.Car;
-import com.test.autobusiness.entities.filters.CarFilter;
 import org.mapstruct.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -44,9 +42,6 @@ public interface CarMapper {
     @Mapping(source = "declarationRequest", target = "declaration")
     @Mapping(source = "detailsRequests", target = "details")
     Car updateCarFromUpdate(CarUpdate carUpdate, @MappingTarget Car car);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateCarFilterFromDTO(CarFilterDTO carFilterDTO, @MappingTarget CarFilter carFilter);
 
     @AfterMapping
     default void addLinks(@MappingTarget CarResponse carResponse) {

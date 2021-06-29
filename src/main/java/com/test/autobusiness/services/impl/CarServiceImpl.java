@@ -6,7 +6,6 @@ import com.test.autobusiness.dto.car.CarUpdate;
 import com.test.autobusiness.dto.directory.VendorDTO;
 import com.test.autobusiness.entities.Car;
 import com.test.autobusiness.entities.Details;
-import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.mappers.CarMapper;
 import com.test.autobusiness.mappers.DirectoryMapper;
@@ -17,6 +16,7 @@ import com.test.autobusiness.services.CarService;
 import com.test.autobusiness.services.CurrencyService;
 import com.test.autobusiness.services.ExportService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -30,6 +30,7 @@ import java.util.List;
 
 @Slf4j
 @Service
+@Primary
 public class CarServiceImpl extends AbstractCarService implements CarService {
 
     private final CarRepository carRepository;
@@ -139,10 +140,9 @@ public class CarServiceImpl extends AbstractCarService implements CarService {
 
         Pageable pageConfig = configurePage(carRep);
         List<Car> result;
-        if (carRep.getCarFilterDTO() != null) {
-            CarFilter carFilter = new CarFilter();
-            carMapper.updateCarFilterFromDTO(carRep.getCarFilterDTO(), carFilter);
-            result = carRepository.findAll(carRepository.getFilterSpecification(carFilter), pageConfig).getContent();
+        if (carRep.getCarFilter() != null) {
+            result = carRepository.findAll(
+                    carRepository.getFilterSpecification(carRep.getCarFilter()), pageConfig).getContent();
         } else {
             result = carRepository.findAll(pageConfig).getContent();
         }
