@@ -26,27 +26,27 @@ public class Car extends AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "details_id"))
     private Set<Details> details;
 
-    @Column
+    @Column(name = "brand")
     private String brand;
-    @Column
+    @Column(name = "model")
     private String model;
-    @Column
+    @Column(name = "generation")
     private String generation;
-    @Column
+    @Column(name = "body")
     private String body;
-    @Column
+    @Column(name = "drive_unit")
     private String driveUnit;
-    @Column
+    @Column(name = "transmission")
     private String transmission;
-    @Column
+    @Column(name = "engine_type")
     private String engineType;
-    @Column
+    @Column(name = "engine_volume")
     private double engineVolume;
-    @Column
+    @Column(name = "age")
     private int age;
-    @Column
+    @Column(name = "mile_age")
     private int mileAge;
-    @Column
+    @Column(name = "price")
     private int price;
 
     public void removeDetails() {

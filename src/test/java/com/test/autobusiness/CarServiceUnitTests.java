@@ -72,11 +72,11 @@ public class CarServiceUnitTests {
     public void setupTestsEnvironment() {
 
         carService = new CarServiceImpl(
+                currencyServiceImpl,
+                carMapper,
                 carRepository,
                 directoryMapper,
                 detailsRepository,
-                carMapper,
-                currencyServiceImpl,
                 exportService
         );
     }

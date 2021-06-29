@@ -6,33 +6,26 @@ import com.test.autobusiness.entities.QCar;
 import com.test.autobusiness.entities.filters.CarFilter;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.mappers.CarMapper;
-import com.test.autobusiness.mappers.DirectoryMapper;
 import com.test.autobusiness.repositories.CarRepository;
-import com.test.autobusiness.repositories.DetailsRepository;
+import com.test.autobusiness.services.AbstractCarService;
 import com.test.autobusiness.services.CurrencyService;
-import com.test.autobusiness.services.ExportService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@Primary
 @Slf4j
-public class CarServiceQueryDslImpl extends CarServiceImpl {
+public class CarServiceQueryDslImpl extends AbstractCarService {
 
     private final CarMapper carMapper;
     private final CarRepository carRepository;
 
-    public CarServiceQueryDslImpl(CarRepository carRepository,
-                                  DirectoryMapper directoryMapper,
-                                  DetailsRepository detailsRepository,
-                                  CarMapper carMapper,
-                                  CurrencyService currencyServiceImpl,
-                                  ExportService exportService) {
-        super(carRepository, directoryMapper, detailsRepository, carMapper, currencyServiceImpl, exportService);
+    public CarServiceQueryDslImpl(CurrencyService currencyServiceImpl,
+                                  CarRepository carRepository,
+                                  CarMapper carMapper) {
+        super(currencyServiceImpl, carMapper);
         this.carMapper = carMapper;
         this.carRepository = carRepository;
     }
@@ -68,5 +61,4 @@ public class CarServiceQueryDslImpl extends CarServiceImpl {
                 .and(QCar.car.price.gt(carFilter.getMinPrice()))
                 .and(QCar.car.price.lt(carFilter.getMaxPrice()));
     }
-
 }

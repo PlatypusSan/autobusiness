@@ -1,6 +1,5 @@
 package com.test.autobusiness;
 
-import com.test.autobusiness.dto.car.CarResponse;
 import com.test.autobusiness.entities.enums.SortingField;
 import com.test.autobusiness.entities.filters.CarRepresentation;
 import com.test.autobusiness.jooq.Tables;
@@ -38,12 +37,12 @@ public class JooqTests {
                 .sortingOrder(Sort.Direction.ASC)
                 .build();
         //when
-        List<CarResponse> cars;
+        List<com.test.autobusiness.entities.Car> cars;
         SelectWhereStep<CarRecord> record = context.selectFrom(Tables.CAR);
         setupSortingAndPagination(carRepresentation, record);
 
         //then
-        cars = record.fetchInto(CarResponse.class);
+        cars = record.fetchInto(com.test.autobusiness.entities.Car.class);
     }
 
     void setupSortingAndPagination(CarRepresentation carRepresentation, SelectWhereStep<CarRecord> record) {

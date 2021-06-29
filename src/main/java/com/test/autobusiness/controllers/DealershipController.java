@@ -5,7 +5,6 @@ import com.test.autobusiness.services.DealershipService;
 import com.test.autobusiness.services.states.State;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
@@ -26,8 +25,6 @@ import java.util.UUID;
 @Slf4j
 public class DealershipController {
 
-    @Value("${url.controller.dealership-export}")
-    private String exportUrl;
     private final DealershipService dealershipService;
 
     @PostMapping(path = "/import")
@@ -54,7 +51,7 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/export")
-    public ResponseEntity<String> exportFile() {
+    public ResponseEntity<String> exportFile() throws FileNotFoundException {
 
         return ResponseEntity.ok()
                 .header("Export-Job", WebMvcLinkBuilder
@@ -67,12 +64,17 @@ public class DealershipController {
     }
 
     @GetMapping(path = "/export-status/{id}")
-    public ResponseEntity<String> getExportStatus(@PathVariable UUID id) {
+    public ResponseEntity<String> getExportStatus(@PathVariable UUID id) throws FileNotFoundException {
 
         if (dealershipService.getJobState(id).getState() == State.ENDED) {
             return ResponseEntity
                     .status(HttpStatus.SEE_OTHER)
-                    .location(URI.create(exportUrl + id))
+                    .location(URI.create(WebMvcLinkBuilder
+                            .linkTo(WebMvcLinkBuilder
+                                    .methodOn(DealershipController.class)
+                                    .getFile(id))
+                            .withSelfRel()
+                            .getHref()))
                     .build();
         } else {
             return ResponseEntity.ok()
